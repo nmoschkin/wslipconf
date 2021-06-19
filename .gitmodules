@@ -1,0 +1,3 @@
+[submodule "wslipconf/MessageBoxEx"]
+	path = wslipconf/MessageBoxEx
+	url = https://github.com/nmoschkin/MessageBoxEx.git
