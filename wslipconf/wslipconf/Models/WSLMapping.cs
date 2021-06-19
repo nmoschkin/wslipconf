@@ -1,12 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+using WSLIPConf.Converters;
+using WSLIPConf.Localization;
 using WSLIPConf.ViewModels;
 
 namespace WSLIPConf.Models
@@ -14,17 +18,29 @@ namespace WSLIPConf.Models
     /// <summary>
     /// Network Mapping
     /// </summary>
-    public class WSLMapping : ObservableBase, ICloneable
+    public class WSLMapping : ObservableBase, ICloneable, IValidatableObject
     {
         private string name;
 
-        private IPAddress srcAddr;
-        private IPAddress destAddr;
+        private IPAddress srcAddr = IPAddress.Parse("0.0.0.0");
+        private IPAddress destAddr = IPAddress.Parse("0.0.0.0");
 
         private int srcPort;
         private int destPort;
 
+        private bool autoDest = true;
+
         private bool changed;
+
+        [JsonProperty("autoDest")]
+        public bool AutoDestination
+        {
+            get => autoDest;
+            set
+            {
+                if (SetProperty(ref autoDest, value)) Changed = true;
+            }
+        }
 
         [JsonProperty("name")]
         public string Name
@@ -37,6 +53,7 @@ namespace WSLIPConf.Models
         }
 
         [JsonProperty("srcAddr")]
+        [JsonConverter(typeof(IPAddressConverter))]
         public IPAddress SourceAddress
         {
             get => srcAddr;
@@ -57,6 +74,7 @@ namespace WSLIPConf.Models
         }
 
         [JsonProperty("destAddr")]
+        [JsonConverter(typeof(IPAddressConverter))]
         public IPAddress DestinationAddress
         {
             get => destAddr;
@@ -90,7 +108,7 @@ namespace WSLIPConf.Models
         {
             if (obj is WSLMapping other)
             {
-                return (srcAddr == other.srcAddr) && (srcPort == other.srcPort) && (destAddr == other.destAddr) && (destPort == other.destPort);
+                return (srcAddr == other.srcAddr) && (srcPort == other.srcPort) && ((autoDest == other.autoDest && autoDest == true) || (destAddr == other.destAddr)) && (destPort == other.destPort);
             }
             else
             {
@@ -127,6 +145,51 @@ namespace WSLIPConf.Models
 
         public WSLMapping Clone() => (WSLMapping)MemberwiseClone();
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var res = new List<ValidationResult>();
+
+            if (validationContext.MemberName == nameof(Name))
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    res.Add(new ValidationResult(AppResources.ErrorFieldBlank, new string[] { nameof(Name) }));
+                }
+            }
+            else if (validationContext.MemberName == nameof(SourcePort))
+            {
+                if (SourcePort <= 0)
+                {
+                    res.Add(new ValidationResult(AppResources.ErrorInvalidValue, new string[] { nameof(SourcePort) }));
+
+                }
+            }
+            else if (validationContext.MemberName == nameof(SourceAddress))
+            {
+                if (SourceAddress == null)
+                {
+                    res.Add(new ValidationResult(AppResources.ErrorInvalidValue, new string[] { nameof(SourceAddress) }));
+
+                }
+            }
+            else if (validationContext.MemberName == nameof(DestinationPort))
+            {
+                if (DestinationPort <= 0)
+                {
+                    res.Add(new ValidationResult(AppResources.ErrorInvalidValue, new string[] { nameof(DestinationPort) }));
+                }
+            }
+            else if (validationContext.MemberName == nameof(DestinationAddress))
+            {
+                if (DestinationAddress == null)
+                {
+                    res.Add(new ValidationResult(AppResources.ErrorInvalidValue, new string[] { nameof(DestinationAddress) }));
+                }
+            }
+
+
+            return res;
+        }
     }
 
 }

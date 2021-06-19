@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+	  <UseWinForms>true</UseWinForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>WSLIPConf</AssemblyName>
     <RootNamespace>WSLIPConf</RootNamespace>
@@ -12,6 +13,10 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="TaskScheduler" Version="2.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MessageBoxEx\MessageBoxEx5\MessageBoxEx5.csproj" />
   </ItemGroup>
 
   <ItemGroup>

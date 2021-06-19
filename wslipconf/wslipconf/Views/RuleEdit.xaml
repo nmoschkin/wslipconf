@@ -8,15 +8,37 @@
     xmlns:local="clr-namespace:WSLIPConf.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding WindowTitle}"
-    Width="250"
-    Height="280"
+    Width="400"
+    Height="400"
     Background="{StaticResource MainBackground}"
+    ResizeMode="CanMinimize"
+    WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
 
 
     <Window.Resources>
         <ResourceDictionary>
             <conv:BoolConverter x:Key="boolConv" Mode="InverseBool" />
+            <conv:BoolConverter
+                x:Key="visConv"
+                HiddenVisibility="Hidden"
+                Mode="Visibility" />
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Calibri" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+            <Style x:Key="ErrorBlock" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Calibri" />
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="Foreground" Value="Red" />
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="FontFamily" Value="Calibri" />
+                <Setter Property="Padding" Value="8,4" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -32,6 +54,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -52,7 +75,11 @@
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=Name, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SelectedItem.Name, Mode=TwoWay}" />
+            <TextBox Margin="0,4" Text="{Binding Name, Mode=TwoWay}" />
+            <TextBlock
+                Style="{StaticResource ErrorBlock}"
+                Text="{Binding NameErrorText}"
+                Visibility="{Binding NameError, Converter={StaticResource visConv}}" />
 
         </StackPanel>
 
@@ -64,7 +91,11 @@
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=SourceAddress, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SelectedItem.SourceAddress, Mode=TwoWay}" />
+            <TextBox Margin="0,4" Text="{Binding SourceAddress, Mode=TwoWay}" />
+            <TextBlock
+                Style="{StaticResource ErrorBlock}"
+                Text="{Binding SrcAddrErrorText}"
+                Visibility="{Binding SrcAddrError, Converter={StaticResource visConv}}" />
 
         </StackPanel>
 
@@ -76,7 +107,11 @@
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=SourcePort, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SelectedItem.SourcePort, Mode=TwoWay}" />
+            <TextBox Margin="0,4" Text="{Binding SourcePort, Mode=TwoWay}" />
+            <TextBlock
+                Style="{StaticResource ErrorBlock}"
+                Text="{Binding SrcPortErrorText}"
+                Visibility="{Binding SrcPortError, Converter={StaticResource visConv}}" />
 
         </StackPanel>
 
@@ -85,10 +120,15 @@
             Grid.Column="1"
             Grid.ColumnSpan="1"
             Margin="8"
+            IsEnabled="{Binding AutoDestination, Converter={StaticResource boolConv}}"
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=DestinationAddress, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SelectedItem.DestinationAddress, Mode=TwoWay}" />
+            <TextBox Margin="0,4" Text="{Binding DestinationAddress, Mode=TwoWay}" />
+            <TextBlock
+                Style="{StaticResource ErrorBlock}"
+                Text="{Binding DestAddrErrorText}"
+                Visibility="{Binding DestAddrError, Converter={StaticResource visConv}}" />
 
         </StackPanel>
 
@@ -100,13 +140,23 @@
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=DestinationPort, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SelectedItem.DestinationPort, Mode=TwoWay}" />
+            <TextBox Margin="0,4" Text="{Binding DestinationPort, Mode=TwoWay}" />
+            <TextBlock
+                Style="{StaticResource ErrorBlock}"
+                Text="{Binding DestPortErrorText}"
+                Visibility="{Binding DestPortError, Converter={StaticResource visConv}}" />
 
         </StackPanel>
 
+        <CheckBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="8,0,8,8"
+            Content="{i18n:Translate ResourceKey=AutoDest}"
+            IsChecked="{Binding AutoDestination, Mode=TwoWay}" />
 
         <Button
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0"
             Width="70"
             Margin="8,8,8,0"
@@ -116,11 +166,12 @@
             Command="{Binding CancelCommand}"
             Content="{i18n:Translate ResourceKey=Cancel}"
             IsCancel="True"
-            IsEnabled="{Binding SelectedItem.Changed, Converter={StaticResource boolConv}}" />
+            IsDefault="False"
+            IsEnabled="{Binding Changed, Converter={StaticResource boolConv}}" />
 
 
         <Button
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             Width="70"
             Margin="8,8,8,0"
@@ -129,6 +180,7 @@
             VerticalAlignment="Center"
             Command="{Binding OKCommand}"
             Content="{i18n:Translate ResourceKey=OK}"
+            IsCancel="False"
             IsDefault="True" />
 
     </Grid>

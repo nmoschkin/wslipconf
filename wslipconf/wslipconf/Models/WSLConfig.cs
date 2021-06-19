@@ -82,6 +82,15 @@ namespace WSLIPConf.Models
 
             var json = File.ReadAllText(path);
             JsonConvert.PopulateObject(json, this);
+
+            foreach (var rule in this.Mappings)
+            {
+                if (rule.AutoDestination)
+                {
+                    rule.DestinationAddress = App.Current.WSLAddress;
+                    rule.Changed = false;
+                }
+            }
         }
 
         public static WSLConfig Load()
@@ -95,8 +104,17 @@ namespace WSLIPConf.Models
             var json = File.ReadAllText(path);
 
             JsonConvert.PopulateObject(json, obj);
-            return obj;
 
+            foreach (var rule in obj.Mappings)
+            {
+                if (rule.AutoDestination)
+                {
+                    rule.DestinationAddress = App.Current.WSLAddress;
+                    rule.Changed = false;
+                }
+            }
+
+            return obj;
         }
 
         public static string GetConfigFile()

@@ -9,13 +9,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{i18n:Translate ResourceKey=MainTitle}"
     Width="800"
-    Height="400"
+    Height="500"
     Background="{StaticResource MainBackground}"
     mc:Ignorable="d">
 
     <Window.Resources>
         <ResourceDictionary>
+            <conv:AutoDestConverter x:Key="destConv" />
             <conv:BoolConverter x:Key="boolConv" Mode="InverseBool" />
+            <conv:EnabledConverter x:Key="editConv" />
+            <conv:EnabledConverter x:Key="delConv" Multiple="True" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -48,6 +51,7 @@
                 BorderBrush="Black"
                 BorderThickness="1"
                 ItemsSource="{Binding Config.Mappings}"
+                MouseDoubleClick="BindList_MouseDoubleClick"
                 SelectedItem="{Binding SelectedItem}">
                 <ListView.View>
                     <GridView>
@@ -65,10 +69,14 @@
                             DisplayMemberBinding="{Binding SourcePort}"
                             Header="{i18n:Translate ResourceKey=SourcePort}" />
 
-                        <GridViewColumn
-                            Width="150"
-                            DisplayMemberBinding="{Binding DestinationAddress}"
-                            Header="{i18n:Translate ResourceKey=DestinationAddress}" />
+                        <GridViewColumn Width="150" Header="{i18n:Translate ResourceKey=DestinationAddress}">
+                            <GridViewColumn.DisplayMemberBinding>
+                                <MultiBinding Converter="{StaticResource destConv}">
+                                    <Binding Path="DestinationAddress" />
+                                    <Binding Path="AutoDestination" />
+                                </MultiBinding>
+                            </GridViewColumn.DisplayMemberBinding>
+                        </GridViewColumn>
                         <GridViewColumn
                             Width="100"
                             DisplayMemberBinding="{Binding DestinationPort}"
@@ -85,10 +93,31 @@
                 VerticalAlignment="Center"
                 Orientation="Vertical">
 
-                <Button Content="{i18n:Translate ResourceKey=AddRule}" />
+                <Button Command="{Binding AddRuleCommand}" Content="{i18n:Translate ResourceKey=AddRule}" />
+                <Button Command="{Binding EditRuleCommand}" Content="{i18n:Translate ResourceKey=EditRule}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource editConv}">
+                            <Binding Path="SelectedItems.Count" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
                 <Button Command="{Binding GetRulesCommand}" Content="{i18n:Translate ResourceKey=GetCurrentRules}" />
-                <Button Content="{i18n:Translate ResourceKey=DeleteRule}" />
-                <Button Content="{i18n:Translate ResourceKey=ClearRules}" />
+                <Button Command="{Binding RemoveSelectedRulesCommand}" Content="{i18n:Translate ResourceKey=DeleteRule}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource delConv}">
+                            <Binding Path="SelectedItems.Count" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+
+                <Button Command="{Binding ClearRulesCommand}" Content="{i18n:Translate ResourceKey=ClearRules}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource delConv}">
+                            <Binding Path="Config.Mappings.Count" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+
             </StackPanel>
 
         </Grid>
@@ -142,7 +171,8 @@
                 Grid.RowSpan="2"
                 Grid.Column="1"
                 Margin="0"
-                Orientation="Vertical">
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
 
                 <Button
                     x:Name="QuitBtn"
@@ -160,14 +190,18 @@
                     Margin="8,4"
                     Padding="8,4"
                     HorizontalAlignment="Right"
-                    Content="{i18n:Translate ResourceKey=Reload}" />
+                    Command="{Binding ReloadRulesCommand}"
+                    Content="{i18n:Translate ResourceKey=Reload}"
+                    IsEnabled="{Binding Changed}" />
                 <Button
                     Width="90"
                     Height="32"
                     Margin="8,4"
                     Padding="8,4"
                     HorizontalAlignment="Right"
-                    Content="{i18n:Translate ResourceKey=Save}" />
+                    Command="{Binding SaveRulesCommand}"
+                    Content="{i18n:Translate ResourceKey=Save}"
+                    IsEnabled="{Binding Changed}" />
 
             </StackPanel>
         </Grid>

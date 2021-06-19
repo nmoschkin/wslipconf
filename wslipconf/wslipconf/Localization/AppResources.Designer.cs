@@ -70,6 +70,24 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatic WSL Destination.
+        /// </summary>
+        internal static string AutoDest {
+            get {
+                return ResourceManager.GetString("AutoDest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto IP: {0}.
+        /// </summary>
+        internal static string AutoIPX {
+            get {
+                return ResourceManager.GetString("AutoIPX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
@@ -93,6 +111,34 @@ namespace WSLIPConf.Localization {
         internal static string ClearRules {
             get {
                 return ResourceManager.GetString("ClearRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to clear all rules?.
+        /// </summary>
+        internal static string ConfirmClearRules {
+            get {
+                return ResourceManager.GetString("ConfirmClearRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reload the rules?
+        ///Unsaved changes will be discarded..
+        /// </summary>
+        internal static string ConfirmReloadRules {
+            get {
+                return ResourceManager.GetString("ConfirmReloadRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the selected rules?.
+        /// </summary>
+        internal static string ConfirmRemoveRules {
+            get {
+                return ResourceManager.GetString("ConfirmRemoveRules", resourceCulture);
             }
         }
         
@@ -138,6 +184,51 @@ namespace WSLIPConf.Localization {
         internal static string EditRules {
             get {
                 return ResourceManager.GetString("EditRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are errors on the page and the item cannot be saved!.
+        /// </summary>
+        internal static string ErrorCannotSave {
+            get {
+                return ResourceManager.GetString("ErrorCannotSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field cannot be blank..
+        /// </summary>
+        internal static string ErrorFieldBlank {
+            get {
+                return ResourceManager.GetString("ErrorFieldBlank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This value for this field is in an incorrect format..
+        /// </summary>
+        internal static string ErrorInvalidFormat {
+            get {
+                return ResourceManager.GetString("ErrorInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value for this field is invalid..
+        /// </summary>
+        internal static string ErrorInvalidValue {
+            get {
+                return ResourceManager.GetString("ErrorInvalidValue", resourceCulture);
             }
         }
         

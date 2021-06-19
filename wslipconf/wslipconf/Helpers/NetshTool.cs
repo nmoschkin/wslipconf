@@ -23,7 +23,8 @@ namespace WSLIPConf.Helpers
 
             proc.StartInfo = new ProcessStartInfo("netsh", "interface portproxy show v4tov4")
             {
-                RedirectStandardOutput = true
+                RedirectStandardOutput = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             };
 
             proc.Start();
@@ -69,6 +70,7 @@ namespace WSLIPConf.Helpers
 
                 obj.DestinationAddress = IPAddress.Parse(split[2].Trim());
                 obj.DestinationPort = int.Parse(split[3].Trim());
+                obj.AutoDestination = obj.DestinationAddress.Equals(App.Current.WSLAddress);
 
                 obj.Name = "Rule #" + d++;
                 lOut.Add(obj);

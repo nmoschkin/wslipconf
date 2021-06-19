@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using WSLIPConf.Helpers;
+using WSLIPConf.Models;
 using WSLIPConf.ViewModels;
 
 namespace WSLIPConf.Views
@@ -41,6 +42,11 @@ namespace WSLIPConf.Views
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void BindList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            vm.EditRuleCommand.Execute(null);
         }
     }
 }

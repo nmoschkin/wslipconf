@@ -17,7 +17,8 @@ namespace WSLIPConf.Helpers
 
             p.StartInfo = new ProcessStartInfo("wsl", "/usr/sbin/ifconfig")
             {
-                RedirectStandardOutput = true
+                RedirectStandardOutput = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             };
 
 
