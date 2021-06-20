@@ -5,7 +5,7 @@ This program automatically detects the WSL IP address and set up netsh portproxy
 
 This is useful for running test projects in VS Code under WSL that serve and listen.  This will allow you to use your Windows-based browser or other front-end projects while running the back-end project in WSL.
 
-Just download the code, compile it, and start the project.  It should be relatively self-explanitory. 
+Just download the code, compile it, and start the project.  It should be relatively self-explanatory. 
 
 You might need to run 'git submodule init' and 'git submodule update' from the root of the project folder to grab the MessageBoxEx project.
 
