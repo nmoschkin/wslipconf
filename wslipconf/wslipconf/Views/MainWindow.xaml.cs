@@ -34,6 +34,8 @@ namespace WSLIPConf.Views
         MainWindowViewModel vm;
         bool init = false;
 
+        double x, y;
+
         public NotifyIcon IconArea { get; private set; }
         ToolStripMenuItem appMenu;
 
@@ -42,13 +44,19 @@ namespace WSLIPConf.Views
             InitializeComponent();
             var wh = new WindowInteropHelper(this);
             wh.EnsureHandle();
+            
+            x = Width;
+            y = Height;
 
             IconArea = new NotifyIcon();
             IconArea.Icon = AppResources.wslip;
             IconArea.Visible = true;
-            IconArea.Text = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
+            IconArea.BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
+            IconArea.BalloonTipTitle = AppResources.MainTitle;
+            IconArea.BalloonTipIcon = ToolTipIcon.Info;
+            IconArea.MouseClick += IconArea_MouseClick;
+            IconArea.BalloonTipClicked += IconArea_BalloonTipClicked;
 
-            IconArea.DoubleClick += IconArea_DoubleClick;
             BuildIconMenu();
 
             this.StateChanged += MainWindow_StateChanged;
@@ -59,7 +67,10 @@ namespace WSLIPConf.Views
             DataContext = vm = new MainWindowViewModel();
             BindList.SelectionChanged += vm.SelChange;
 
-            App.Current.Settings.ApplyWindowSettings(this);
+            if (!App.Current.SilentMode)
+            {
+                App.Current.Settings.ApplyWindowSettings(this);
+            }
 
             if (App.Current.SilentMode)
             {
@@ -67,7 +78,7 @@ namespace WSLIPConf.Views
                 vm.ApplyRulesCommand.Execute(null);
             }
 
-            init = true;
+            init = !App.Current.SilentMode;
         }
 
         private void BuildIconMenu()
@@ -82,6 +93,16 @@ namespace WSLIPConf.Views
 
             mnu.Click += Mnu_Click;
             
+            cm.Items.Add(mnu);
+            cm.Items.Add(new ToolStripSeparator());
+
+            mnu = appMenu = new ToolStripMenuItem()
+            {
+                Text = AppResources.CopyIPAddress
+            };
+
+            mnu.Click += Mnu_Click;
+
             cm.Items.Add(mnu);
             cm.Items.Add(new ToolStripSeparator());
 
@@ -124,8 +145,8 @@ namespace WSLIPConf.Views
 
             cm.Items.Add(new ToolStripSeparator());
             cm.Items.Add(mnu);
-            IconArea.ContextMenuStrip = cm;
 
+            IconArea.ContextMenuStrip = cm;
         }
 
         private void Mnu_Click(object sender, EventArgs e)
@@ -136,9 +157,13 @@ namespace WSLIPConf.Views
                 {
                     RestoreWindow();
                 }
-                if (item.Text == AppResources.Quit)
+                else if (item.Text == AppResources.Quit)
                 {
                     QuitBtn_Click(sender, null);
+                }
+                else if (item.Text == AppResources.CopyIPAddress)
+                {
+                    CopyIP();
                 }
                 else if (item.Text == AppResources.AutoApply)
                 {
@@ -147,7 +172,7 @@ namespace WSLIPConf.Views
                 else if (item.Text == AppResources.RefreshIP)
                 {
                     vm.RefreshIP();
-                    IconArea.Text = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
+                    IconArea.BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
 
                     if (App.Current.Settings.AutoApply)
                     {
@@ -157,7 +182,7 @@ namespace WSLIPConf.Views
                 else if (item.Text == AppResources.RefreshAndApply)
                 {
                     vm.RefreshIP();
-                    IconArea.Text = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
+                    IconArea.BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
 
                     vm.ApplyRulesCommand.Execute(null);
                 }
@@ -175,10 +200,13 @@ namespace WSLIPConf.Views
                 ShowInTaskbar = true;
             }
 
+            if (ActualWidth == 0) Width = x;
+            if (ActualHeight == 0) Height = y;
+
             appMenu.Checked = ShowInTaskbar;
 
             vm.RefreshIP();
-            IconArea.Text = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
+            IconArea.BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
 
             if (App.Current.Settings.AutoApply)
             {
@@ -187,9 +215,18 @@ namespace WSLIPConf.Views
         }
 
 
-        private void IconArea_DoubleClick(object sender, EventArgs e)
+        private void IconArea_BalloonTipClicked(object sender, EventArgs e)
         {
+
             RestoreWindow();
+        }
+
+        private void IconArea_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                IconArea.ShowBalloonTip(0);
+            }
         }
 
         public void RestoreWindow()
@@ -200,6 +237,19 @@ namespace WSLIPConf.Views
             this.Focus();
             this.Activate();
             this.BringIntoView();
+
+            if (App.Current.SilentMode && !init)
+            {
+                init = true;
+                App.Current.Settings.ApplyWindowSettings(this);
+            }
+        }
+
+        private void CopyIP(bool suppressAlert = false)
+        {
+            System.Windows.Forms.Clipboard.SetText(App.Current.WSLAddress.ToString());
+            if (!suppressAlert) IconArea.ShowBalloonTip(0, AppResources.MainTitle, AppResources.IPAddressCopied, ToolTipIcon.Info);
+
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -230,10 +280,18 @@ namespace WSLIPConf.Views
             App.Current.Settings.SaveWindowSettings(this);
         }
 
+        private void IPAddress_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                CopyIP();   
+            }
+        }
+
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
         {
             vm.RefreshIP();
-            IconArea.Text = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
+            IconArea.BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
         }
     }
 }

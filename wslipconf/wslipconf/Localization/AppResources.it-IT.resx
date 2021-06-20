@@ -112,146 +112,142 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AddRule" xml:space="preserve">
-    <value>Add Rule</value>
+    <value>Aggiungi regola</value>
   </data>
   <data name="ApplyRules" xml:space="preserve">
-    <value>Apply Rules</value>
+    <value>Applica regole</value>
   </data>
   <data name="AutoApply" xml:space="preserve">
-    <value>Auto Apply Changes</value>
+    <value>Applicare automaticamente le modifiche</value>
   </data>
   <data name="AutoDest" xml:space="preserve">
-    <value>Automatic WSL Destination</value>
+    <value>Destinazione WSL automatica</value>
   </data>
   <data name="AutoIPX" xml:space="preserve">
-    <value>Auto IP: {0}</value>
+    <value>IP automatico: {0}</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annulla</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>chiaro</value>
   </data>
   <data name="ClearRules" xml:space="preserve">
-    <value>Clear Rules</value>
+    <value>Regole chiare</value>
   </data>
   <data name="ConfirmClearRules" xml:space="preserve">
-    <value>Are you sure you want to clear all rules?</value>
+    <value>Cancellare tutte le regole?</value>
   </data>
   <data name="ConfirmReloadRules" xml:space="preserve">
-    <value>Are you sure you want to reload the rules?
-Unsaved changes will be discarded.</value>
+    <value>Ricaricare le regole?
+Le modifiche non salvate verranno eliminate.</value>
   </data>
   <data name="ConfirmRemoveRules" xml:space="preserve">
-    <value>Are you sure you want to remove the selected rules?</value>
+    <value>Rimuovere le regole selezionate?</value>
   </data>
   <data name="CopyIPAddress" xml:space="preserve">
-    <value>Copy IP Address</value>
+    <value>Copia indirizzo IP</value>
   </data>
   <data name="DeleteRule" xml:space="preserve">
-    <value>Delete Selected Rules</value>
+    <value>Elimina regole selezionate</value>
   </data>
   <data name="DestinationAddress" xml:space="preserve">
-    <value>Destination Address</value>
+    <value>Indirizzo di destinazione</value>
   </data>
   <data name="DestinationPort" xml:space="preserve">
-    <value>Destination Port</value>
+    <value>Porta di destinazione</value>
   </data>
   <data name="EditRule" xml:space="preserve">
-    <value>Edit Rule</value>
+    <value>Modifica regola</value>
   </data>
   <data name="EditRules" xml:space="preserve">
-    <value>Edit Rules</value>
+    <value>Modifica regole</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>errore</value>
   </data>
   <data name="ErrorApplying" xml:space="preserve">
-    <value>Error applying rules!</value>
+    <value>Errore durante l'applicazione delle regole.</value>
   </data>
   <data name="ErrorCannotSave" xml:space="preserve">
-    <value>There are errors on the page and the item cannot be saved!</value>
+    <value>Ci sono errori nella pagina e l'elemento non può essere salvato!</value>
   </data>
   <data name="ErrorFieldBlank" xml:space="preserve">
-    <value>This field cannot be blank.</value>
+    <value>Questo campo non può essere vuoto.</value>
   </data>
   <data name="ErrorInvalidFormat" xml:space="preserve">
-    <value>This value for this field is in an incorrect format.</value>
+    <value>Questo valore per questo campo è in un formato errato.</value>
   </data>
   <data name="ErrorInvalidValue" xml:space="preserve">
-    <value>The value for this field is invalid.</value>
+    <value>Il valore di questo campo non è valido.</value>
   </data>
   <data name="GetCurrentRules" xml:space="preserve">
-    <value>Get Current Rules</value>
+    <value>Ottenere le regole correnti</value>
   </data>
   <data name="IconTip" xml:space="preserve">
-    <value>Current WSL IP Address: {1}</value>
+    <value>Indirizzo IP WSL corrente: {1}</value>
   </data>
   <data name="IPAddressCopied" xml:space="preserve">
-    <value>IP Address Copied!</value>
+    <value>Indirizzo IP copiato!</value>
   </data>
   <data name="MainTitle" xml:space="preserve">
-    <value>WSL Port Binding Tool</value>
+    <value>Strumento di associazione porta WSL</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>nome</value>
   </data>
   <data name="NewRuleDefinition" xml:space="preserve">
-    <value>New Rule Definition</value>
+    <value>Nuova definizione di regola</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Ok</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>Quit</value>
+    <value>dimettersi</value>
   </data>
   <data name="RefreshAndApply" xml:space="preserve">
-    <value>Refresh and Apply</value>
+    <value>Aggiornare e applicare</value>
   </data>
   <data name="RefreshIP" xml:space="preserve">
-    <value>Refresh IP</value>
+    <value>Aggiorna IP</value>
   </data>
   <data name="RefreshWSLIP" xml:space="preserve">
-    <value>Refresh WSL IP Address</value>
+    <value>Aggiornare l'indirizzo IP WSL</value>
   </data>
   <data name="Reload" xml:space="preserve">
-    <value>Reload</value>
+    <value>ricaricare</value>
   </data>
   <data name="Rerun" xml:space="preserve">
-    <value>Re-Apply Rules</value>
+    <value>Riapplicazione delle regole</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>resettare</value>
   </data>
   <data name="RulesApplied" xml:space="preserve">
-    <value>Rules applied successfully!</value>
+    <value>Regole applicate correttamente!</value>
   </data>
   <data name="RunOnStartup" xml:space="preserve">
-    <value>Run On Startup</value>
+    <value>Esegui all'avvio</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>salvare</value>
   </data>
   <data name="ShowWindow" xml:space="preserve">
-    <value>Show Window</value>
+    <value>Mostra finestra</value>
   </data>
   <data name="SourceAddress" xml:space="preserve">
-    <value>Source Address</value>
+    <value>Indirizzo di origine</value>
   </data>
   <data name="SourcePort" xml:space="preserve">
-    <value>Source Port</value>
+    <value>Porta di origine</value>
   </data>
   <data name="WSLAddress" xml:space="preserve">
-    <value>Detected WSL IP Address</value>
-  </data>
-  <data name="wslip" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wslip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Indirizzo IP WSL rilevato</value>
   </data>
 </root>

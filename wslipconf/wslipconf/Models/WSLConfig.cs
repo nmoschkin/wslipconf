@@ -77,6 +77,7 @@ namespace WSLIPConf.Models
         public void ReadFromDisk()
         {
             var path = GetConfigFile();
+            mappings.Clear();
 
             if (!File.Exists(path)) return;
 

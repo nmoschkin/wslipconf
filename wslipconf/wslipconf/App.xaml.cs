@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 
 using WSLIPConf.Helpers;
+using WSLIPConf.Localization;
 
 namespace WSLIPConf
 {
@@ -30,6 +32,10 @@ namespace WSLIPConf
 
         public App() : base()
         {
+            // Just for testing
+            //CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            //AppResources.Culture = CultureInfo.CurrentCulture;
+
             InitializeComponent();
         }
 

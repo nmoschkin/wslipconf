@@ -161,6 +161,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy IP Address.
+        /// </summary>
+        internal static string CopyIPAddress {
+            get {
+                return ResourceManager.GetString("CopyIPAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Selected Rules.
         /// </summary>
         internal static string DeleteRule {
@@ -269,11 +278,20 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - Current WSL IP Address: {1}.
+        ///   Looks up a localized string similar to Current WSL IP Address: {1}.
         /// </summary>
         internal static string IconTip {
             get {
                 return ResourceManager.GetString("IconTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP Address Copied!.
+        /// </summary>
+        internal static string IPAddressCopied {
+            get {
+                return ResourceManager.GetString("IPAddressCopied", resourceCulture);
             }
         }
         
