@@ -33,6 +33,7 @@ namespace WSLIPConf.ViewModels
         public ICommand EditRuleCommand { get; private set; }
 
         public ICommand SaveRulesCommand { get; private set; }
+
         public ICommand ReloadRulesCommand { get; private set; }
 
         public ICommand RemoveSelectedRulesCommand { get; private set; }
@@ -41,6 +42,9 @@ namespace WSLIPConf.ViewModels
 
         public ICommand GetRulesCommand { get; private set; }
 
+        public ICommand ApplyRulesCommand { get; private set; }
+
+        public ICommand RefreshIPCommand { get; private set; }
 
         public WSLMapping SelectedItem
         {
@@ -98,7 +102,7 @@ namespace WSLIPConf.ViewModels
         {
             config = WSLConfig.Load();
             runOnStartup = TaskTool.GetIsEnabled();
-            addr = WSLTool.GetWslIpAddress();
+            addr = App.Current.WSLAddress;
 
             GetRulesCommand = new SimpleCommand((o) =>
             {
@@ -191,6 +195,29 @@ namespace WSLIPConf.ViewModels
 
             });
 
+            ApplyRulesCommand = new SimpleCommand((o) =>
+            {
+                RefreshIP();
+                var b = NetshTool.SetPortProxies(config.Mappings);
+
+                if (o is string s && s == "True")
+                {
+                    if (b)
+                    {
+                        MessageBoxEx.Show(AppResources.RulesApplied, AppResources.ApplyRules, MessageBoxExType.OK, MessageBoxExIcons.Information);
+                    }
+                    else
+                    {
+                        MessageBoxEx.Show(AppResources.ErrorApplying, AppResources.ApplyRules, MessageBoxExType.OK, MessageBoxExIcons.Error);
+                    }
+                }
+            });
+
+            RefreshIPCommand = new SimpleCommand((o) =>
+            {
+                RefreshIP();
+            });
+
         }
 
         public WSLConfig Config
@@ -235,6 +262,16 @@ namespace WSLIPConf.ViewModels
             set
             {
                 SetProperty(ref addr, value);
+            }
+        }
+
+        public void RefreshIP()
+        {
+            WSLAddress = App.Current.WSLAddress = WSLTool.GetWslIpAddress();
+
+            foreach (var item in config.Mappings)
+            {
+                item.OnPropertyChanged(nameof(WSLMapping.DestinationAddress));
             }
         }
 

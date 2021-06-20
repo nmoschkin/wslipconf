@@ -38,7 +38,11 @@ namespace WSLIPConf.Models
             get => autoDest;
             set
             {
-                if (SetProperty(ref autoDest, value)) Changed = true;
+                if (SetProperty(ref autoDest, value))
+                {
+                    OnPropertyChanged(nameof(DestinationAddress));
+                    Changed = true;
+                }
             }
         }
 
@@ -77,7 +81,11 @@ namespace WSLIPConf.Models
         [JsonConverter(typeof(IPAddressConverter))]
         public IPAddress DestinationAddress
         {
-            get => destAddr;
+            get
+            {
+                if (!autoDest) return destAddr;
+                else return App.Current.WSLAddress;
+            }
             set
             {
                 if (SetProperty(ref destAddr, value)) Changed = true;

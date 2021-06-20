@@ -25,7 +25,7 @@ namespace WSLIPConf.Helpers
 
             task.Triggers.Add(new LogonTrigger());
 
-            task.Actions.Add(exec);
+            task.Actions.Add(exec, "/silent");
             task.Principal.RunLevel = TaskRunLevel.Highest;
 
             TaskService.Instance.RootFolder.RegisterTaskDefinition(asm, task);

@@ -6,8 +6,8 @@
     StartupUri="Views\MainWindow.xaml">
     <Application.Resources>
 
-        <SolidColorBrush x:Key="MainBackground" Color="#FF84EE7F" />
-        <SolidColorBrush x:Key="ButtonBackground" Color="#FFEEB67F" />
+        <SolidColorBrush x:Key="MainBackground" Color="LightGray" />
+        <SolidColorBrush x:Key="ButtonBackground" Color="MediumAquamarine" />
 
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Calibri" />

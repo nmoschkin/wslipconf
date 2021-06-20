@@ -11,6 +11,7 @@
     Width="800"
     Height="500"
     Background="{StaticResource MainBackground}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -118,6 +119,17 @@
                     </Button.IsEnabled>
                 </Button>
 
+                <Button
+                    Command="{Binding ApplyRulesCommand}"
+                    CommandParameter="True"
+                    Content="{i18n:Translate ResourceKey=ApplyRules}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource delConv}">
+                            <Binding Path="Config.Mappings.Count" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+
             </StackPanel>
 
         </Grid>
@@ -127,7 +139,7 @@
         <Grid Grid.Row="2" Margin="8">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -142,7 +154,6 @@
                 Grid.ColumnSpan="2"
                 Margin="8"
                 Orientation="Vertical">
-
 
                 <TextBlock
                     Grid.Row="0"
@@ -183,6 +194,16 @@
                     HorizontalAlignment="Right"
                     Click="QuitBtn_Click"
                     Content="{i18n:Translate ResourceKey=Quit}" />
+
+                <Button
+                    x:Name="RefreshBtn"
+                    Width="90"
+                    Height="32"
+                    Margin="8,4"
+                    Padding="8,4"
+                    HorizontalAlignment="Right"
+                    Click="RefreshBtn_Click"
+                    Content="{i18n:Translate ResourceKey=RefreshIP}" />
 
                 <Button
                     Width="90"

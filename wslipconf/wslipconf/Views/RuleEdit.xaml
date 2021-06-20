@@ -12,6 +12,7 @@
     Height="400"
     Background="{StaticResource MainBackground}"
     ResizeMode="CanMinimize"
+    WindowStartupLocation="CenterOwner"
     WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
 

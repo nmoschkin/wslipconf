@@ -70,6 +70,24 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply Rules.
+        /// </summary>
+        internal static string ApplyRules {
+            get {
+                return ResourceManager.GetString("ApplyRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Apply Changes.
+        /// </summary>
+        internal static string AutoApply {
+            get {
+                return ResourceManager.GetString("AutoApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatic WSL Destination.
         /// </summary>
         internal static string AutoDest {
@@ -197,6 +215,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error applying rules!.
+        /// </summary>
+        internal static string ErrorApplying {
+            get {
+                return ResourceManager.GetString("ErrorApplying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are errors on the page and the item cannot be saved!.
         /// </summary>
         internal static string ErrorCannotSave {
@@ -238,6 +265,15 @@ namespace WSLIPConf.Localization {
         internal static string GetCurrentRules {
             get {
                 return ResourceManager.GetString("GetCurrentRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - Current WSL IP Address: {1}.
+        /// </summary>
+        internal static string IconTip {
+            get {
+                return ResourceManager.GetString("IconTip", resourceCulture);
             }
         }
         
@@ -287,6 +323,33 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh and Apply.
+        /// </summary>
+        internal static string RefreshAndApply {
+            get {
+                return ResourceManager.GetString("RefreshAndApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh IP.
+        /// </summary>
+        internal static string RefreshIP {
+            get {
+                return ResourceManager.GetString("RefreshIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh WSL IP Address.
+        /// </summary>
+        internal static string RefreshWSLIP {
+            get {
+                return ResourceManager.GetString("RefreshWSLIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reload.
         /// </summary>
         internal static string Reload {
@@ -314,6 +377,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rules applied successfully!.
+        /// </summary>
+        internal static string RulesApplied {
+            get {
+                return ResourceManager.GetString("RulesApplied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Run On Startup.
         /// </summary>
         internal static string RunOnStartup {
@@ -328,6 +400,15 @@ namespace WSLIPConf.Localization {
         internal static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Window.
+        /// </summary>
+        internal static string ShowWindow {
+            get {
+                return ResourceManager.GetString("ShowWindow", resourceCulture);
             }
         }
         
@@ -355,6 +436,16 @@ namespace WSLIPConf.Localization {
         internal static string WSLAddress {
             get {
                 return ResourceManager.GetString("WSLAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon wslip {
+            get {
+                object obj = ResourceManager.GetObject("wslip", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

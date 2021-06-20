@@ -64,7 +64,7 @@ namespace WSLIPConf.ViewModels
         /// Raise <see cref="INotifyPropertyChanged.PropertyChanged"/>.
         /// </summary>
         /// <param name="propertyName"></param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        internal void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

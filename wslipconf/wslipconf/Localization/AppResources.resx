@@ -217,4 +217,35 @@ Unsaved changes will be discarded.</value>
   <data name="AutoIPX" xml:space="preserve">
     <value>Auto IP: {0}</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="wslip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wslip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ApplyRules" xml:space="preserve">
+    <value>Apply Rules</value>
+  </data>
+  <data name="AutoApply" xml:space="preserve">
+    <value>Auto Apply Changes</value>
+  </data>
+  <data name="ErrorApplying" xml:space="preserve">
+    <value>Error applying rules!</value>
+  </data>
+  <data name="RefreshAndApply" xml:space="preserve">
+    <value>Refresh and Apply</value>
+  </data>
+  <data name="RefreshIP" xml:space="preserve">
+    <value>Refresh IP</value>
+  </data>
+  <data name="RefreshWSLIP" xml:space="preserve">
+    <value>Refresh WSL IP Address</value>
+  </data>
+  <data name="RulesApplied" xml:space="preserve">
+    <value>Rules applied successfully!</value>
+  </data>
+  <data name="ShowWindow" xml:space="preserve">
+    <value>Show Window</value>
+  </data>
+  <data name="IconTip" xml:space="preserve">
+    <value>{0} - Current WSL IP Address: {1}</value>
+  </data>
 </root>

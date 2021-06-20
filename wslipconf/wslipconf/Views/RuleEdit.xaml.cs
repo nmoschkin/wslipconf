@@ -28,16 +28,11 @@ namespace WSLIPConf.Views
     {
         RuleEditViewModel vm;
 
-        public RuleEdit()
+        public RuleEdit(WSLMapping rule, Window owner = null)
         {
             InitializeComponent();
-            DataContext = vm = new RuleEditViewModel(new WSLMapping());
-            vm.AlertClose += Vm_AlertClose;
-        }
+            Owner = owner ?? App.Current.MainWindow;
 
-        public RuleEdit(WSLMapping rule)
-        {
-            InitializeComponent();
             DataContext = vm = new RuleEditViewModel(rule);
             vm.AlertClose += Vm_AlertClose;
         }

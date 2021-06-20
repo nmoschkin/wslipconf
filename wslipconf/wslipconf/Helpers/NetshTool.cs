@@ -13,6 +13,45 @@ namespace WSLIPConf.Helpers
     public static class NetshTool
     {
 
+        public static bool SetPortProxies(IEnumerable<WSLMapping> mappings)
+        {
+            var proc = new Process();
+            bool b = true;
+
+            proc.StartInfo = new ProcessStartInfo("netsh", "interface portproxy reset")
+            {
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            proc.Start();
+            proc.WaitForExit();
+
+            b &= proc.ExitCode == 0;
+            if (!b) return b;
+
+            foreach (var item in mappings)
+            {
+
+                var cmdline = $"interface portproxy add v4tov4 listenport={item.SourcePort} listenaddress={item.SourceAddress} connectport={item.DestinationPort} connectaddress={item.DestinationAddress}";
+
+                proc = new Process();
+                proc.StartInfo = new ProcessStartInfo("netsh", cmdline)
+                {
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+
+                proc.Start();
+                proc.WaitForExit();
+
+                b &= proc.ExitCode == 0;
+            }
+
+            return b;
+
+        }
+
         public static List<WSLMapping> GetPortProxies()
         {
 
@@ -24,6 +63,7 @@ namespace WSLIPConf.Helpers
             proc.StartInfo = new ProcessStartInfo("netsh", "interface portproxy show v4tov4")
             {
                 RedirectStandardOutput = true,
+                CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
