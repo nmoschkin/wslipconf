@@ -96,7 +96,7 @@ namespace WSLIPConf.Views
             cm.Items.Add(mnu);
             cm.Items.Add(new ToolStripSeparator());
 
-            mnu = appMenu = new ToolStripMenuItem()
+            mnu = new ToolStripMenuItem()
             {
                 Text = AppResources.CopyIPAddress
             };
@@ -259,8 +259,17 @@ namespace WSLIPConf.Views
 
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
-            IconArea.Visible = false;
-            System.Windows.Application.Current.Shutdown();
+            _ = Task.Run(() =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    IconArea.Visible = false;
+                });
+
+            }).ContinueWith((t) =>
+            {
+                System.Windows.Application.Current.Shutdown();
+            });
         }
         private void BindList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
