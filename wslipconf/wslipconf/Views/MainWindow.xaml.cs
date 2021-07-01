@@ -257,9 +257,9 @@ namespace WSLIPConf.Views
             BindList.SelectionChanged -= vm.SelChange;
         }
 
-        private void QuitBtn_Click(object sender, RoutedEventArgs e)
+        private async void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
-            _ = Task.Run(() =>
+            await Task.Run(() =>
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -268,7 +268,10 @@ namespace WSLIPConf.Views
 
             }).ContinueWith((t) =>
             {
-                System.Windows.Application.Current.Shutdown();
+                Dispatcher.Invoke(() =>
+                {
+                    System.Windows.Application.Current.Shutdown();
+                });
             });
         }
         private void BindList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
