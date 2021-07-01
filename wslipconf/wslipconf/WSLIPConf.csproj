@@ -17,6 +17,7 @@
 		<Description>WSL IP Config Tool</Description>
 		<Copyright>Copyright (C) 2021 Nathaniel Moschkin</Copyright>
 		<NeutralLanguage>en-US</NeutralLanguage>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
