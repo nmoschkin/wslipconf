@@ -332,6 +332,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Protocol.
+        /// </summary>
+        internal static string Protocol {
+            get {
+                return ResourceManager.GetString("Protocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
         internal static string Quit {
@@ -445,6 +454,24 @@ namespace WSLIPConf.Localization {
         internal static string SourcePort {
             get {
                 return ResourceManager.GetString("SourcePort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tcp.
+        /// </summary>
+        internal static string Tcp {
+            get {
+                return ResourceManager.GetString("Tcp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Udp.
+        /// </summary>
+        internal static string Udp {
+            get {
+                return ResourceManager.GetString("Udp", resourceCulture);
             }
         }
         

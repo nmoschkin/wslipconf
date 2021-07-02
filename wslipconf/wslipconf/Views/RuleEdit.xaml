@@ -24,6 +24,7 @@
                 x:Key="visConv"
                 HiddenVisibility="Hidden"
                 Mode="Visibility" />
+            <conv:ProtocolConverter x:Key="protConv" />
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Calibri" />
                 <Setter Property="FontSize" Value="12" />
@@ -149,10 +150,28 @@
 
         </StackPanel>
 
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            Margin="8"
+            Orientation="Vertical">
+
+            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=Protocol, AddColon=True}" />
+
+            <ComboBox Margin="0,4" SelectedItem="{Binding Protocol, Mode=TwoWay, Converter={StaticResource protConv}}">
+                <ComboBoxItem Content="Tcp" />
+                <ComboBoxItem Content="Udp" />
+            </ComboBox>
+
+        </StackPanel>
+
+
         <CheckBox
             Grid.Row="4"
             Grid.Column="1"
             Margin="8,0,8,8"
+            VerticalAlignment="Center"
             Content="{i18n:Translate ResourceKey=AutoDest}"
             IsChecked="{Binding AutoDestination, Mode=TwoWay}" />
 

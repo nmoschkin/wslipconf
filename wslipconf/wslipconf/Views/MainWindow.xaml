@@ -83,6 +83,11 @@
                             DisplayMemberBinding="{Binding DestinationPort}"
                             Header="{i18n:Translate ResourceKey=DestinationPort}" />
 
+                        <GridViewColumn
+                            Width="50"
+                            DisplayMemberBinding="{Binding Protocol}"
+                            Header="{i18n:Translate ResourceKey=Protocol}" />
+
                     </GridView>
                 </ListView.View>
 

@@ -117,7 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AddRule" xml:space="preserve">
     <value>Add Rule</value>
   </data>
@@ -209,6 +208,9 @@ Unsaved changes will be discarded.</value>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>Quit</value>
   </data>
@@ -248,9 +250,16 @@ Unsaved changes will be discarded.</value>
   <data name="SourcePort" xml:space="preserve">
     <value>Source Port</value>
   </data>
+  <data name="Tcp" xml:space="preserve">
+    <value>Tcp</value>
+  </data>
+  <data name="Udp" xml:space="preserve">
+    <value>Udp</value>
+  </data>
   <data name="WSLAddress" xml:space="preserve">
     <value>Detected WSL IP Address</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="wslip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wslip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

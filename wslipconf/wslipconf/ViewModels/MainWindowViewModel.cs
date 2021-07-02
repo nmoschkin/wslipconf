@@ -106,7 +106,7 @@ namespace WSLIPConf.ViewModels
 
             GetRulesCommand = new SimpleCommand((o) =>
             {
-                var items = NetshTool.GetPortProxies();
+                var items = PortProxyTool.GetPortProxies();
 
                 foreach (var i in items)
                 {
@@ -198,7 +198,7 @@ namespace WSLIPConf.ViewModels
             ApplyRulesCommand = new SimpleCommand((o) =>
             {
                 RefreshIP();
-                var b = NetshTool.SetPortProxies(config.Mappings);
+                var b = PortProxyTool.SetPortProxies(config.Mappings);
 
                 if (o is string s && s == "True")
                 {

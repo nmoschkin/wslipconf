@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using WSLIPConf.Converters;
+using WSLIPConf.Helpers;
 using WSLIPConf.Localization;
 using WSLIPConf.ViewModels;
 
@@ -29,6 +30,7 @@ namespace WSLIPConf.Models
         private int destPort;
 
         private bool autoDest = true;
+        private ProxyProtocol protocol = ProxyProtocol.Tcp;
 
         private bool changed;
 
@@ -53,6 +55,16 @@ namespace WSLIPConf.Models
             set
             {
                 if (SetProperty(ref name, value)) Changed = true;
+            }
+        }
+
+        [JsonProperty("protocol")]
+        public ProxyProtocol Protocol
+        {
+            get => protocol;
+            set
+            {
+                SetProperty(ref protocol, value);
             }
         }
 
