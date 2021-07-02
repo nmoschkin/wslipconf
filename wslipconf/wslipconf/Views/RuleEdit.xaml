@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding WindowTitle}"
     Width="550"
-    Height="400"
+    Height="450"
     Background="{StaticResource MainBackground}"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterOwner"
@@ -150,30 +150,44 @@
 
         </StackPanel>
 
-        <StackPanel
+        <Grid
             Grid.Row="4"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="8"
-            Orientation="Vertical">
+            Grid.ColumnSpan="2"
+            Margin="8">
 
-            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=Protocol, AddColon=True}" />
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-            <ComboBox Margin="0,4" SelectedItem="{Binding Protocol, Mode=TwoWay, Converter={StaticResource protConv}}">
-                <ComboBoxItem Content="Tcp" />
-                <ComboBoxItem Content="Udp" />
-            </ComboBox>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-        </StackPanel>
+            <TextBlock
+                Margin="0,4"
+                VerticalAlignment="Center"
+                Text="{i18n:Translate ResourceKey=Protocol,
+                                      AddColon=True}" />
+
+            <ComboBox
+                x:Name="ProtoCombo"
+                Grid.Row="1"
+                Margin="0,4,8,4"
+                VerticalAlignment="Center"
+                SelectedItem="{Binding Protocol, Mode=TwoWay}" />
 
 
-        <CheckBox
-            Grid.Row="4"
-            Grid.Column="1"
-            Margin="8,0,8,8"
-            VerticalAlignment="Center"
-            Content="{i18n:Translate ResourceKey=AutoDest}"
-            IsChecked="{Binding AutoDestination, Mode=TwoWay}" />
+            <CheckBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="8,4,0,4"
+                VerticalAlignment="Center"
+                Content="{i18n:Translate ResourceKey=AutoDest}"
+                IsChecked="{Binding AutoDestination, Mode=TwoWay}" />
+
+        </Grid>
 
         <Button
             Grid.Row="5"

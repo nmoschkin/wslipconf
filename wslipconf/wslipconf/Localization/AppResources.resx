@@ -211,6 +211,9 @@ Unsaved changes will be discarded.</value>
   <data name="Protocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
+  <data name="ProxyType" xml:space="preserve">
+    <value>Proxy Type</value>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>Quit</value>
   </data>

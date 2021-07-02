@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using WSLIPConf.Helpers;
 using WSLIPConf.Localization;
 using WSLIPConf.Models;
 
@@ -41,6 +42,8 @@ namespace WSLIPConf.ViewModels
         private string destPort;
         private string srcAddr;
         private string destAddr;
+        
+        private ProxyProtocol prot;
 
         private bool autoDest;
 
@@ -80,6 +83,14 @@ namespace WSLIPConf.ViewModels
             }
         }
 
+        public ProxyProtocol Protocol
+        {
+            get => prot;
+            set
+            {
+                SetProperty(ref prot, value);
+            }
+        }
         
         public string SourceAddress
         {
@@ -244,6 +255,8 @@ namespace WSLIPConf.ViewModels
         {
             int ti;
             IPAddress ta;
+
+            selItem.Protocol = prot;
 
             if (string.IsNullOrEmpty(Name))
             {
@@ -416,6 +429,7 @@ namespace WSLIPConf.ViewModels
             oldItem.DestinationAddress = selItem.DestinationAddress;
             oldItem.DestinationPort = selItem.DestinationPort;
             oldItem.AutoDestination = selItem.AutoDestination;
+            oldItem.Protocol = selItem.Protocol;
 
             oldItem.Changed = selItem.Changed = false;
         }
@@ -427,6 +441,7 @@ namespace WSLIPConf.ViewModels
             DestinationAddress = selItem.DestinationAddress?.ToString();
             SourcePort = selItem.SourcePort.ToString();
             DestinationPort = selItem.DestinationPort.ToString();
+            Protocol = selItem.Protocol;
             autoDest = selItem.AutoDestination;
 
             oldItem.Changed = selItem.Changed = false;

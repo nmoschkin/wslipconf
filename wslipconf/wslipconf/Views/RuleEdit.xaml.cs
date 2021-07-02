@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using WSLIPConf.Helpers;
 using WSLIPConf.Localization;
 using WSLIPConf.Models;
 using WSLIPConf.ViewModels;
@@ -31,6 +32,9 @@ namespace WSLIPConf.Views
         public RuleEdit(WSLMapping rule, Window owner = null)
         {
             InitializeComponent();
+
+            ProtoCombo.ItemsSource = new List<ProxyProtocol>() { ProxyProtocol.Tcp, ProxyProtocol.Udp }; 
+
             Owner = owner ?? App.Current.MainWindow;
 
             DataContext = vm = new RuleEditViewModel(rule);

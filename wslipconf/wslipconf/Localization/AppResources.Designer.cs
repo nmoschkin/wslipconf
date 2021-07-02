@@ -341,6 +341,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proxy Type.
+        /// </summary>
+        internal static string ProxyType {
+            get {
+                return ResourceManager.GetString("ProxyType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
         internal static string Quit {

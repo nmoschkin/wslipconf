@@ -62,11 +62,11 @@
                             Header="{i18n:Translate ResourceKey=Name}" />
 
                         <GridViewColumn
-                            Width="150"
+                            Width="100"
                             DisplayMemberBinding="{Binding SourceAddress}"
                             Header="{i18n:Translate ResourceKey=SourceAddress}" />
                         <GridViewColumn
-                            Width="100"
+                            Width="70"
                             DisplayMemberBinding="{Binding SourcePort}"
                             Header="{i18n:Translate ResourceKey=SourcePort}" />
 
@@ -79,7 +79,7 @@
                             </GridViewColumn.DisplayMemberBinding>
                         </GridViewColumn>
                         <GridViewColumn
-                            Width="100"
+                            Width="70"
                             DisplayMemberBinding="{Binding DestinationPort}"
                             Header="{i18n:Translate ResourceKey=DestinationPort}" />
 
@@ -87,6 +87,11 @@
                             Width="50"
                             DisplayMemberBinding="{Binding Protocol}"
                             Header="{i18n:Translate ResourceKey=Protocol}" />
+
+                        <GridViewColumn
+                            Width="60"
+                            DisplayMemberBinding="{Binding Type}"
+                            Header="{i18n:Translate ResourceKey=ProxyType}" />
 
                     </GridView>
                 </ListView.View>

@@ -138,6 +138,7 @@ namespace WSLIPConf.Helpers
                     if (key == null) return null;
 
                     var sources = key.GetValueNames();
+                    if (sources == null || sources.Length == 0) return null;
 
                     foreach (var src in sources)
                     {
@@ -192,9 +193,9 @@ namespace WSLIPConf.Helpers
         }
 
 
-        public static bool SetPortProxies(IEnumerable<WSLMapping> mappings)
+        public static bool SetPortProxies(IEnumerable<WSLMapping> mappings, bool clearFirst = true)
         {
-            ClearMappings();
+            if (clearFirst) ClearMappings();
 
             foreach (var mapping in mappings)
             {

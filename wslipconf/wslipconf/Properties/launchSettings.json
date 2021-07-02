@@ -1,8 +1,7 @@
 {
   "profiles": {
     "WSLIPConf": {
-      "commandName": "Project",
-      "commandLineArgs": "/silent"
+      "commandName": "Project"
     }
   }
 }

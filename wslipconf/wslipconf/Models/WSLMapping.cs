@@ -34,6 +34,15 @@ namespace WSLIPConf.Models
 
         private bool changed;
 
+        [JsonIgnore]
+        public ProxyType Type
+        {
+            get
+            {
+                return PortProxyTool.GetProxyType(this);
+            }
+        }
+
         [JsonProperty("autoDest")]
         public bool AutoDestination
         {
@@ -75,7 +84,11 @@ namespace WSLIPConf.Models
             get => srcAddr;
             set
             {
-                if (SetProperty(ref srcAddr, value)) Changed = true;
+                if (SetProperty(ref srcAddr, value))
+                {
+                    OnPropertyChanged(nameof(Type));
+                    Changed = true;
+                }
             }
         }
 
@@ -100,7 +113,11 @@ namespace WSLIPConf.Models
             }
             set
             {
-                if (SetProperty(ref destAddr, value)) Changed = true;
+                if (SetProperty(ref destAddr, value))
+                {
+                    OnPropertyChanged(nameof(Type));
+                    Changed = true;
+                }
             }
         }
 

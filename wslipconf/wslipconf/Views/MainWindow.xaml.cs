@@ -38,11 +38,12 @@ namespace WSLIPConf.Views
 
         public NotifyIcon IconArea { get; private set; }
         ToolStripMenuItem appMenu;
+        WindowInteropHelper wh;
 
         public MainWindow()
         {
             InitializeComponent();
-            var wh = new WindowInteropHelper(this);
+            wh = new WindowInteropHelper(this);
             wh.EnsureHandle();
             
             x = Width;
@@ -254,6 +255,9 @@ namespace WSLIPConf.Views
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            IconArea?.Dispose();
+            IconArea = null;
+
             BindList.SelectionChanged -= vm.SelChange;
         }
 
@@ -263,13 +267,9 @@ namespace WSLIPConf.Views
             {
                 Dispatcher.Invoke(() =>
                 {
-                    IconArea.Visible = false;
-                });
+                    IconArea?.Dispose();
+                    IconArea = null;
 
-            }).ContinueWith((t) =>
-            {
-                Dispatcher.Invoke(() =>
-                {
                     System.Windows.Application.Current.Shutdown();
                 });
             });

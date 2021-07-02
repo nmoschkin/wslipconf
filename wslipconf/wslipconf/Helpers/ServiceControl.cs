@@ -11,7 +11,7 @@ namespace WSLIPConf.Helpers
     {
 
         [Flags]
-        public enum ACCESS_MASK : uint
+        private enum ACCESS_MASK : uint
         {
             DELETE = 0x00010000,
             READ_CONTROL = 0x00020000,
@@ -62,7 +62,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum SCM_ACCESS : uint
+        private enum SCM_ACCESS : uint
         {
             /// <summary>
             /// Required to connect to the service control manager.
@@ -124,7 +124,7 @@ namespace WSLIPConf.Helpers
             GENERIC_ALL = SC_MANAGER_ALL_ACCESS,
         }
 
-        public enum SERVICE_STATE : int
+        private enum SERVICE_STATE : int
         {
             SERVICE_STOPPED = 0x00000001,
             SERVICE_START_PENDING = 0x00000002,
@@ -136,7 +136,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum SERVICE_TYPE : int
+        private enum SERVICE_TYPE : int
         {
             SERVICE_KERNEL_DRIVER = 0x00000001,
             SERVICE_FILE_SYSTEM_DRIVER = 0x00000002,
@@ -146,7 +146,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum SERVICE_ACCESS : uint
+        private enum SERVICE_ACCESS : uint
         {
             STANDARD_RIGHTS_REQUIRED = 0xF0000,
             SERVICE_QUERY_CONFIG = 0x00001,
@@ -171,7 +171,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum CONTROLS_ACCEPTED : int
+        private enum CONTROLS_ACCEPTED : int
         {
             SERVICE_ACCEPT_NETBINDCHANGE = 0x00000010,
             SERVICE_ACCEPT_PARAMCHANGE = 0x00000008,
@@ -190,7 +190,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum SERVICE_TYPES : int
+        private enum SERVICE_TYPES : int
         {
             SERVICE_KERNEL_DRIVER = 0x00000001,
             SERVICE_FILE_SYSTEM_DRIVER = 0x00000002,
@@ -200,7 +200,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum SERVICE_CONTROL : uint
+        private enum SERVICE_CONTROL : uint
         {
             STOP = 0x00000001,
             PAUSE = 0x00000002,
@@ -219,7 +219,7 @@ namespace WSLIPConf.Helpers
         }
 
         [Flags]
-        public enum SERVICE_ACCEPT : uint
+        private enum SERVICE_ACCEPT : uint
         {
             STOP = 0x00000001,
             PAUSE_CONTINUE = 0x00000002,
@@ -232,39 +232,39 @@ namespace WSLIPConf.Helpers
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        public struct SERVICE_STATUS
+        private struct SERVICE_STATUS
         {
-            public SERVICE_TYPES dwServiceType;
-            public SERVICE_STATE dwCurrentState;
-            public uint dwControlsAccepted;
-            public uint dwWin32ExitCode;
-            public uint dwServiceSpecificExitCode;
-            public uint dwCheckPoint;
-            public uint dwWaitHint;
+            private SERVICE_TYPES dwServiceType;
+            private SERVICE_STATE dwCurrentState;
+            private uint dwControlsAccepted;
+            private uint dwWin32ExitCode;
+            private uint dwServiceSpecificExitCode;
+            private uint dwCheckPoint;
+            private uint dwWaitHint;
         }
 
 
 
         [DllImport("advapi32.dll", EntryPoint = "OpenSCManagerW", CharSet = CharSet.Unicode)]
-        public static extern IntPtr OpenSCManager(
+        private static extern IntPtr OpenSCManager(
           string lpMachineName,
           string lpDatabaseName,
           SCM_ACCESS dwDesiredAccess
         );
 
         [DllImport("advapi32.dll", EntryPoint = "OpenServiceW", CharSet = CharSet.Unicode)]
-        public static extern IntPtr OpenService(
+        private static extern IntPtr OpenService(
           IntPtr hSCManager,
           string lpServiceName,
           SERVICE_ACCESS dwDesiredAccess
         );
         [DllImport("advapi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ControlService(IntPtr hService, SERVICE_CONTROL dwControl, ref SERVICE_STATUS lpServiceStatus);
+        private static extern bool ControlService(IntPtr hService, SERVICE_CONTROL dwControl, ref SERVICE_STATUS lpServiceStatus);
 
 
         [DllImport("advapi32.dll")]
-        public static extern int CloseServiceHandle(IntPtr hSCObject);
+        private static extern int CloseServiceHandle(IntPtr hSCObject);
 
         public static bool SendRefreshSignal()
         {
