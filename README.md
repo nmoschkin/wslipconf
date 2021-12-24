@@ -13,6 +13,15 @@ You might need to run 'git submodule init' and 'git submodule update' from the r
 
 If for any reason the window gets messed up and you can't fix it, go into the registry under HKEY_CURRENT_USER\Software\Nathaniel Moschkin\WSLIPConf and delete the window geometry key.
 
-![](docs/screen1.png)
 
+## Main Screen
+
+![](docs/image1.png)
+
+## Binding Configuration
+
+![](docs/image2.png)
+
+## About Box 
+![](docs/image3.png)
 
