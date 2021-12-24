@@ -23,7 +23,7 @@ If for any reason the window gets messed up and you can't fix it, go into the re
 ### Main Screen
 _(The accent color is detected from your Windows 8/10/11 color scheme)_
 
-Here you can do several things, including refreshing table from the current _netsh_ system configuration. 
+Here you can do several things, including refreshing the table from the current _netsh_ system configuration. 
 You can also check a box that will cause this application to start automatically when Windows starts.
 
 The application will minimize to the system tray and will start minimized on system startup. 
