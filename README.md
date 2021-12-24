@@ -9,7 +9,7 @@ Currently only V4ToV4 bindings are supported.
 
 Just download the code, compile it, and start the project.  It should be relatively self-explanatory. 
 
-__Alternatively: Binaries for x64 can be found in the (https://github.com/nmoschkin/wslipconf/tree/main/binaries)[binaries] folder.__
+__Alternatively: Binaries for x64 can be found in the [_binaries_](https://github.com/nmoschkin/wslipconf/tree/main/binaries) folder.__
 
 You might need to run 'git submodule init' and 'git submodule update' from the root of the project folder to grab the MessageBoxEx project.
 
