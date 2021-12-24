@@ -13,11 +13,13 @@ You might need to run 'git submodule init' and 'git submodule update' from the r
 
 If for any reason the window gets messed up and you can't fix it, go into the registry under __HKEY_CURRENT_USER\Software\Nathaniel Moschkin\WSLIPConf__ and delete the window geometry key.
 
+Currently only V4ToV4 bindings are supported.
+
 ## Sample Screens
 
 ### Main Screen
 
-_(Currently only V4ToV4 bindings are supported)_
+_(The accent color is detected from your Windows 8/10/11 color scheme)_
 
 ![](docs/image1.png)
 
