@@ -39,6 +39,3 @@ _You can also set up port forwarding with addresses other than WSL. Just uncheck
 
 ![](docs/image2.png)
 
-### About Box 
-![](docs/image3.png)
-
