@@ -49,12 +49,15 @@ namespace WSLIPConf.Views
             x = Width;
             y = Height;
 
-            IconArea = new NotifyIcon();
-            IconArea.Icon = AppResources.wslip;
-            IconArea.Visible = true;
-            IconArea.BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress);
-            IconArea.BalloonTipTitle = AppResources.MainTitle;
-            IconArea.BalloonTipIcon = ToolTipIcon.Info;
+            IconArea = new NotifyIcon
+            {
+                Icon = AppResources.wslip,
+                Visible = true,
+                BalloonTipText = string.Format(AppResources.IconTip, AppResources.MainTitle, App.Current.WSLAddress),
+                BalloonTipTitle = AppResources.MainTitle,
+                BalloonTipIcon = ToolTipIcon.Info
+            };
+
             IconArea.MouseClick += IconArea_MouseClick;
             IconArea.BalloonTipClicked += IconArea_BalloonTipClicked;
 

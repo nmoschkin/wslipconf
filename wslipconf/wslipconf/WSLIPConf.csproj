@@ -15,14 +15,26 @@
 		<Company>Nathaniel Moschkin</Company>
 		<Product>WSL IP Config Tool</Product>
 		<Description>WSL IP Config Tool</Description>
-		<Copyright>Copyright (C) 2021 Nathaniel Moschkin</Copyright>
+		<Copyright>Copyright (C) 2022 Nathaniel Moschkin</Copyright>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Platforms>AnyCPU;x64</Platforms>
+		<AssemblyVersion>1.1.0.0</AssemblyVersion>
+		<FileVersion>1.1.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\logo.png" />
+	  <None Remove="Resources\wslip.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\logo.png" />
+	  <Resource Include="Resources\wslip.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="TaskScheduler" Version="2.9.1" />
+		<PackageReference Include="TaskScheduler" Version="2.9.3" />
 	</ItemGroup>
 
 	<ItemGroup>

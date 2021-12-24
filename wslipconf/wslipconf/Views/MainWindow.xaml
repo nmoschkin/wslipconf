@@ -30,6 +30,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -38,6 +39,23 @@
             VerticalAlignment="Center"
             FontSize="24"
             Text="{i18n:Translate ResourceKey=MainTitle}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Margin="16,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            Cursor="Hand"
+            FontSize="12"
+            Foreground="Blue"
+            TextDecorations="Underline">
+
+            <Hyperlink Background="Transparent" Command="{Binding ShowAboutCommand}">
+                <Run Text="{i18n:Translate ResourceKey=AboutLong}" />
+            </Hyperlink>
+        </TextBlock>
+
 
         <Grid Grid.Row="1" Margin="8,0">
 
@@ -146,7 +164,7 @@
 
 
 
-        <Grid Grid.Row="2" Margin="8">
+        <Grid Grid.Row="3" Margin="8">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
