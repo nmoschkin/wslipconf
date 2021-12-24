@@ -5,7 +5,7 @@ This program automatically detects the WSL IP address using the Linux _ip_ comma
 
 This is useful for running test projects in VS Code under WSL that serve and listen.  This will allow you to use your Windows-based browser or other front-end projects while running the back-end project in WSL.
 
-__Binaries are included for x64 in the _binaries_ folder.
+__Binaries are included for x64 in the _binaries_ folder.__
 
 Just download the code, compile it, and start the project.  It should be relatively self-explanatory. 
 
@@ -22,6 +22,9 @@ _(Currently only V4ToV4 bindings are supported)_
 ![](docs/image1.png)
 
 ### Binding Configuration
+
+_You can also set up port forwarding with addresses other than WSL. Just uncheck the 'Automatic WSL Destination' checkbox._
+
 ![](docs/image2.png)
 
 ### About Box 
