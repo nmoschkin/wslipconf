@@ -27,7 +27,7 @@ namespace WSLIPConf.ViewModels
 
         private List<WSLMapping> selItems = new List<WSLMapping>();
 
-
+        public ICommand ShowAboutCommand { get; private set; }  
         public ICommand AddRuleCommand { get; private set; }
 
         public ICommand EditRuleCommand { get; private set; }
@@ -216,6 +216,12 @@ namespace WSLIPConf.ViewModels
             RefreshIPCommand = new SimpleCommand((o) =>
             {
                 RefreshIP();
+            });
+
+            ShowAboutCommand = new SimpleCommand((o) =>
+            {
+                var aboutBox = new About();
+                aboutBox.ShowDialog();
             });
 
         }
