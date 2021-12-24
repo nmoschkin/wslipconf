@@ -1,5 +1,5 @@
 # WSLIPConf
-Auto Configure Port Forwarding From WSL for Windows Desktop (.NET 5.0)
+__Auto Configure Port Forwarding From WSL for Windows Desktop (.NET 5.0)__
 
 This program automatically detects the WSL IP address using the Linux _ip_ command, and sets up _netsh portproxy_ commands for the IPv4 address.  
 
