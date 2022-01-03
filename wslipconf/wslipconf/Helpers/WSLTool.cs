@@ -48,8 +48,10 @@ namespace WSLIPConf.Helpers
             interfaces = new List<WSLInterfaceInfo>(GetWSLInterfaces());
         }
 
-        public static WSLInterfaceInfo GetFirstMulticastAddress()
+        public static WSLInterfaceInfo GetFirstMulticastAddress(bool forceRefresh = true)
         {
+            if (forceRefresh) Refresh();
+
             foreach (var iface in Interfaces)
             {
                 if (iface.IsMulticast) return iface;
