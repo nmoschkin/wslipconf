@@ -10,14 +10,10 @@ using System.Threading.Tasks;
 
 namespace WSLIPConf.Helpers
 {
-    public class TaskTool
-    {
-        // schtasks /create /sc onlogon /tn MyProgram /rl highest /tr "exeFullPath"
-
-
+    public static class TaskTool
+    {        
         public static void EnableOnStartup()
         {
-
             var task = TaskService.Instance.NewTask();
             var exec = Process.GetCurrentProcess().MainModule.FileName;
 
@@ -29,7 +25,6 @@ namespace WSLIPConf.Helpers
             task.Principal.RunLevel = TaskRunLevel.Highest;
 
             TaskService.Instance.RootFolder.RegisterTaskDefinition(asm, task);
-
         }
 
         public static void DisableOnStartup()

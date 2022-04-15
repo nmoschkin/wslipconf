@@ -32,10 +32,12 @@ namespace WSLIPConf
 
         public App() : base()
         {
+            var test = $"This is an interpolated string \"with\" more stuff like {DateTime.Now.ToString(@"\abc") + $"{1} singing"}";
+
             // Just for testing
             //CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
             //AppResources.Culture = CultureInfo.CurrentCulture;
-
+             
             InitializeComponent();
         }
 

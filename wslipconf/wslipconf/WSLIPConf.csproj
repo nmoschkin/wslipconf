@@ -56,4 +56,8 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="ViewModels\MoreStuff\" />
+	</ItemGroup>
+
 </Project>

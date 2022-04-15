@@ -1,0 +1,15 @@
+﻿<Window
+    x:Class="WSLIPConf.Views.ToolAreaWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WSLIPConf.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="ToolAreaWindow"
+    Width="150"
+    Height="150"
+    ShowInTaskbar="False"
+    WindowState="Minimized"
+    mc:Ignorable="d">
+    <Grid />
+</Window>

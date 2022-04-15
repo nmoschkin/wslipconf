@@ -24,10 +24,10 @@ namespace WSLIPConf.Views
     public partial class About : Window
     {
         AboutViewModel vm;
-
+         
         public About()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             vm = new AboutViewModel();                        
             DataContext = vm;
         }
@@ -37,4 +37,5 @@ namespace WSLIPConf.Views
             Close();
         }
     }
+
 }
