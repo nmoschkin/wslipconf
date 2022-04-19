@@ -63,10 +63,12 @@ namespace WSLIPConf.Helpers
         public static WSLInterfaceInfo[] GetWSLInterfaces()
         {
             var p = new Process();
+            var wsl = Environment.ExpandEnvironmentVariables("%SYSTEMROOT%\\system32\\wsl.exe");
 
-            p.StartInfo = new ProcessStartInfo("wsl", "ip -family inet address")
+            p.StartInfo = new ProcessStartInfo(wsl, "ip -family inet address")
             {
                 RedirectStandardOutput = true,
+                UseShellExecute = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             };

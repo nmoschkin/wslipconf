@@ -23,6 +23,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Helpers\Unelevated.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\logo.png" />
 	  <None Remove="Resources\wslip.ico" />
 	</ItemGroup>
