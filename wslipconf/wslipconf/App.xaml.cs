@@ -17,23 +17,33 @@ namespace WSLIPConf
             get => (App)Application.Current;
         }
 
+        public WSLDistribution SessionDefault
+        {
+            get => WSLDistribution.SessionDefault;
+            set => WSLDistribution.SessionDefault = value;
+        }
+
         public Settings Settings { get; private set; } = new Settings();
 
-        public IPAddress WSLAddress { get; set; } = WSLTool.GetWslIpAddress();
+        public IPAddress WSLAddress { get; set; }
 
-        public IPAddress WSLV6Address { get; set; } = WSLTool.GetWslIpV6Address();
+        public IPAddress WSLV6Address { get; set; }
 
         public bool SilentMode { get; private set; }
 
         public App() : base()
         {
-            var test = $"This is an interpolated string \"with\" more stuff like {DateTime.Now.ToString(@"\abc") + $"{1} singing"}";
-
-            // Just for testing
-            //CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
-            //AppResources.Culture = CultureInfo.CurrentCulture;
-
             InitializeComponent();
+
+            WSLDistribution.RefreshDistributions();
+
+            if (Program.RequestedDistribution != null)
+            {
+                SessionDefault = WSLDistribution.Distributions.Where(x => x.Name.ToLower() == Program.RequestedDistribution)?.FirstOrDefault() ?? SessionDefault;
+            }
+
+            WSLAddress = SessionDefault.GetWslIpAddress();
+            WSLV6Address = SessionDefault.GetWslIpV6Address();
         }
 
         public App(bool silent) : this()

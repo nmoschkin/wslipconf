@@ -8,7 +8,7 @@
     xmlns:i18n="clr-namespace:WSLIPConf.Localization"
     Title="{Binding WindowTitle}"
     Width="550"
-    Height="500"
+    Height="570"
     Background="{StaticResource MainBackground}"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterOwner"
@@ -17,23 +17,30 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <conv:BoolConverter x:Key="boolConv" Mode="InverseBool" />
+            <conv:BoolConverter
+                x:Key="boolConv"
+                Mode="InverseBool" />
             <conv:BoolConverter
                 x:Key="visConv"
                 HiddenVisibility="Hidden"
                 Mode="Visibility" />
-            <conv:ProtocolConverter x:Key="protConv" />
-            <Style TargetType="TextBlock">
+            <conv:ProtocolConverter
+                x:Key="protConv" />
+            <Style
+                TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="12" />
             </Style>
-            <Style x:Key="ErrorBlock" TargetType="TextBlock">
+            <Style
+                x:Key="ErrorBlock"
+                TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="10" />
                 <Setter Property="Foreground" Value="Red" />
             </Style>
 
-            <Style TargetType="TextBox">
+            <Style
+                TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="Padding" Value="8,4" />
                 <Setter Property="FontSize" Value="12" />
@@ -41,19 +48,24 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Margin="16">
+    <Grid
+        Margin="16">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition
+                Width="3*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -74,8 +86,13 @@
             Margin="8"
             Orientation="Vertical">
 
-            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=Name, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding Name, Mode=TwoWay}" />
+            <TextBlock
+                Margin="0,4"
+                Text="{i18n:Translate ResourceKey=Name,
+                                      AddColon=True}" />
+            <TextBox
+                Margin="0,4"
+                Text="{Binding Name, Mode=TwoWay}" />
             <TextBlock
                 Style="{StaticResource ErrorBlock}"
                 Text="{Binding NameErrorText}"
@@ -89,8 +106,13 @@
             Margin="8"
             Orientation="Vertical">
 
-            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=SourceAddress, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SourceAddress, Mode=TwoWay}" />
+            <TextBlock
+                Margin="0,4"
+                Text="{i18n:Translate ResourceKey=SourceAddress,
+                                      AddColon=True}" />
+            <TextBox
+                Margin="0,4"
+                Text="{Binding SourceAddress, Mode=TwoWay}" />
             <TextBlock
                 Style="{StaticResource ErrorBlock}"
                 Text="{Binding SrcAddrErrorText}"
@@ -105,8 +127,13 @@
             IsEnabled="{Binding AutoDestination, Converter={StaticResource boolConv}}"
             Orientation="Vertical">
 
-            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=DestinationAddress, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding DestinationAddress, Mode=TwoWay}" />
+            <TextBlock
+                Margin="0,4"
+                Text="{i18n:Translate ResourceKey=DestinationAddress,
+                                      AddColon=True}" />
+            <TextBox
+                Margin="0,4"
+                Text="{Binding DestinationAddress, Mode=TwoWay}" />
             <TextBlock
                 Style="{StaticResource ErrorBlock}"
                 Text="{Binding DestAddrErrorText}"
@@ -119,8 +146,13 @@
             Grid.ColumnSpan="1"
             Margin="8"
             Orientation="Vertical">
-            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=SourcePort, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding SourcePort, Mode=TwoWay}" />
+            <TextBlock
+                Margin="0,4"
+                Text="{i18n:Translate ResourceKey=SourcePort,
+                                      AddColon=True}" />
+            <TextBox
+                Margin="0,4"
+                Text="{Binding SourcePort, Mode=TwoWay}" />
             <TextBlock
                 Style="{StaticResource ErrorBlock}"
                 Text="{Binding SrcPortErrorText}"
@@ -134,8 +166,13 @@
             Margin="8"
             Orientation="Vertical">
 
-            <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=DestinationPort, AddColon=True}" />
-            <TextBox Margin="0,4" Text="{Binding DestinationPort, Mode=TwoWay}" />
+            <TextBlock
+                Margin="0,4"
+                Text="{i18n:Translate ResourceKey=DestinationPort,
+                                      AddColon=True}" />
+            <TextBox
+                Margin="0,4"
+                Text="{Binding DestinationPort, Mode=TwoWay}" />
             <TextBlock
                 Style="{StaticResource ErrorBlock}"
                 Text="{Binding DestPortErrorText}"
@@ -148,6 +185,8 @@
             Margin="8">
 
             <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -174,6 +213,7 @@
             <ComboBox
                 x:Name="ProtoCombo"
                 Grid.Row="1"
+                Height="24"
                 Margin="0,4,8,4"
                 VerticalAlignment="Center"
                 SelectedItem="{Binding Protocol, Mode=TwoWay}" />
@@ -182,6 +222,7 @@
                 x:Name="ProxyCombo"
                 Grid.Row="1"
                 Grid.Column="1"
+                Height="24"
                 Margin="0,4,8,4"
                 VerticalAlignment="Center"
                 DisplayMemberPath="Description"
@@ -189,11 +230,35 @@
                 SelectedItem="{Binding SelectedProxy, Mode=TwoWay}" />
 
             <CheckBox
+                x:Name="AutoDest"
                 Grid.Row="3"
                 Margin="0,4,0,4"
                 VerticalAlignment="Center"
                 Content="{i18n:Translate ResourceKey=AutoDest}"
                 IsChecked="{Binding AutoDestination, Mode=TwoWay}" />
+
+            <StackPanel
+                Grid.Row="4"
+                IsEnabled="{Binding Source={x:Reference Name=AutoDest}, Path=IsChecked}"
+                Orientation="Vertical">
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="0,4,8,4"
+                    VerticalAlignment="Center"
+                    Text="{i18n:Translate ResourceKey=Distribution,
+                                          AddColon=True}" />
+
+                <ComboBox
+                    x:Name="DistroCombo"
+                    Grid.Row="1"
+                    Height="24"
+                    Margin="0,4,8,4"
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Distributions}"
+                    SelectedItem="{Binding SelectedDistribution, Mode=TwoWay}" />
+            </StackPanel>
         </Grid>
 
         <StackPanel

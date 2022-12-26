@@ -4,35 +4,182 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace WSLIPConf.Helpers
 {
-    public static class WSLTool
+    public class WSLDistribution
     {
-        public static IPAddress GetWslIpAddress()
+        public static event EventHandler<WSLDistribution> SysDistroChanged;
+
+        public static event EventHandler<WSLDistribution> SessionDistroChanged;
+
+        private static ObservableCollection<WSLDistribution> distros = new ObservableCollection<WSLDistribution>();
+
+        public static ObservableCollection<WSLDistribution> Distributions => distros;
+
+        /// <summary>
+        /// The current distribution that is the default for the system
+        /// </summary>
+        public static WSLDistribution SystemDefault { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the session default WSL distribution
+        /// </summary>
+        public static WSLDistribution SessionDefault { get; set; }
+
+        public static WSLDistribution FindByName(string name)
         {
-            return WSLInterfaceInfo.Interfaces.Where(x =>
-            x.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
-            && x.IsMulticast
+            return distros.FirstOrDefault(x => x.Name?.ToLower() == name?.ToLower());
+        }
+
+        public static WSLDistribution RefreshDistributions()
+        {
+            var lastDefault = SystemDefault?.Name;
+            var lastSession = SessionDefault?.Name;
+
+            QueryDistributions(distros);
+
+            SystemDefault = distros.Where(x => x.IsDefault).FirstOrDefault() ?? distros.FirstOrDefault();
+
+            if (lastSession != null)
+            {
+                var sess = distros.Where(x => x.Name == lastSession).FirstOrDefault();
+                SessionDefault = sess;
+            }
+            else
+            {
+                SessionDefault = SystemDefault;
+            }
+
+            SessionDistroChanged?.Invoke(App.Current, SessionDefault);
+            SysDistroChanged?.Invoke(App.Current, SystemDefault);
+
+            return SessionDefault;
+        }
+
+        public static TCol QueryDistributions<TCol>(TCol reuseCol = null) where TCol : class, ICollection<WSLDistribution>, new()
+        {
+            var distros = reuseCol ?? new TCol();
+            distros.Clear();
+
+            var p = new Process();
+            var wsl = Environment.ExpandEnvironmentVariables("%SYSTEMROOT%\\system32\\wsl.exe");
+
+            string cmd = "--list --all --verbose";
+
+            p.StartInfo = new ProcessStartInfo(wsl, cmd)
+            {
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            p.Start();
+            p.WaitForExit();
+
+            var contents = p.StandardOutput.ReadToEnd().Replace("\x0", "");
+
+            var lines = contents.Replace("\r\n", "\n").Split('\n');
+
+            var top = lines[0];
+            int c = top.Length;
+            int lidx = 2;
+
+            int lc = lines.Length;
+            int li = 0;
+
+            for (li = 1; li <= lc; li++)
+            {
+                var line = lines[li];
+                if (string.IsNullOrEmpty(line)) break;
+
+                var def = line[0] == '*';
+
+                var sb = new StringBuilder();
+                var cols = new List<string>();
+
+                c = line.Length;
+
+                for (int i = 2; i < c; i++)
+                {
+                    var ch = line[i];
+                    if (!char.IsWhiteSpace(ch))
+                    {
+                        sb.Append(ch);
+                        if (lidx == -1) lidx = i;
+                    }
+                    else if (sb.Length > 0)
+                    {
+                        cols.Add(sb.ToString());
+                        lidx = -1;
+
+                        sb.Clear();
+                    }
+                }
+                if (sb.Length > 0 && lidx != -1)
+                {
+                    cols.Add(sb.ToString());
+                }
+
+                distros.Add(new WSLDistribution()
+                {
+                    Name = cols[0],
+                    IsDefault = def,
+                    IsRunning = cols[1] == "Running",
+                    Version = int.Parse(cols[2]),
+                });
+            }
+
+            if (distros.Count > 0)
+            {
+                if (distros.Count(x => x.IsDefault) == 0)
+                {
+                    distros.First().IsDefault = true;
+                }
+            }
+
+            return distros;
+        }
+
+        public override string ToString()
+        {
+            return $"{(IsDefault ? "[Default] " : "")}{Name} ({(IsRunning ? "Running" : "Stopped")})";
+        }
+
+        public string Name { get; private set; }
+
+        public bool IsRunning { get; private set; }
+        public bool IsDefault { get; private set; }
+        public int Version { get; private set; }
+
+        private WSLDistribution()
+        { }
+
+        public static WSLDistribution DefaultDistribution { get; set; }
+
+        public IPAddress GetWslIpAddress()
+        {
+            return Interfaces.Where(x =>
+                x.Address.AddressFamily == AddressFamily.InterNetwork
+                && x.IsMulticast
             )?.FirstOrDefault()?.Address;
         }
 
-        public static IPAddress GetWslIpV6Address()
+        public IPAddress GetWslIpV6Address()
         {
-            return WSLInterfaceInfo.Interfaces.Where(x =>
-            x.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6
-            && x.IsMulticast
+            return Interfaces.Where(x =>
+                x.Address.AddressFamily == AddressFamily.InterNetworkV6
+                && x.IsMulticast
             )?.FirstOrDefault()?.Address;
         }
-    }
 
-    public class WSLInterfaceInfo
-    {
-        private static List<WSLInterfaceInfo> interfaces = new List<WSLInterfaceInfo>();
+        private List<WSLInterfaceInfo> interfaces = new List<WSLInterfaceInfo>();
 
-        public static IReadOnlyList<WSLInterfaceInfo> Interfaces
+        public IReadOnlyList<WSLInterfaceInfo> Interfaces
         {
             get
             {
@@ -45,33 +192,31 @@ namespace WSLIPConf.Helpers
             }
         }
 
+        public void Refresh()
+        {
+            interfaces = new List<WSLInterfaceInfo>(WSLInterfaceInfo.GetWSLInterfaces(Name));
+        }
+    }
+
+    public class WSLInterfaceInfo
+    {
         private WSLInterfaceInfo()
         {
         }
 
-        public static void Refresh()
-        {
-            interfaces = new List<WSLInterfaceInfo>(GetWSLInterfaces());
-        }
-
-        public static WSLInterfaceInfo GetFirstMulticastAddress(bool forceRefresh = true)
-        {
-            if (forceRefresh) Refresh();
-
-            foreach (var iface in Interfaces)
-            {
-                if (iface.IsMulticast) return iface;
-            }
-
-            return null;
-        }
-
-        public static WSLInterfaceInfo[] GetWSLInterfaces()
+        public static WSLInterfaceInfo[] GetWSLInterfaces(string distribution = null)
         {
             var p = new Process();
             var wsl = Environment.ExpandEnvironmentVariables("%SYSTEMROOT%\\system32\\wsl.exe");
 
-            p.StartInfo = new ProcessStartInfo(wsl, "ip -family inet address && ip -family inet6 address")
+            string cmd = "ip -family inet address && ip -family inet6 address";
+
+            if (distribution != null)
+            {
+                cmd = $"-d {distribution} {cmd}";
+            }
+
+            p.StartInfo = new ProcessStartInfo(wsl, cmd)
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,

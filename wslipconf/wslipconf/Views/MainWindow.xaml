@@ -156,14 +156,19 @@
                             Header="{i18n:Translate ResourceKey=DestinationPort}" />
 
                         <GridViewColumn
-                            Width="60"
-                            DisplayMemberBinding="{Binding Protocol}"
-                            Header="{i18n:Translate ResourceKey=Protocol}" />
+                            Width="80"
+                            DisplayMemberBinding="{Binding WorkingDistroName}"
+                            Header="{i18n:Translate ResourceKey=Distribution}" />
 
                         <GridViewColumn
                             Width="80"
                             DisplayMemberBinding="{Binding ProxyType, Converter={StaticResource proxyConv}}"
                             Header="{i18n:Translate ResourceKey=ProxyType}" />
+
+                        <GridViewColumn
+                            Width="60"
+                            DisplayMemberBinding="{Binding Protocol}"
+                            Header="{i18n:Translate ResourceKey=Protocol}" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -236,8 +241,13 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition />
+                    Width="19.468" />
+                <ColumnDefinition
+                    Width="100.167" />
+                <ColumnDefinition
+                    Width="89*" />
+                <ColumnDefinition
+                    Width="576*" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -250,20 +260,24 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="8"
+                Grid.ColumnSpan="4"
+                Margin="8,8,8,8"
                 Orientation="Vertical">
 
                 <StackPanel
                     Margin="0,4"
                     Orientation="Horizontal">
-
                     <TextBlock
                         Margin="0,0,8,0"
                         FontFamily="Bold"
-                        FontSize="14"
-                        Text="{i18n:Translate ResourceKey=WSLAddress,
-                                              AddColon=True}" />
+                        FontSize="14">
+                        <Run
+                            Text="{i18n:Translate ResourceKey=WSLAddress,
+                                                  AddColon=False}" />
+
+                        <Run
+                            Text="{Binding DistroName, Mode=OneWay}" />
+                    </TextBlock>
 
                     <TextBlock
                         x:Name="IPAddress"
@@ -294,9 +308,14 @@
                     <TextBlock
                         Margin="0,0,8,0"
                         FontFamily="Bold"
-                        FontSize="14"
-                        Text="{i18n:Translate ResourceKey=WSLV6Address,
-                                              AddColon=True}" />
+                        FontSize="14">
+                        <Run
+                            Text="{i18n:Translate ResourceKey=WSLV6Address,
+                                                  AddColon=False}" />
+
+                        <Run
+                            Text="{Binding DistroName, Mode=OneWay}" />
+                    </TextBlock>
                     <TextBlock
                         x:Name="IPV6Address"
                         Grid.Row="0"
@@ -310,17 +329,40 @@
                         Text="{Binding WSLV6Address}"
                         ToolTip="{i18n:Translate ResourceKey=Click_To_Copy}" />
                 </StackPanel>
+
+                <TextBlock
+                    Grid.Row="2"
+                    Height="48"
+                    Padding="0,8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    Cursor="Hand"
+                    FontSize="12"
+                    Foreground="Blue"
+                    TextDecorations="Underline">
+
+                    <Hyperlink
+                        Background="Transparent"
+                        Command="{Binding SelectDistroCommand}">
+                        <Run
+                            Text="{i18n:Translate ResourceKey=Select_Distribution}" />
+                    </Hyperlink>
+                </TextBlock>
             </StackPanel>
 
             <CheckBox
-                Grid.Row="2"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="3"
+                Margin="0,41,88,0"
                 Content="{i18n:Translate ResourceKey=RunOnStartup}"
                 FontSize="16"
                 IsChecked="{Binding RunOnStartup}" />
 
             <StackPanel
                 Grid.RowSpan="3"
-                Grid.Column="1"
+                Grid.Column="3"
                 Margin="0"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">

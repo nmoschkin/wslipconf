@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using WSLIPConf.Helpers;
 using WSLIPConf.ViewModels;
 
 namespace WSLIPConf.Models
@@ -15,6 +16,7 @@ namespace WSLIPConf.Models
         private string filename = GetConfigFile();
         private DateTime lastUpdated = DateTime.Now;
         private bool runAtStartup = true;
+        private string prefdist = null;
 
         private ObservableCollection<WSLMapping> mappings = new ObservableCollection<WSLMapping>();
 
@@ -25,6 +27,16 @@ namespace WSLIPConf.Models
             set
             {
                 SetProperty(ref filename, value);
+            }
+        }
+
+        [JsonProperty("preferredDistribution")]
+        public string PreferredDistribution
+        {
+            get => prefdist;
+            set
+            {
+                SetProperty(ref prefdist, value);
             }
         }
 
@@ -81,17 +93,21 @@ namespace WSLIPConf.Models
             var json = File.ReadAllText(path);
             JsonConvert.PopulateObject(json, this);
 
+            var dist = WSLDistribution.FindByName(prefdist) ?? WSLDistribution.SessionDefault ?? WSLDistribution.SystemDefault;
+
+            WSLDistribution.SessionDefault = dist;
+
             foreach (var rule in this.Mappings)
             {
                 if (rule.AutoDestination)
                 {
                     if ((rule.ProxyType & Helpers.ProxyType.DestV4) == Helpers.ProxyType.DestV4)
                     {
-                        rule.DestinationAddress = App.Current.WSLAddress;
+                        rule.DestinationAddress = dist.GetWslIpAddress();
                     }
                     else
                     {
-                        rule.DestinationAddress = App.Current.WSLV6Address;
+                        rule.DestinationAddress = dist.GetWslIpV6Address();
                     }
                     rule.Changed = false;
                 }
@@ -100,31 +116,8 @@ namespace WSLIPConf.Models
 
         public static WSLConfig Load()
         {
-            var path = GetConfigFile();
-
             var obj = new WSLConfig();
-
-            if (!File.Exists(path)) return obj;
-
-            var json = File.ReadAllText(path);
-
-            JsonConvert.PopulateObject(json, obj);
-
-            foreach (var rule in obj.Mappings)
-            {
-                if (rule.AutoDestination)
-                {
-                    if ((rule.ProxyType & Helpers.ProxyType.DestV4) == Helpers.ProxyType.DestV4)
-                    {
-                        rule.DestinationAddress = App.Current.WSLAddress;
-                    }
-                    else
-                    {
-                        rule.DestinationAddress = App.Current.WSLV6Address;
-                    }
-                    rule.Changed = false;
-                }
-            }
+            obj.ReadFromDisk();
 
             return obj;
         }

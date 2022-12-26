@@ -37,6 +37,8 @@ namespace WSLIPConf.Views
 
         public static bool? EditRule(WSLMapping rule, bool isnew = false)
         {
+            if (rule == null) return false;
+
             var re = new RuleEdit(rule);
             re.ShowDialog();
 

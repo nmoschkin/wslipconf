@@ -33,6 +33,13 @@ namespace WSLIPConf.Models
 
         private bool changed;
         private ProxyType proxyType = ProxyType.V4ToV4;
+        private string distroName = null;
+        private WSLDistribution distro;
+
+        public WSLMapping()
+        {
+            distro = App.Current.SessionDefault;
+        }
 
         private void ClearAddresses(bool src, bool dest)
         {
@@ -112,6 +119,65 @@ namespace WSLIPConf.Models
             }
         }
 
+        [JsonIgnore]
+        public bool UseDefaultDistro => distroName == null;
+
+        [JsonIgnore]
+        public WSLDistribution DistroInfo => distro;
+
+        [JsonProperty("distro")]
+        public string Distribution
+        {
+            get => distroName;
+            set
+            {
+                if (SetProperty(ref distroName, value))
+                {
+                    TriggerUpdate();
+                }
+            }
+        }
+
+        public void TriggerUpdate()
+        {
+            distro = null;
+
+            if (distroName != null)
+            {
+                distro = WSLDistribution.FindByName(distroName);
+            }
+            else
+            {
+                distro = App.Current.SessionDefault;
+            }
+
+            if (distro == null)
+            {
+                distro = App.Current.SessionDefault;
+                distroName = distro.Name;
+            }
+
+            OnPropertyChanged(nameof(Distribution));
+            OnPropertyChanged(nameof(UseDefaultDistro));
+            OnPropertyChanged(nameof(DistroInfo));
+            OnPropertyChanged(nameof(WorkingDistroName));
+
+            if (AutoDestination)
+            {
+                OnPropertyChanged(nameof(DestinationAddress));
+            }
+        }
+
+        [JsonIgnore]
+        public string WorkingDistroName
+        {
+            get
+            {
+                if (distroName != null) return distroName;
+                return $"{App.Current.SessionDefault.Name} ({AppResources.Default})";
+            }
+        }
+
         [JsonProperty("name")]
         public string Name
         {
@@ -178,11 +244,11 @@ namespace WSLIPConf.Models
                 {
                     if ((proxyType & ProxyType.DestV4) == ProxyType.DestV4)
                     {
-                        return App.Current.WSLAddress;
+                        return distro.GetWslIpAddress();
                     }
                     else
                     {
-                        return App.Current.WSLV6Address;
+                        return distro.GetWslIpV6Address();
                     }
                 }
             }
@@ -231,8 +297,8 @@ namespace WSLIPConf.Models
             if (obj is WSLMapping other)
             {
                 return (srcAddr == other.srcAddr) &&
-                    (srcPort == other.srcPort) && 
-                    ((autoDest == other.autoDest && autoDest == true) || (destAddr == other.destAddr)) && 
+                    (srcPort == other.srcPort) &&
+                    ((autoDest == other.autoDest && autoDest == true) || (destAddr == other.destAddr)) &&
                     (proxyType == other.proxyType) &&
                     (destPort == other.destPort);
             }

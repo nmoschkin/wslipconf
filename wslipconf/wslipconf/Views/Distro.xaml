@@ -1,0 +1,92 @@
+﻿<Window
+    x:Class="WSLIPConf.Views.Distro"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="clr-namespace:WSLIPConf.Converters"
+    xmlns:i18n="clr-namespace:WSLIPConf.Localization"
+    Title="{i18n:Translate ResourceKey=MainTitle}"
+    Width="400"
+    Height="320"
+    Background="{StaticResource MainBackground}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style
+                TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+            </Style>
+
+            <conv:BoolConverter
+                x:Key="visConv"
+                Mode="Visibility" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="16" />
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="*" />
+            <RowDefinition
+                Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="2"
+            FontSize="16"
+            Text="{i18n:Translate ResourceKey=Select_Distribution}" />
+
+        <Grid
+            Grid.Row="3"
+            Margin="16">
+
+            <ListView
+                ItemsSource="{Binding Distributions, Mode=OneWay}"
+                SelectedItem="{Binding SelectedDistribution, Mode=TwoWay}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <Label
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="* "
+                                FontFamily="Segoe UI"
+                                FontSize="14"
+                                Foreground="Red"
+                                Visibility="{Binding IsDefault, Converter={StaticResource visConv}}" />
+                            <Label
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{Binding Name}"
+                                FontFamily="Segoe UI"
+                                FontSize="14" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+        <Button
+            x:Name="OK"
+            Grid.Row="4"
+            Width="100"
+            Margin="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Click="OK_Click"
+            Content="{i18n:Translate ResourceKey=OK}" />
+    </Grid>
+</Window>

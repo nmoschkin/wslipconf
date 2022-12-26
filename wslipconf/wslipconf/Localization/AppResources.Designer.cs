@@ -224,6 +224,24 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Distribution.
+        /// </summary>
+        internal static string Default_Distribution {
+            get {
+                return ResourceManager.GetString("Default_Distribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Selected Rules.
         /// </summary>
         internal static string DeleteRule {
@@ -256,6 +274,24 @@ namespace WSLIPConf.Localization {
         internal static string DestinationPort {
             get {
                 return ResourceManager.GetString("DestinationPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distribution.
+        /// </summary>
+        internal static string Distribution {
+            get {
+                return ResourceManager.GetString("Distribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distributions.
+        /// </summary>
+        internal static string Distributions {
+            get {
+                return ResourceManager.GetString("Distributions", resourceCulture);
             }
         }
         
@@ -337,6 +373,15 @@ namespace WSLIPConf.Localization {
         internal static string ErrorWrongAddress {
             get {
                 return ResourceManager.GetString("ErrorWrongAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to start WSL. Program cannot continue..
+        /// </summary>
+        internal static string Failed_Wsl {
+            get {
+                return ResourceManager.GetString("Failed_Wsl", resourceCulture);
             }
         }
         
@@ -468,6 +513,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print IP.
+        /// </summary>
+        internal static string Print_IP {
+            get {
+                return ResourceManager.GetString("Print_IP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Protocol.
         /// </summary>
         internal static string Protocol {
@@ -576,11 +630,29 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Distribution.
+        /// </summary>
+        internal static string Select_Distribution {
+            get {
+                return ResourceManager.GetString("Select_Distribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Window.
         /// </summary>
         internal static string ShowWindow {
             get {
                 return ResourceManager.GetString("ShowWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Silent Mode.
+        /// </summary>
+        internal static string Silent_Mode {
+            get {
+                return ResourceManager.GetString("Silent_Mode", resourceCulture);
             }
         }
         

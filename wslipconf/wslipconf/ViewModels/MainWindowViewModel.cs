@@ -28,6 +28,7 @@ namespace WSLIPConf.ViewModels
         private List<WSLMapping> selItems = new List<WSLMapping>();
 
         public ICommand ShowAboutCommand { get; private set; }
+
         public ICommand AddRuleCommand { get; private set; }
 
         public ICommand EditRuleCommand { get; private set; }
@@ -45,6 +46,8 @@ namespace WSLIPConf.ViewModels
         public ICommand ApplyRulesCommand { get; private set; }
 
         public ICommand RefreshIPCommand { get; private set; }
+
+        public ICommand SelectDistroCommand { get; private set; }
 
         public WSLMapping SelectedItem
         {
@@ -96,6 +99,23 @@ namespace WSLIPConf.ViewModels
             SelectedItems = oldSel;
         }
 
+        public string DistroName => $"({Distro.Name}):";
+
+        public WSLDistribution Distro
+        {
+            get => App.Current.SessionDefault;
+            set
+            {
+                if (App.Current.SessionDefault != value)
+                {
+                    App.Current.SessionDefault = value;
+                    RefreshIP();
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(DistroName));
+                }
+            }
+        }
+
         public MainWindowViewModel()
         {
             config = WSLConfig.Load();
@@ -103,6 +123,7 @@ namespace WSLIPConf.ViewModels
             addr = App.Current.WSLAddress;
             addr6 = App.Current.WSLV6Address;
 
+            Distro = WSLDistribution.RefreshDistributions();
             GetRulesCommand = new SimpleCommand((o) =>
             {
                 var items = PortProxyTool.GetPortProxies();
@@ -219,6 +240,29 @@ namespace WSLIPConf.ViewModels
                 var aboutBox = new About();
                 aboutBox.ShowDialog();
             });
+
+            SelectDistroCommand = new SimpleCommand((o) =>
+            {
+                Distro = Views.Distro.PickDistribution();
+                if (Distro?.IsDefault ?? true)
+                {
+                    config.PreferredDistribution = null;
+                }
+                else
+                {
+                    config.PreferredDistribution = Distro?.Name;
+                }
+
+                config.SaveToDisk();
+
+                foreach (var item in config.Mappings)
+                {
+                    if (item.UseDefaultDistro)
+                    {
+                        item.TriggerUpdate();
+                    }
+                }
+            });
         }
 
         public WSLConfig Config
@@ -282,7 +326,10 @@ namespace WSLIPConf.ViewModels
 
         public void RefreshIP()
         {
-            WSLAddress = App.Current.WSLAddress = WSLTool.GetWslIpAddress();
+            Distro.Refresh();
+
+            WSLAddress = App.Current.WSLAddress = Distro.GetWslIpAddress();
+            WSLV6Address = App.Current.WSLV6Address = Distro.GetWslIpV6Address();
 
             foreach (var item in config.Mappings)
             {

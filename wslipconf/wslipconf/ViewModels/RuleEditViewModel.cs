@@ -16,49 +16,41 @@ namespace WSLIPConf.ViewModels
 {
     public class ProxySelector
     {
-        public ProxyType ProxyType { get; set; }
-
         public string Description { get; set; }
+        public ProxyType ProxyType { get; set; }
     }
 
     public class RuleEditViewModel : ObservableBase
     {
-        private WSLMapping selItem;
-        private WSLMapping oldItem;
-        private static readonly IReadOnlyList<ProxySelector> selectors;
-        private ProxySelector selproxy;
-
-        private bool suppressValidate;
-        private bool result;
-
-        private bool nameErr;
-        private bool srcPortErr;
-        private bool destPortErr;
-        private bool srcAddrErr;
-        private bool destAddrErr;
-
-        private string nameErrStr;
-        private string srcPortErrStr;
-        private string destPortErrStr;
-        private string srcAddrErrStr;
-        private string destAddrErrStr;
-
-        private string name;
-        private string srcPort;
-        private string destPort;
-        private string srcAddr;
-        private string destAddr;
-
-        private ProxyProtocol prot;
-        private ProxyType prox = ProxyType.V4ToV4;
-
-        private bool autoDest;
-
         public event EventHandler AlertClose;
 
-        public ICommand OKCommand { get; private set; }
+        private static readonly IReadOnlyList<ProxySelector> selectors;
+        private bool autoDest;
+        private string destAddr;
+        private bool destAddrErr;
+        private string destAddrErrStr;
+        private string destPort;
+        private bool destPortErr;
+        private string destPortErrStr;
+        private List<WSLItem> distributions;
+        private WSLItem seldist;
+        private string name;
+        private bool nameErr;
+        private string nameErrStr;
+        private WSLMapping oldItem;
+        private ProxyProtocol prot;
+        private ProxyType prox = ProxyType.V4ToV4;
+        private bool result;
+        private WSLMapping selItem;
+        private ProxySelector selproxy;
 
-        public ICommand CancelCommand { get; private set; }
+        private string srcAddr;
+        private bool srcAddrErr;
+        private string srcAddrErrStr;
+        private string srcPort;
+        private bool srcPortErr;
+        private string srcPortErrStr;
+        private bool suppressValidate;
 
         static RuleEditViewModel()
         {
@@ -92,24 +84,160 @@ namespace WSLIPConf.ViewModels
             selectors = sel.ToArray();
         }
 
-        public static string FormatProxyType(ProxyType proxyType)
+        public RuleEditViewModel(WSLMapping currentItem) : this()
         {
-            switch (proxyType)
+            oldItem = currentItem;
+            selItem = oldItem.Clone();
+
+            AnswersToScreen();
+            selItem.PropertyChanged += SelItem_PropertyChanged;
+        }
+
+        private RuleEditViewModel()
+        {
+            var defname = WSLDistribution.SessionDefault.Name;
+
+            distributions = new List<WSLItem>()
             {
-                case ProxyType.V4ToV4:
-                    return selectors[0].Description;
+                new WSLItem()
+                {
+                    Name = $"{AppResources.Default_Distribution} ({defname})",
+                    Distribution = null
+                }
+            };
 
-                case ProxyType.V6ToV6:
-                    return selectors[1].Description;
-
-                case ProxyType.V4ToV6:
-                    return selectors[2].Description;
-
-                case ProxyType.V6ToV4:
-                    return selectors[3].Description;
+            foreach (var dist in WSLDistribution.Distributions)
+            {
+                distributions.Add(new WSLItem()
+                {
+                    Name = dist.Name,
+                    Distribution = dist
+                });
             }
 
-            return proxyType.ToString();
+            seldist = distributions[0];
+
+            OKCommand = new SimpleCommand((o) =>
+            {
+                if (!Validate())
+                {
+                    MessageBoxEx.Show(AppResources.ErrorCannotSave, AppResources.Error, MessageBoxExType.OK, MessageBoxExIcons.Error);
+                    return;
+                }
+
+                ApplyChanges();
+
+                Result = true;
+                AlertClose?.Invoke(this, new EventArgs());
+            });
+
+            CancelCommand = new SimpleCommand((o) =>
+            {
+                Result = false;
+                AlertClose?.Invoke(this, new EventArgs());
+            });
+        }
+
+        public bool AutoDestination
+        {
+            get => autoDest;
+            set
+            {
+                if (SetProperty(ref autoDest, value))
+                {
+                    Validate();
+                }
+            }
+        }
+
+        public ICommand CancelCommand { get; private set; }
+
+        public string DestinationAddress
+        {
+            get => destAddr;
+            set
+            {
+                if (SetProperty(ref destAddr, value))
+                {
+                    Validate();
+                }
+            }
+        }
+
+        public string DestinationPort
+        {
+            get => destPort;
+            set
+            {
+                if (SetProperty(ref destPort, value))
+                {
+                    Validate();
+                }
+            }
+        }
+
+        public List<WSLItem> Distributions
+        {
+            get => distributions;
+            set
+            {
+                SetProperty(ref distributions, value);
+            }
+        }
+
+        public WSLItem SelectedDistribution
+        {
+            get => seldist;
+            set
+            {
+                if (SetProperty(ref seldist, value))
+                {
+                    Validate();
+                }
+            }
+        }
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (SetProperty(ref name, value))
+                {
+                    Validate();
+                }
+            }
+        }
+
+        public ICommand OKCommand { get; private set; }
+
+        public ProxyProtocol Protocol
+        {
+            get => prot;
+            set
+            {
+                SetProperty(ref prot, value);
+            }
+        }
+
+        public IReadOnlyList<ProxySelector> ProxySelectors => selectors;
+
+        public bool Result
+        {
+            get => result;
+            set
+            {
+                SetProperty(ref result, value);
+            }
+        }
+
+        public WSLMapping SelectedItem
+        {
+            get => selItem;
+            set
+            {
+                SetProperty(ref selItem, value);
+            }
         }
 
         public ProxySelector SelectedProxy
@@ -124,12 +252,12 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-        public string Name
+        public string SourceAddress
         {
-            get => name;
+            get => srcAddr;
             set
             {
-                if (SetProperty(ref name, value))
+                if (SetProperty(ref srcAddr, value))
                 {
                     Validate();
                 }
@@ -153,89 +281,50 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-        public ProxyProtocol Protocol
+        public string WindowTitle
         {
-            get => prot;
-            set
+            get
             {
-                SetProperty(ref prot, value);
+                if (string.IsNullOrEmpty(selItem.Name)) return AppResources.EditRule;
+                return AppResources.EditRule + " - " + (selItem.Changed ? "*" : "") + selItem.Name;
             }
         }
 
-        public string SourceAddress
+        public static string FormatProxyType(ProxyType proxyType)
         {
-            get => srcAddr;
+            switch (proxyType)
+            {
+                case ProxyType.V4ToV4:
+                    return selectors[0].Description;
+
+                case ProxyType.V6ToV6:
+                    return selectors[1].Description;
+
+                case ProxyType.V4ToV6:
+                    return selectors[2].Description;
+
+                case ProxyType.V6ToV4:
+                    return selectors[3].Description;
+            }
+
+            return proxyType.ToString();
+        }
+
+        public bool DestAddrError
+        {
+            get => destAddrErr;
             set
             {
-                if (SetProperty(ref srcAddr, value))
-                {
-                    Validate();
-                }
+                SetProperty(ref destAddrErr, value);
             }
         }
 
-        public string DestinationPort
+        public string DestAddrErrorText
         {
-            get => destPort;
+            get => destAddrErrStr;
             set
             {
-                if (SetProperty(ref destPort, value))
-                {
-                    Validate();
-                }
-            }
-        }
-
-        public string DestinationAddress
-        {
-            get => destAddr;
-            set
-            {
-                if (SetProperty(ref destAddr, value))
-                {
-                    Validate();
-                }
-            }
-        }
-
-        public bool Result
-        {
-            get => result;
-            set
-            {
-                SetProperty(ref result, value);
-            }
-        }
-
-        public bool AutoDestination
-        {
-            get => autoDest;
-            set
-            {
-                if (SetProperty(ref autoDest, value))
-                {
-                    Validate();
-                }
-            }
-        }
-
-        #region Errors
-
-        public bool NameError
-        {
-            get => nameErr;
-            set
-            {
-                SetProperty(ref nameErr, value);
-            }
-        }
-
-        public string NameErrorText
-        {
-            get => nameErrStr;
-            set
-            {
-                SetProperty(ref nameErrStr, value);
+                SetProperty(ref destAddrErrStr, value);
             }
         }
 
@@ -257,39 +346,21 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-        public bool SrcPortError
+        public bool NameError
         {
-            get => srcPortErr;
+            get => nameErr;
             set
             {
-                SetProperty(ref srcPortErr, value);
+                SetProperty(ref nameErr, value);
             }
         }
 
-        public string SrcPortErrorText
+        public string NameErrorText
         {
-            get => srcPortErrStr;
+            get => nameErrStr;
             set
             {
-                SetProperty(ref srcPortErrStr, value);
-            }
-        }
-
-        public bool DestAddrError
-        {
-            get => destAddrErr;
-            set
-            {
-                SetProperty(ref destAddrErr, value);
-            }
-        }
-
-        public string DestAddrErrorText
-        {
-            get => destAddrErrStr;
-            set
-            {
-                SetProperty(ref destAddrErrStr, value);
+                SetProperty(ref nameErrStr, value);
             }
         }
 
@@ -311,6 +382,24 @@ namespace WSLIPConf.ViewModels
             }
         }
 
+        public bool SrcPortError
+        {
+            get => srcPortErr;
+            set
+            {
+                SetProperty(ref srcPortErr, value);
+            }
+        }
+
+        public string SrcPortErrorText
+        {
+            get => srcPortErrStr;
+            set
+            {
+                SetProperty(ref srcPortErrStr, value);
+            }
+        }
+
         private bool Validate()
         {
             if (suppressValidate) return true;
@@ -318,6 +407,8 @@ namespace WSLIPConf.ViewModels
             int ti;
             bool cd = false, cs = false;
             IPAddress ta;
+
+            selItem.Distribution = SelectedDistribution?.Distribution?.Name;
 
             selItem.Protocol = prot;
 
@@ -487,94 +578,11 @@ namespace WSLIPConf.ViewModels
             return !NameError && !SrcPortError && !DestPortError && !SrcAddrError && !DestAddrError;
         }
 
-        #endregion Errors
-
-        private RuleEditViewModel()
-        {
-            OKCommand = new SimpleCommand((o) =>
-            {
-                if (!Validate())
-                {
-                    MessageBoxEx.Show(AppResources.ErrorCannotSave, AppResources.Error, MessageBoxExType.OK, MessageBoxExIcons.Error);
-                    return;
-                }
-
-                ApplyChanges();
-
-                Result = true;
-                AlertClose?.Invoke(this, new EventArgs());
-            });
-
-            CancelCommand = new SimpleCommand((o) =>
-            {
-                Result = false;
-                AlertClose?.Invoke(this, new EventArgs());
-            });
-        }
-
-        public string WindowTitle
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(selItem.Name)) return AppResources.EditRule;
-                return AppResources.EditRule + " - " + (selItem.Changed ? "*" : "") + selItem.Name;
-            }
-        }
-
-        public IReadOnlyList<ProxySelector> ProxySelectors => selectors;
-
-        public RuleEditViewModel(WSLMapping currentItem) : this()
-        {
-            oldItem = currentItem;
-            selItem = oldItem.Clone();
-
-            AnswersToScreen();
-            selItem.PropertyChanged += SelItem_PropertyChanged;
-        }
-
-        private void SelItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(WSLMapping.Name)) OnPropertyChanged(nameof(WindowTitle));
-            if (e.PropertyName == nameof(WSLMapping.Changed)) OnPropertyChanged(nameof(WindowTitle));
-        }
-
-        public WSLMapping SelectedItem
-        {
-            get => selItem;
-            set
-            {
-                SetProperty(ref selItem, value);
-            }
-        }
-
-        private AddressFamily SrcFam(ProxyType t)
-        {
-            if ((t & ProxyType.SourceV6) == ProxyType.SourceV6) return AddressFamily.InterNetworkV6;
-            else return AddressFamily.InterNetwork;
-        }
-
-        private AddressFamily DestFam(ProxyType t)
-        {
-            if ((t & ProxyType.DestV6) == ProxyType.DestV6) return AddressFamily.InterNetworkV6;
-            else return AddressFamily.InterNetwork;
-        }
-
-        public void ApplyChanges()
-        {
-            oldItem.Name = selItem.Name;
-            oldItem.SourceAddress = selItem.SourceAddress;
-            oldItem.SourcePort = selItem.SourcePort;
-            oldItem.DestinationAddress = selItem.DestinationAddress;
-            oldItem.DestinationPort = selItem.DestinationPort;
-            oldItem.AutoDestination = selItem.AutoDestination;
-            oldItem.Protocol = selItem.Protocol;
-            oldItem.ProxyType = selItem.ProxyType;
-            oldItem.Changed = selItem.Changed = false;
-        }
-
         public void AnswersToScreen()
         {
             suppressValidate = true;
+
+            SelectedDistribution = distributions?.FirstOrDefault(x => x.Name == selItem.Distribution) ?? seldist;
 
             Name = selItem.Name;
             SourceAddress = selItem.SourceAddress?.ToString();
@@ -590,5 +598,44 @@ namespace WSLIPConf.ViewModels
 
             Validate();
         }
+
+        public void ApplyChanges()
+        {
+            oldItem.Name = selItem.Name;
+            oldItem.SourceAddress = selItem.SourceAddress;
+            oldItem.SourcePort = selItem.SourcePort;
+            oldItem.DestinationAddress = selItem.DestinationAddress;
+            oldItem.DestinationPort = selItem.DestinationPort;
+            oldItem.AutoDestination = selItem.AutoDestination;
+            oldItem.Protocol = selItem.Protocol;
+            oldItem.ProxyType = selItem.ProxyType;
+            oldItem.Changed = selItem.Changed = false;
+            oldItem.Distribution = selItem.Distribution;
+        }
+
+        private AddressFamily DestFam(ProxyType t)
+        {
+            if ((t & ProxyType.DestV6) == ProxyType.DestV6) return AddressFamily.InterNetworkV6;
+            else return AddressFamily.InterNetwork;
+        }
+
+        private void SelItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(WSLMapping.Name)) OnPropertyChanged(nameof(WindowTitle));
+            if (e.PropertyName == nameof(WSLMapping.Changed)) OnPropertyChanged(nameof(WindowTitle));
+        }
+
+        private AddressFamily SrcFam(ProxyType t)
+        {
+            if ((t & ProxyType.SourceV6) == ProxyType.SourceV6) return AddressFamily.InterNetworkV6;
+            else return AddressFamily.InterNetwork;
+        }
+    }
+
+    public class WSLItem
+    {
+        public WSLDistribution Distribution { get; set; }
+
+        public string Name { get; set; }
     }
 }

@@ -172,6 +172,12 @@ Unsaved changes will be discarded.</value>
   <data name="CopyIPV6Address" xml:space="preserve">
     <value>Copy IPv6 Address</value>
   </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Default_Distribution" xml:space="preserve">
+    <value>Default Distribution</value>
+  </data>
   <data name="DeleteRule" xml:space="preserve">
     <value>Delete Selected Rules</value>
   </data>
@@ -183,6 +189,12 @@ Unsaved changes will be discarded.</value>
   </data>
   <data name="DestinationPort" xml:space="preserve">
     <value>Destination Port</value>
+  </data>
+  <data name="Distribution" xml:space="preserve">
+    <value>Distribution</value>
+  </data>
+  <data name="Distributions" xml:space="preserve">
+    <value>Distributions</value>
   </data>
   <data name="EditRule" xml:space="preserve">
     <value>Edit Rule</value>
@@ -210,6 +222,9 @@ Unsaved changes will be discarded.</value>
   </data>
   <data name="ErrorWrongAddress" xml:space="preserve">
     <value>This is the wrong kind of IP address for the selected address family.</value>
+  </data>
+  <data name="Failed_Wsl" xml:space="preserve">
+    <value>Failed to start WSL. Program cannot continue.</value>
   </data>
   <data name="GetCurrentRules" xml:space="preserve">
     <value>Get Current Rules</value>
@@ -254,6 +269,9 @@ Unsaved changes will be discarded.</value>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Print_IP" xml:space="preserve">
+    <value>Print IP</value>
+  </data>
   <data name="Protocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
@@ -290,8 +308,14 @@ Unsaved changes will be discarded.</value>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="Select_Distribution" xml:space="preserve">
+    <value>Select Distribution</value>
+  </data>
   <data name="ShowWindow" xml:space="preserve">
     <value>Show Window</value>
+  </data>
+  <data name="Silent_Mode" xml:space="preserve">
+    <value>Silent Mode</value>
   </data>
   <data name="SourceAddress" xml:space="preserve">
     <value>Source Address</value>
