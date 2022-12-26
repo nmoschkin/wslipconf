@@ -25,7 +25,7 @@ namespace WSLIPConf.ViewModels
     {
         private WSLMapping selItem;
         private WSLMapping oldItem;
-        private List<ProxySelector> selectors = new List<ProxySelector>();
+        private static readonly IReadOnlyList<ProxySelector> selectors;
         private ProxySelector selproxy;
 
         private bool suppressValidate;
@@ -59,6 +59,58 @@ namespace WSLIPConf.ViewModels
         public ICommand OKCommand { get; private set; }
 
         public ICommand CancelCommand { get; private set; }
+
+        static RuleEditViewModel()
+        {
+            var sel = new List<ProxySelector>
+            {
+                new ProxySelector()
+                {
+                    Description = string.Format(AppResources.X_To_X, "IPv4", "IPv4"),
+                    ProxyType = ProxyType.V4ToV4,
+                },
+
+                new ProxySelector()
+                {
+                    Description = string.Format(AppResources.X_To_X, "IPv6", "IPv6"),
+                    ProxyType = ProxyType.V6ToV6,
+                },
+
+                new ProxySelector()
+                {
+                    Description = string.Format(AppResources.X_To_X, "IPv4", "IPv6"),
+                    ProxyType = ProxyType.V4ToV6,
+                },
+
+                new ProxySelector()
+                {
+                    Description = string.Format(AppResources.X_To_X, "IPv6", "IPv4"),
+                    ProxyType = ProxyType.V6ToV4,
+                }
+            };
+
+            selectors = sel.ToArray();
+        }
+
+        public static string FormatProxyType(ProxyType proxyType)
+        {
+            switch (proxyType)
+            {
+                case ProxyType.V4ToV4:
+                    return selectors[0].Description;
+
+                case ProxyType.V6ToV6:
+                    return selectors[1].Description;
+
+                case ProxyType.V4ToV6:
+                    return selectors[2].Description;
+
+                case ProxyType.V6ToV4:
+                    return selectors[3].Description;
+            }
+
+            return proxyType.ToString();
+        }
 
         public ProxySelector SelectedProxy
         {
@@ -162,10 +214,7 @@ namespace WSLIPConf.ViewModels
             {
                 if (SetProperty(ref autoDest, value))
                 {
-                    if (autoDest)
-                    {
-                        DestinationAddress = App.Current.WSLAddress.ToString();
-                    }
+                    Validate();
                 }
             }
         }
@@ -472,34 +521,10 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-        public List<ProxySelector> ProxySelectors => selectors;
+        public IReadOnlyList<ProxySelector> ProxySelectors => selectors;
 
         public RuleEditViewModel(WSLMapping currentItem) : this()
         {
-            selectors.Add(new ProxySelector()
-            {
-                Description = string.Format(AppResources.Mode_X_To_X, "V4", "V4"),
-                ProxyType = ProxyType.V4ToV4,
-            });
-
-            selectors.Add(new ProxySelector()
-            {
-                Description = string.Format(AppResources.Mode_X_To_X, "V6", "V6"),
-                ProxyType = ProxyType.V6ToV6,
-            });
-
-            selectors.Add(new ProxySelector()
-            {
-                Description = string.Format(AppResources.Mode_X_To_X, "V4", "V6"),
-                ProxyType = ProxyType.V4ToV6,
-            });
-
-            selectors.Add(new ProxySelector()
-            {
-                Description = string.Format(AppResources.Mode_X_To_X, "V6", "V4"),
-                ProxyType = ProxyType.V6ToV4,
-            });
-
             oldItem = currentItem;
             selItem = oldItem.Clone();
 

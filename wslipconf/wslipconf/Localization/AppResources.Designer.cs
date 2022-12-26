@@ -124,6 +124,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto IP.
+        /// </summary>
+        internal static string AutoIP {
+            get {
+                return ResourceManager.GetString("AutoIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto IP: {0}.
         /// </summary>
         internal static string AutoIPX {
@@ -160,6 +169,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click To Copy To Clipboard.
+        /// </summary>
+        internal static string Click_To_Copy {
+            get {
+                return ResourceManager.GetString("Click_To_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to clear all rules?.
         /// </summary>
         internal static string ConfirmClearRules {
@@ -188,11 +206,20 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy IP Address.
+        ///   Looks up a localized string similar to Copy IPv4 Address.
         /// </summary>
         internal static string CopyIPAddress {
             get {
                 return ResourceManager.GetString("CopyIPAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy IPv6 Address.
+        /// </summary>
+        internal static string CopyIPV6Address {
+            get {
+                return ResourceManager.GetString("CopyIPV6Address", resourceCulture);
             }
         }
         
@@ -332,7 +359,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP Address Copied!.
+        ///   Looks up a localized string similar to IPv4 Address Copied!.
         /// </summary>
         internal static string IPAddressCopied {
             get {
@@ -355,6 +382,15 @@ namespace WSLIPConf.Localization {
         internal static string IPv6 {
             get {
                 return ResourceManager.GetString("IPv6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IPv6 Address Copied!.
+        /// </summary>
+        internal static string IPV6AddressCopied {
+            get {
+                return ResourceManager.GetString("IPV6AddressCopied", resourceCulture);
             }
         }
         
@@ -618,6 +654,15 @@ namespace WSLIPConf.Localization {
         internal static string WSLV6Address {
             get {
                 return ResourceManager.GetString("WSLV6Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} To {1}.
+        /// </summary>
+        internal static string X_To_X {
+            get {
+                return ResourceManager.GetString("X_To_X", resourceCulture);
             }
         }
         

@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 using WSLIPConf.Helpers;
-using WSLIPConf.Views;
 
 namespace WSLIPConf
 {
     public static class Program
     {
-        static App app;
+        private static App app;
 
         [STAThread]
         public static void Main(string[] args)
@@ -30,7 +26,7 @@ namespace WSLIPConf
                 }
                 else if (st == "/printip")
                 {
-                    File.WriteAllText("_wsl.ip.txt", WSLTool.GetWslIpAddress().ToString());
+                    File.WriteAllText("_wsl.ip.txt", $"{WSLTool.GetWslIpAddress()}\r\n{WSLTool.GetWslIpV6Address()}");
                     Environment.Exit(0);
                 }
             }

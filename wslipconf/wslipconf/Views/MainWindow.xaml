@@ -15,24 +15,49 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <conv:AutoDestConverter x:Key="destConv" />
-            <conv:BoolConverter x:Key="boolConv" Mode="InverseBool" />
-            <conv:EnabledConverter x:Key="editConv" />
-            <conv:EnabledConverter x:Key="delConv" Multiple="True" />
+            <conv:ProxyTypeFormatConverter
+                x:Key="proxyConv" />
+            <conv:V6ColorConverter
+                x:Key="v6conv" />
+            <conv:AutoDestConverter
+                x:Key="destConv" />
+            <conv:BoolConverter
+                x:Key="boolConv"
+                Mode="InverseBool" />
+            <conv:EnabledConverter
+                x:Key="editConv" />
+            <conv:EnabledConverter
+                x:Key="delConv"
+                Multiple="True" />
 
-            <conv:BoolConverter x:Key="visConv" Mode="Visibility" />
-            <conv:BoolConverter x:Key="ivisConv" Mode="InverseVisibility" />
+            <conv:BoolConverter
+                x:Key="visConv"
+                Mode="Visibility" />
+
+            <conv:BoolConverter
+                x:Key="weightConv"
+                FalseObject="{x:Static FontWeights.Normal}"
+                Mode="Object"
+                TrueObject="{x:Static FontWeights.Bold}" />
+
+            <conv:BoolConverter
+                x:Key="ivisConv"
+                Mode="InverseVisibility" />
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -53,16 +78,22 @@
             Foreground="Blue"
             TextDecorations="Underline">
 
-            <Hyperlink Background="Transparent" Command="{Binding ShowAboutCommand}">
-                <Run Text="{i18n:Translate ResourceKey=AboutLong}" />
+            <Hyperlink
+                Background="Transparent"
+                Command="{Binding ShowAboutCommand}">
+                <Run
+                    Text="{i18n:Translate ResourceKey=AboutLong}" />
             </Hyperlink>
         </TextBlock>
 
-        <Grid Grid.Row="1" Margin="8,0">
+        <Grid
+            Grid.Row="1"
+            Margin="8,0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <ListView
@@ -73,6 +104,14 @@
                 ItemsSource="{Binding Config.Mappings}"
                 MouseDoubleClick="BindList_MouseDoubleClick"
                 SelectedItem="{Binding SelectedItem}">
+                <ListView.ItemContainerStyle>
+                    <Style
+                        TargetType="ListViewItem">
+                        <Setter Property="Height" Value="64" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Setter Property="FontSize" Value="14" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn
@@ -84,33 +123,46 @@
                             Width="100"
                             DisplayMemberBinding="{Binding SourceAddress}"
                             Header="{i18n:Translate ResourceKey=SourceAddress}" />
+
                         <GridViewColumn
                             Width="70"
                             DisplayMemberBinding="{Binding SourcePort}"
                             Header="{i18n:Translate ResourceKey=SourcePort}" />
 
-                        <GridViewColumn Width="150" Header="{i18n:Translate ResourceKey=DestinationAddress}">
-                            <GridViewColumn.DisplayMemberBinding>
-                                <MultiBinding Converter="{StaticResource destConv}">
-                                    <Binding Path="DestinationAddress" />
-                                    <Binding Path="AutoDestination" />
-                                    <Binding Path="ProxyType" />
-                                </MultiBinding>
-                            </GridViewColumn.DisplayMemberBinding>
+                        <GridViewColumn
+                            Width="170"
+                            Header="{i18n:Translate ResourceKey=DestinationAddress}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        Orientation="Vertical">
+                                        <Label
+                                            Content="{i18n:Translate ResourceKey=AutoIP,
+                                                                     AddColon=True}"
+                                            FontWeight="Bold"
+                                            Visibility="{Binding AutoDestionation, Converter={StaticResource visConv}}" />
+                                        <Label
+                                            Content="{Binding DestinationAddress}"
+                                            FontWeight="{Binding AutoDestination, Converter={StaticResource weightConv}}"
+                                            Foreground="{Binding Converter={StaticResource v6conv}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+
                         <GridViewColumn
                             Width="70"
                             DisplayMemberBinding="{Binding DestinationPort}"
                             Header="{i18n:Translate ResourceKey=DestinationPort}" />
 
                         <GridViewColumn
-                            Width="50"
+                            Width="60"
                             DisplayMemberBinding="{Binding Protocol}"
                             Header="{i18n:Translate ResourceKey=Protocol}" />
 
                         <GridViewColumn
-                            Width="60"
-                            DisplayMemberBinding="{Binding ProxyType}"
+                            Width="80"
+                            DisplayMemberBinding="{Binding ProxyType, Converter={StaticResource proxyConv}}"
                             Header="{i18n:Translate ResourceKey=ProxyType}" />
                     </GridView>
                 </ListView.View>
@@ -122,27 +174,43 @@
                 VerticalAlignment="Center"
                 Orientation="Vertical">
 
-                <Button Command="{Binding AddRuleCommand}" Content="{i18n:Translate ResourceKey=AddRule}" />
-                <Button Command="{Binding EditRuleCommand}" Content="{i18n:Translate ResourceKey=EditRule}">
+                <Button
+                    Command="{Binding AddRuleCommand}"
+                    Content="{i18n:Translate ResourceKey=AddRule}" />
+                <Button
+                    Command="{Binding EditRuleCommand}"
+                    Content="{i18n:Translate ResourceKey=EditRule}">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource editConv}">
-                            <Binding Path="SelectedItems.Count" />
+                        <MultiBinding
+                            Converter="{StaticResource editConv}">
+                            <Binding
+                                Path="SelectedItems.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <Button Command="{Binding GetRulesCommand}" Content="{i18n:Translate ResourceKey=GetCurrentRules}" />
-                <Button Command="{Binding RemoveSelectedRulesCommand}" Content="{i18n:Translate ResourceKey=DeleteRule}">
+                <Button
+                    Command="{Binding GetRulesCommand}"
+                    Content="{i18n:Translate ResourceKey=GetCurrentRules}" />
+                <Button
+                    Command="{Binding RemoveSelectedRulesCommand}"
+                    Content="{i18n:Translate ResourceKey=DeleteRule}">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource delConv}">
-                            <Binding Path="SelectedItems.Count" />
+                        <MultiBinding
+                            Converter="{StaticResource delConv}">
+                            <Binding
+                                Path="SelectedItems.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
 
-                <Button Command="{Binding ClearRulesCommand}" Content="{i18n:Translate ResourceKey=ClearRules}">
+                <Button
+                    Command="{Binding ClearRulesCommand}"
+                    Content="{i18n:Translate ResourceKey=ClearRules}">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource delConv}">
-                            <Binding Path="Config.Mappings.Count" />
+                        <MultiBinding
+                            Converter="{StaticResource delConv}">
+                            <Binding
+                                Path="Config.Mappings.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -152,18 +220,23 @@
                     CommandParameter="True"
                     Content="{i18n:Translate ResourceKey=ApplyRules}">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource delConv}">
-                            <Binding Path="Config.Mappings.Count" />
+                        <MultiBinding
+                            Converter="{StaticResource delConv}">
+                            <Binding
+                                Path="Config.Mappings.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="3" Margin="8,8,8,16">
+        <Grid
+            Grid.Row="3"
+            Margin="8,8,8,16">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -181,7 +254,9 @@
                 Margin="8"
                 Orientation="Vertical">
 
-                <StackPanel Margin="0,4" Orientation="Horizontal">
+                <StackPanel
+                    Margin="0,4"
+                    Orientation="Horizontal">
 
                     <TextBlock
                         Margin="0,0,8,0"
@@ -194,10 +269,14 @@
                         x:Name="IPAddress"
                         Grid.Row="0"
                         Grid.Column="0"
+                        Cursor="Hand"
                         FontFamily="Bold"
                         FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="ForestGreen"
                         MouseDown="IPAddress_MouseDown"
-                        Text="{Binding WSLAddress}" />
+                        Text="{Binding WSLAddress}"
+                        ToolTip="{i18n:Translate ResourceKey=Click_To_Copy}" />
                 </StackPanel>
 
                 <TextBlock
@@ -222,10 +301,14 @@
                         x:Name="IPV6Address"
                         Grid.Row="0"
                         Grid.Column="0"
+                        Cursor="Hand"
                         FontFamily="Bold"
                         FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="Blue"
                         MouseDown="IPAddress_MouseDown"
-                        Text="{Binding WSLV6Address}" />
+                        Text="{Binding WSLV6Address}"
+                        ToolTip="{i18n:Translate ResourceKey=Click_To_Copy}" />
                 </StackPanel>
             </StackPanel>
 

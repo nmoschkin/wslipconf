@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace WSLIPConf.Converters
 {
-
     public enum BoolConverterModes
     {
         Detect,
@@ -19,7 +16,8 @@ namespace WSLIPConf.Converters
         Number,
         InverseNumber,
         Visibility,
-        InverseVisibility
+        InverseVisibility,
+        Object
     }
 
     public class BoolConverter : IValueConverter
@@ -28,11 +26,24 @@ namespace WSLIPConf.Converters
 
         public Visibility HiddenVisibility { get; set; } = Visibility.Collapsed;
 
+        public object TrueObject { get; set; }
+
+        public object FalseObject { get; set; }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
             switch (Mode)
             {
+                case BoolConverterModes.Object:
+                    if (value is bool bo)
+                    {
+                        if (bo) return TrueObject;
+                        else return FalseObject;
+                    }
+                    else
+                    {
+                        throw new InvalidCastException();
+                    }
                 case BoolConverterModes.InverseBool:
                     if (value is bool b) return !b;
                     else throw new InvalidCastException();
@@ -81,16 +92,13 @@ namespace WSLIPConf.Converters
 
                 default:
                     return false;
-
             }
 
             return false;
-
         }
 
         private bool NumDetect(object value)
         {
-
             if (value is decimal de)
             {
                 return de != 0;

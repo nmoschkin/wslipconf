@@ -1,27 +1,13 @@
 ﻿using System;
-
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-using System.Windows.Forms;
-
-using WSLIPConf.Helpers;
 using WSLIPConf.Localization;
-using WSLIPConf.Models;
 using WSLIPConf.ViewModels;
 
 namespace WSLIPConf.Views
@@ -31,21 +17,21 @@ namespace WSLIPConf.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowViewModel vm;
-        bool init = false;
+        private MainWindowViewModel vm;
+        private bool init = false;
 
-        double x, y;
+        private double x, y;
 
         public NotifyIcon IconArea { get; private set; }
-        ToolStripMenuItem appMenu;
-        WindowInteropHelper wh;
+        private ToolStripMenuItem appMenu;
+        private WindowInteropHelper wh;
 
         public MainWindow()
         {
             InitializeComponent();
             wh = new WindowInteropHelper(this);
             wh.EnsureHandle();
-            
+
             x = Width;
             y = Height;
 
@@ -96,7 +82,7 @@ namespace WSLIPConf.Views
             };
 
             mnu.Click += Mnu_Click;
-            
+
             cm.Items.Add(mnu);
             cm.Items.Add(new ToolStripSeparator());
 
@@ -108,6 +94,17 @@ namespace WSLIPConf.Views
             mnu.Click += Mnu_Click;
 
             cm.Items.Add(mnu);
+
+            mnu = new ToolStripMenuItem()
+            {
+                Text = AppResources.CopyIPV6Address
+            };
+
+            mnu.Enabled = App.Current.WSLV6Address != null;
+            mnu.Click += Mnu_Click;
+
+            cm.Items.Add(mnu);
+
             cm.Items.Add(new ToolStripSeparator());
 
             mnu = new ToolStripMenuItem()
@@ -169,6 +166,10 @@ namespace WSLIPConf.Views
                 {
                     CopyIP();
                 }
+                else if (item.Text == AppResources.CopyIPV6Address)
+                {
+                    CopyIP(v6: true);
+                }
                 else if (item.Text == AppResources.AutoApply)
                 {
                     App.Current.Settings.AutoApply = item.Checked;
@@ -218,10 +219,8 @@ namespace WSLIPConf.Views
             }
         }
 
-
         private void IconArea_BalloonTipClicked(object sender, EventArgs e)
         {
-
             RestoreWindow();
         }
 
@@ -249,11 +248,18 @@ namespace WSLIPConf.Views
             }
         }
 
-        private void CopyIP(bool suppressAlert = false)
+        private void CopyIP(bool suppressAlert = false, bool v6 = false)
         {
-            System.Windows.Forms.Clipboard.SetText(App.Current.WSLAddress.ToString());
-            if (!suppressAlert) IconArea.ShowBalloonTip(0, AppResources.MainTitle, AppResources.IPAddressCopied, ToolTipIcon.Info);
-
+            if (v6)
+            {
+                System.Windows.Forms.Clipboard.SetText(App.Current.WSLV6Address.ToString());
+                if (!suppressAlert) IconArea.ShowBalloonTip(0, AppResources.MainTitle, AppResources.IPV6AddressCopied, ToolTipIcon.Info);
+            }
+            else
+            {
+                System.Windows.Forms.Clipboard.SetText(App.Current.WSLAddress.ToString());
+                if (!suppressAlert) IconArea.ShowBalloonTip(0, AppResources.MainTitle, AppResources.IPAddressCopied, ToolTipIcon.Info);
+            }
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -277,10 +283,12 @@ namespace WSLIPConf.Views
                 });
             });
         }
+
         private void BindList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             vm.EditRuleCommand.Execute(null);
         }
+
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
             if (!init) return;
@@ -299,7 +307,14 @@ namespace WSLIPConf.Views
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                CopyIP();   
+                if (sender == IPAddress)
+                {
+                    CopyIP();
+                }
+                else if (sender == IPV6Address)
+                {
+                    CopyIP(v6: true);
+                }
             }
         }
 
