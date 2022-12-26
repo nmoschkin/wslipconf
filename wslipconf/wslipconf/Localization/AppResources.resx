@@ -236,6 +236,9 @@ Unsaved changes will be discarded.</value>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="No_V6_Detected" xml:space="preserve">
+    <value>No IPv6 Address Detected</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -294,10 +297,13 @@ Unsaved changes will be discarded.</value>
     <value>Udp</value>
   </data>
   <data name="WSLAddress" xml:space="preserve">
-    <value>Detected WSL IP Address</value>
+    <value>WSL IPv4 Address</value>
   </data>
   <data name="wslip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wslip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WSLV6Address" xml:space="preserve">
+    <value>WSL IPv6 Address</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>

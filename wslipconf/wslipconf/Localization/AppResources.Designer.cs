@@ -414,6 +414,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No IPv6 Address Detected.
+        /// </summary>
+        internal static string No_V6_Detected {
+            get {
+                return ResourceManager.GetString("No_V6_Detected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string OK {
@@ -585,7 +594,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detected WSL IP Address.
+        ///   Looks up a localized string similar to WSL IPv4 Address.
         /// </summary>
         internal static string WSLAddress {
             get {
@@ -600,6 +609,15 @@ namespace WSLIPConf.Localization {
             get {
                 object obj = ResourceManager.GetObject("wslip", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WSL IPv6 Address.
+        /// </summary>
+        internal static string WSLV6Address {
+            get {
+                return ResourceManager.GetString("WSLV6Address", resourceCulture);
             }
         }
         

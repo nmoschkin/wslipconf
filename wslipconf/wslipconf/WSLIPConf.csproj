@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
@@ -15,11 +15,11 @@
 		<Company>Nathaniel Moschkin</Company>
 		<Product>WSL IP Config Tool</Product>
 		<Description>WSL IP Config Tool</Description>
-		<Copyright>Copyright (C) 2022 Nathaniel Moschkin</Copyright>
+		<Copyright>Copyright (C) 2022-2023 Nathaniel Moschkin</Copyright>		
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Platforms>AnyCPU;x64</Platforms>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.0</FileVersion>
+		<AssemblyVersion>1.2.0.0</AssemblyVersion>
+		<FileVersion>1.2.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

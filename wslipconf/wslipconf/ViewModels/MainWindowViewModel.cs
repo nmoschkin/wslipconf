@@ -1,24 +1,24 @@
-﻿using System;
+﻿using DataTools.MessageBoxEx;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 using WSLIPConf.Helpers;
+using WSLIPConf.Localization;
 using WSLIPConf.Models;
 using WSLIPConf.Views;
-using DataTools.MessageBoxEx;
-using WSLIPConf.Localization;
 
 namespace WSLIPConf.ViewModels
 {
     public class MainWindowViewModel : ObservableBase
     {
-
         private IPAddress addr;
+        private IPAddress addr6;
         private bool runOnStartup;
 
         private WSLMapping selItem;
@@ -27,7 +27,7 @@ namespace WSLIPConf.ViewModels
 
         private List<WSLMapping> selItems = new List<WSLMapping>();
 
-        public ICommand ShowAboutCommand { get; private set; }  
+        public ICommand ShowAboutCommand { get; private set; }
         public ICommand AddRuleCommand { get; private set; }
 
         public ICommand EditRuleCommand { get; private set; }
@@ -54,7 +54,6 @@ namespace WSLIPConf.ViewModels
                 SetProperty(ref selItem, value);
             }
         }
-
 
         public bool Changed
         {
@@ -95,7 +94,6 @@ namespace WSLIPConf.ViewModels
             }
 
             SelectedItems = oldSel;
-
         }
 
         public MainWindowViewModel()
@@ -103,6 +101,7 @@ namespace WSLIPConf.ViewModels
             config = WSLConfig.Load();
             runOnStartup = TaskTool.GetIsEnabled();
             addr = App.Current.WSLAddress;
+            addr6 = App.Current.WSLV6Address;
 
             GetRulesCommand = new SimpleCommand((o) =>
             {
@@ -111,7 +110,7 @@ namespace WSLIPConf.ViewModels
                 foreach (var i in items)
                 {
                     bool b = false;
-            
+
                     foreach (var curm in config.Mappings)
                     {
                         if (curm.Equals(i))
@@ -131,7 +130,6 @@ namespace WSLIPConf.ViewModels
 
             AddRuleCommand = new SimpleCommand((o) =>
             {
-
                 var rule = RuleEdit.NewRule(addr);
 
                 if (rule != null)
@@ -139,7 +137,6 @@ namespace WSLIPConf.ViewModels
                     Config.Mappings.Add(rule);
                     Changed = true;
                 }
-
             });
 
             EditRuleCommand = new SimpleCommand((o) =>
@@ -192,7 +189,6 @@ namespace WSLIPConf.ViewModels
 
                     Changed = true;
                 }
-
             });
 
             ApplyRulesCommand = new SimpleCommand((o) =>
@@ -223,7 +219,6 @@ namespace WSLIPConf.ViewModels
                 var aboutBox = new About();
                 aboutBox.ShowDialog();
             });
-
         }
 
         public WSLConfig Config
@@ -271,6 +266,20 @@ namespace WSLIPConf.ViewModels
             }
         }
 
+        public bool HasV6Address => addr6 != null && addr6.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6;
+
+        public IPAddress WSLV6Address
+        {
+            get => addr6;
+            set
+            {
+                if (SetProperty(ref addr6, value))
+                {
+                    OnPropertyChanged(nameof(HasV6Address));
+                }
+            }
+        }
+
         public void RefreshIP()
         {
             WSLAddress = App.Current.WSLAddress = WSLTool.GetWslIpAddress();
@@ -280,6 +289,5 @@ namespace WSLIPConf.ViewModels
                 item.OnPropertyChanged(nameof(WSLMapping.DestinationAddress));
             }
         }
-
     }
 }

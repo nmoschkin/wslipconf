@@ -264,18 +264,58 @@ namespace WSLIPConf.ViewModels
         private bool Validate()
         {
             int ti;
+            bool cd = false, cs = false;
             IPAddress ta;
 
             selItem.Protocol = prot;
 
             var np = selproxy?.ProxyType ?? ProxyType.V4ToV4;
+            if (np == 0) np = ProxyType.V4ToV4;
 
             if (selItem.ProxyType != np)
             {
                 selItem.ProxyType = np;
-                destAddr = selItem.DestinationAddress?.ToString();
-                srcAddr = selItem.SourceAddress?.ToString();
+                srcAddr = selItem?.SourceAddress?.ToString();
+                destAddr = selItem?.DestinationAddress?.ToString();
+
+                cd = cs = true;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
+
+            if (AutoDestination)
+            {
+                if ((selItem.ProxyType & ProxyType.DestV6) != 0 &&
+                    selItem.DestinationAddress.ToString() != App.Current.WSLV6Address.ToString()
+                    )
+                {
+                    selItem.DestinationAddress = App.Current.WSLV6Address;
+                    destAddr = selItem?.DestinationAddress?.ToString();
+                    cd = true;
+                }
+                else if ((selItem.ProxyType & ProxyType.DestV4) != 0 &&
+                    selItem.DestinationAddress.ToString() != App.Current.WSLAddress.ToString()
+                    )
+                {
+                    selItem.DestinationAddress = App.Current.WSLAddress;
+                    destAddr = selItem?.DestinationAddress?.ToString();
+                    cd = true;
+                }
+
+                if (selItem.DestinationPort != selItem.SourcePort)
+                {
+                    selItem.DestinationPort = selItem.SourcePort;
+                    destPort = selItem.DestinationPort.ToString();
+                    OnPropertyChanged(nameof(DestinationPort));
+                }
+            }
+
+            if (cd)
+            {
                 OnPropertyChanged(nameof(DestinationAddress));
+            }
+
+            if (cs)
+            {
                 OnPropertyChanged(nameof(SourceAddress));
             }
 

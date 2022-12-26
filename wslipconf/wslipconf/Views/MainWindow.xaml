@@ -19,6 +19,9 @@
             <conv:BoolConverter x:Key="boolConv" Mode="InverseBool" />
             <conv:EnabledConverter x:Key="editConv" />
             <conv:EnabledConverter x:Key="delConv" Multiple="True" />
+
+            <conv:BoolConverter x:Key="visConv" Mode="Visibility" />
+            <conv:BoolConverter x:Key="ivisConv" Mode="InverseVisibility" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -91,6 +94,7 @@
                                 <MultiBinding Converter="{StaticResource destConv}">
                                     <Binding Path="DestinationAddress" />
                                     <Binding Path="AutoDestination" />
+                                    <Binding Path="ProxyType" />
                                 </MultiBinding>
                             </GridViewColumn.DisplayMemberBinding>
                         </GridViewColumn>
@@ -156,7 +160,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="3" Margin="8">
+        <Grid Grid.Row="3" Margin="8,8,8,16">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -166,41 +170,73 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <StackPanel
                 Grid.Row="0"
+                Grid.RowSpan="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Margin="8"
                 Orientation="Vertical">
 
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontFamily="Bold"
-                    FontSize="14"
-                    Text="{i18n:Translate ResourceKey=WSLAddress,
-                                          AddColon=True}" />
+                <StackPanel Margin="0,4" Orientation="Horizontal">
+
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        FontFamily="Bold"
+                        FontSize="14"
+                        Text="{i18n:Translate ResourceKey=WSLAddress,
+                                              AddColon=True}" />
+
+                    <TextBlock
+                        x:Name="IPAddress"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontFamily="Bold"
+                        FontSize="14"
+                        MouseDown="IPAddress_MouseDown"
+                        Text="{Binding WSLAddress}" />
+                </StackPanel>
 
                 <TextBlock
-                    x:Name="IPAddress"
-                    Grid.Row="0"
-                    Grid.Column="0"
                     FontFamily="Bold"
                     FontSize="14"
-                    MouseDown="IPAddress_MouseDown"
-                    Text="{Binding WSLAddress}" />
+                    Text="{i18n:Translate ResourceKey=No_V6_Detected,
+                                          AddColon=True}"
+                    Visibility="{Binding HasV6Address, Converter={StaticResource ivisConv}}" />
+
+                <StackPanel
+                    Margin="0,4"
+                    Orientation="Horizontal"
+                    Visibility="{Binding HasV6Address, Converter={StaticResource visConv}}">
+
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        FontFamily="Bold"
+                        FontSize="14"
+                        Text="{i18n:Translate ResourceKey=WSLV6Address,
+                                              AddColon=True}" />
+                    <TextBlock
+                        x:Name="IPV6Address"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontFamily="Bold"
+                        FontSize="14"
+                        MouseDown="IPAddress_MouseDown"
+                        Text="{Binding WSLV6Address}" />
+                </StackPanel>
             </StackPanel>
 
             <CheckBox
-                Grid.Row="1"
+                Grid.Row="2"
                 Content="{i18n:Translate ResourceKey=RunOnStartup}"
                 FontSize="16"
                 IsChecked="{Binding RunOnStartup}" />
 
             <StackPanel
-                Grid.RowSpan="2"
+                Grid.RowSpan="3"
                 Grid.Column="1"
                 Margin="0"
                 HorizontalAlignment="Right"

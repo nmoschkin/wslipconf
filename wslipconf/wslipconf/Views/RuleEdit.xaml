@@ -101,7 +101,8 @@
             Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="1"
-            Margin="8"
+            Margin="8,8,8,8"
+            IsEnabled="{Binding AutoDestination, Converter={StaticResource boolConv}}"
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=DestinationAddress, AddColon=True}" />
@@ -117,7 +118,6 @@
             Grid.Column="1"
             Grid.ColumnSpan="1"
             Margin="8"
-            IsEnabled="{Binding AutoDestination, Converter={StaticResource boolConv}}"
             Orientation="Vertical">
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=SourcePort, AddColon=True}" />
             <TextBox Margin="0,4" Text="{Binding SourcePort, Mode=TwoWay}" />
@@ -132,6 +132,7 @@
             Grid.Column="1"
             Grid.ColumnSpan="1"
             Margin="8"
+            IsEnabled="{Binding AutoDestination, Converter={StaticResource boolConv}}"
             Orientation="Vertical">
 
             <TextBlock Margin="0,4" Text="{i18n:Translate ResourceKey=DestinationPort, AddColon=True}" />
