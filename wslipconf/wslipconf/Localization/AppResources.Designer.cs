@@ -359,7 +359,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IPv4 Address Copied!.
+        ///   Looks up a localized string similar to The WSL IPv4 address has been copied to the clipboard!.
         /// </summary>
         internal static string IPAddressCopied {
             get {
@@ -386,7 +386,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IPv6 Address Copied!.
+        ///   Looks up a localized string similar to The WSL IPv6 address has been copied to the clipboard!.
         /// </summary>
         internal static string IPV6AddressCopied {
             get {
@@ -495,7 +495,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refresh and Apply.
+        ///   Looks up a localized string similar to Refresh and Apply Rules.
         /// </summary>
         internal static string RefreshAndApply {
             get {
@@ -504,7 +504,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refresh IP.
+        ///   Looks up a localized string similar to Refresh IP (Only).
         /// </summary>
         internal static string RefreshIP {
             get {
@@ -513,7 +513,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refresh WSL IP Address.
+        ///   Looks up a localized string similar to Refresh WSL IP Address(es).
         /// </summary>
         internal static string RefreshWSLIP {
             get {
