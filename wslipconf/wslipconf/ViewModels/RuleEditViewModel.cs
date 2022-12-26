@@ -28,6 +28,7 @@ namespace WSLIPConf.ViewModels
         private List<ProxySelector> selectors = new List<ProxySelector>();
         private ProxySelector selproxy;
 
+        private bool suppressValidate;
         private bool result;
 
         private bool nameErr;
@@ -263,6 +264,8 @@ namespace WSLIPConf.ViewModels
 
         private bool Validate()
         {
+            if (suppressValidate) return true;
+
             int ti;
             bool cd = false, cs = false;
             IPAddress ta;
@@ -546,6 +549,8 @@ namespace WSLIPConf.ViewModels
 
         public void AnswersToScreen()
         {
+            suppressValidate = true;
+
             Name = selItem.Name;
             SourceAddress = selItem.SourceAddress?.ToString();
             DestinationAddress = selItem.DestinationAddress?.ToString();
@@ -555,6 +560,9 @@ namespace WSLIPConf.ViewModels
             autoDest = selItem.AutoDestination;
             SelectedProxy = selectors.Where(x => x.ProxyType == selItem.ProxyType).FirstOrDefault();
             oldItem.Changed = selItem.Changed = false;
+
+            suppressValidate = false;
+
             Validate();
         }
     }

@@ -151,7 +151,7 @@ namespace WSLIPConf.Models
                     {
                         ProxyType = (ProxyType)((int)proxyType & 3) | ProxyType.SourceV4;
                     }
-                    OnPropertyChanged(nameof(ProxyType));
+
                     Changed = true;
                 }
             }
@@ -201,7 +201,6 @@ namespace WSLIPConf.Models
                         ProxyType = (ProxyType)((int)proxyType & 30) | ProxyType.DestV4;
                     }
 
-                    OnPropertyChanged(nameof(ProxyType));
                     Changed = true;
                 }
             }
@@ -231,7 +230,11 @@ namespace WSLIPConf.Models
         {
             if (obj is WSLMapping other)
             {
-                return (srcAddr == other.srcAddr) && (srcPort == other.srcPort) && ((autoDest == other.autoDest && autoDest == true) || (destAddr == other.destAddr)) && (destPort == other.destPort);
+                return (srcAddr == other.srcAddr) &&
+                    (srcPort == other.srcPort) && 
+                    ((autoDest == other.autoDest && autoDest == true) || (destAddr == other.destAddr)) && 
+                    (proxyType == other.proxyType) &&
+                    (destPort == other.destPort);
             }
             else
             {
