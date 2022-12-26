@@ -2,25 +2,26 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 using WSLIPConf.Models;
 
 namespace WSLIPConf.Helpers
 {
-
+    [Flags]
     public enum ProxyType
     {
-        V4ToV4,
-        V6ToV6,
-        V4ToV6,
-        V6ToV4
+        V4ToV4 = 0x11,
+        V6ToV6 = 0x22,
+        V4ToV6 = 0x12,
+        V6ToV4 = 0x21,
+        SourceV4 = 0x10,
+        SourceV6 = 0x20,
+        DestV4 = 0x01,
+        DestV6 = 0x02
     }
 
     public enum ProxyProtocol
@@ -29,10 +30,8 @@ namespace WSLIPConf.Helpers
         Udp
     }
 
-
     public class PortProxyTool
     {
-
         public const string RegistryKey = "SYSTEM\\CurrentControlSet\\Services\\PortProxy";
 
         public static ProxyType GetProxyType(WSLMapping mapping)
@@ -40,15 +39,12 @@ namespace WSLIPConf.Helpers
             if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetwork
                 && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetwork)
                 return ProxyType.V4ToV4;
-
             else if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetworkV6
                 && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetworkV6)
                 return ProxyType.V6ToV6;
-
             else if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetworkV6
                 && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetwork)
                 return ProxyType.V6ToV4;
-
             else if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetwork
                 && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetworkV6)
                 return ProxyType.V4ToV6;
@@ -58,7 +54,7 @@ namespace WSLIPConf.Helpers
 
         public static string GetProxyTypeString(ProxyType pt)
         {
-            switch(pt)
+            switch (pt)
             {
                 case ProxyType.V6ToV4:
                     return "v6tov4";
@@ -79,7 +75,6 @@ namespace WSLIPConf.Helpers
         {
             return ApplyMapping(mapping, true);
         }
-
 
         private static bool ApplyMapping(WSLMapping mapping, bool triggerUpdate)
         {
@@ -126,7 +121,6 @@ namespace WSLIPConf.Helpers
 
         public static IList<WSLMapping> GetProxyMappingByType(ProxyType pt = ProxyType.V4ToV4, ProxyProtocol pp = ProxyProtocol.Tcp)
         {
-
             string skey = $"{RegistryKey}\\{GetProxyTypeString(pt)}\\{pp.ToString().ToLower()}";
             List<WSLMapping> map = new List<WSLMapping>();
             int i = 0;
@@ -173,25 +167,20 @@ namespace WSLIPConf.Helpers
                             {
                                 continue;
                             }
-
-
                         }
                         else
                         {
                             continue;
                         }
                     }
-
                 }
             }
             catch
             {
-
             }
 
             return map;
         }
-
 
         public static bool SetPortProxies(IEnumerable<WSLMapping> mappings, bool clearFirst = true)
         {
@@ -236,7 +225,5 @@ namespace WSLIPConf.Helpers
 
             return map;
         }
-
-
     }
 }

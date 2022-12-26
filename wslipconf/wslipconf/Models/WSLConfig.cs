@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using WSLIPConf.ViewModels;
 
@@ -29,7 +27,6 @@ namespace WSLIPConf.Models
                 SetProperty(ref filename, value);
             }
         }
-
 
         [JsonProperty("mappings")]
         public ObservableCollection<WSLMapping> Mappings
@@ -88,7 +85,14 @@ namespace WSLIPConf.Models
             {
                 if (rule.AutoDestination)
                 {
-                    rule.DestinationAddress = App.Current.WSLAddress;
+                    if ((rule.ProxyType & Helpers.ProxyType.DestV4) == Helpers.ProxyType.DestV4)
+                    {
+                        rule.DestinationAddress = App.Current.WSLAddress;
+                    }
+                    else
+                    {
+                        rule.DestinationAddress = App.Current.WSLV6Address;
+                    }
                     rule.Changed = false;
                 }
             }
@@ -101,7 +105,7 @@ namespace WSLIPConf.Models
             var obj = new WSLConfig();
 
             if (!File.Exists(path)) return obj;
-            
+
             var json = File.ReadAllText(path);
 
             JsonConvert.PopulateObject(json, obj);
@@ -110,7 +114,14 @@ namespace WSLIPConf.Models
             {
                 if (rule.AutoDestination)
                 {
-                    rule.DestinationAddress = App.Current.WSLAddress;
+                    if ((rule.ProxyType & Helpers.ProxyType.DestV4) == Helpers.ProxyType.DestV4)
+                    {
+                        rule.DestinationAddress = App.Current.WSLAddress;
+                    }
+                    else
+                    {
+                        rule.DestinationAddress = App.Current.WSLV6Address;
+                    }
                     rule.Changed = false;
                 }
             }
@@ -121,8 +132,6 @@ namespace WSLIPConf.Models
         public static string GetConfigFile()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\config.json";
-
         }
-
     }
 }

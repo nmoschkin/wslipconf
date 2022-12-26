@@ -2,13 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 using WSLIPConf.Helpers;
@@ -17,11 +14,19 @@ using WSLIPConf.Models;
 
 namespace WSLIPConf.ViewModels
 {
+    public class ProxySelector
+    {
+        public ProxyType ProxyType { get; set; }
+
+        public string Description { get; set; }
+    }
+
     public class RuleEditViewModel : ObservableBase
     {
-
         private WSLMapping selItem;
         private WSLMapping oldItem;
+        private List<ProxySelector> selectors = new List<ProxySelector>();
+        private ProxySelector selproxy;
 
         private bool result;
 
@@ -42,8 +47,9 @@ namespace WSLIPConf.ViewModels
         private string destPort;
         private string srcAddr;
         private string destAddr;
-        
+
         private ProxyProtocol prot;
+        private ProxyType prox = ProxyType.V4ToV4;
 
         private bool autoDest;
 
@@ -53,6 +59,17 @@ namespace WSLIPConf.ViewModels
 
         public ICommand CancelCommand { get; private set; }
 
+        public ProxySelector SelectedProxy
+        {
+            get => selproxy;
+            set
+            {
+                if (SetProperty(ref selproxy, value))
+                {
+                    Validate();
+                }
+            }
+        }
 
         public string Name
         {
@@ -91,7 +108,7 @@ namespace WSLIPConf.ViewModels
                 SetProperty(ref prot, value);
             }
         }
-        
+
         public string SourceAddress
         {
             get => srcAddr;
@@ -116,8 +133,6 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-
-
         public string DestinationAddress
         {
             get => destAddr;
@@ -138,7 +153,6 @@ namespace WSLIPConf.ViewModels
                 SetProperty(ref result, value);
             }
         }
-
 
         public bool AutoDestination
         {
@@ -175,7 +189,6 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-
         public bool DestPortError
         {
             get => destPortErr;
@@ -193,7 +206,6 @@ namespace WSLIPConf.ViewModels
                 SetProperty(ref destPortErrStr, value);
             }
         }
-
 
         public bool SrcPortError
         {
@@ -231,7 +243,6 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-
         public bool SrcAddrError
         {
             get => srcAddrErr;
@@ -250,13 +261,23 @@ namespace WSLIPConf.ViewModels
             }
         }
 
-
         private bool Validate()
         {
             int ti;
             IPAddress ta;
 
             selItem.Protocol = prot;
+
+            var np = selproxy?.ProxyType ?? ProxyType.V4ToV4;
+
+            if (selItem.ProxyType != np)
+            {
+                selItem.ProxyType = np;
+                destAddr = selItem.DestinationAddress?.ToString();
+                srcAddr = selItem.SourceAddress?.ToString();
+                OnPropertyChanged(nameof(DestinationAddress));
+                OnPropertyChanged(nameof(SourceAddress));
+            }
 
             if (string.IsNullOrEmpty(Name))
             {
@@ -328,9 +349,17 @@ namespace WSLIPConf.ViewModels
             }
             else if (IPAddress.TryParse(SourceAddress, out ta))
             {
-                SrcAddrError = false;
-                SrcAddrErrorText = "";
-                selItem.SourceAddress = ta;
+                if (ta.AddressFamily != SrcFam(selItem.ProxyType))
+                {
+                    SrcAddrError = true;
+                    SrcAddrErrorText = AppResources.ErrorWrongAddress;
+                }
+                else
+                {
+                    SrcAddrError = false;
+                    SrcAddrErrorText = "";
+                    selItem.SourceAddress = ta;
+                }
             }
             else
             {
@@ -345,9 +374,17 @@ namespace WSLIPConf.ViewModels
             }
             else if (IPAddress.TryParse(DestinationAddress, out ta))
             {
-                DestAddrError = false;
-                DestAddrErrorText = "";
-                selItem.DestinationAddress = ta;
+                if (ta.AddressFamily != DestFam(selItem.ProxyType))
+                {
+                    DestAddrError = true;
+                    DestAddrErrorText = AppResources.ErrorWrongAddress;
+                }
+                else
+                {
+                    DestAddrError = false;
+                    DestAddrErrorText = "";
+                    selItem.DestinationAddress = ta;
+                }
             }
             else
             {
@@ -356,7 +393,6 @@ namespace WSLIPConf.ViewModels
             }
 
             return !NameError && !SrcPortError && !DestPortError && !SrcAddrError && !DestAddrError;
-
         }
 
         #endregion Errors
@@ -365,7 +401,6 @@ namespace WSLIPConf.ViewModels
         {
             OKCommand = new SimpleCommand((o) =>
             {
-
                 if (!Validate())
                 {
                     MessageBoxEx.Show(AppResources.ErrorCannotSave, AppResources.Error, MessageBoxExType.OK, MessageBoxExIcons.Error);
@@ -378,14 +413,11 @@ namespace WSLIPConf.ViewModels
                 AlertClose?.Invoke(this, new EventArgs());
             });
 
-
             CancelCommand = new SimpleCommand((o) =>
             {
                 Result = false;
                 AlertClose?.Invoke(this, new EventArgs());
             });
-
-
         }
 
         public string WindowTitle
@@ -397,8 +429,34 @@ namespace WSLIPConf.ViewModels
             }
         }
 
+        public List<ProxySelector> ProxySelectors => selectors;
+
         public RuleEditViewModel(WSLMapping currentItem) : this()
         {
+            selectors.Add(new ProxySelector()
+            {
+                Description = string.Format(AppResources.Mode_X_To_X, "V4", "V4"),
+                ProxyType = ProxyType.V4ToV4,
+            });
+
+            selectors.Add(new ProxySelector()
+            {
+                Description = string.Format(AppResources.Mode_X_To_X, "V6", "V6"),
+                ProxyType = ProxyType.V6ToV6,
+            });
+
+            selectors.Add(new ProxySelector()
+            {
+                Description = string.Format(AppResources.Mode_X_To_X, "V4", "V6"),
+                ProxyType = ProxyType.V4ToV6,
+            });
+
+            selectors.Add(new ProxySelector()
+            {
+                Description = string.Format(AppResources.Mode_X_To_X, "V6", "V4"),
+                ProxyType = ProxyType.V6ToV4,
+            });
+
             oldItem = currentItem;
             selItem = oldItem.Clone();
 
@@ -421,6 +479,18 @@ namespace WSLIPConf.ViewModels
             }
         }
 
+        private AddressFamily SrcFam(ProxyType t)
+        {
+            if ((t & ProxyType.SourceV6) == ProxyType.SourceV6) return AddressFamily.InterNetworkV6;
+            else return AddressFamily.InterNetwork;
+        }
+
+        private AddressFamily DestFam(ProxyType t)
+        {
+            if ((t & ProxyType.DestV6) == ProxyType.DestV6) return AddressFamily.InterNetworkV6;
+            else return AddressFamily.InterNetwork;
+        }
+
         public void ApplyChanges()
         {
             oldItem.Name = selItem.Name;
@@ -430,7 +500,7 @@ namespace WSLIPConf.ViewModels
             oldItem.DestinationPort = selItem.DestinationPort;
             oldItem.AutoDestination = selItem.AutoDestination;
             oldItem.Protocol = selItem.Protocol;
-
+            oldItem.ProxyType = selItem.ProxyType;
             oldItem.Changed = selItem.Changed = false;
         }
 
@@ -443,11 +513,9 @@ namespace WSLIPConf.ViewModels
             DestinationPort = selItem.DestinationPort.ToString();
             Protocol = selItem.Protocol;
             autoDest = selItem.AutoDestination;
-
+            SelectedProxy = selectors.Where(x => x.ProxyType == selItem.ProxyType).FirstOrDefault();
             oldItem.Changed = selItem.Changed = false;
             Validate();
         }
-
     }
-
 }

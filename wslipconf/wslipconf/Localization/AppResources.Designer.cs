@@ -79,6 +79,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address Family.
+        /// </summary>
+        internal static string AddressFamily {
+            get {
+                return ResourceManager.GetString("AddressFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Rule.
         /// </summary>
         internal static string AddRule {
@@ -197,6 +206,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destination Address Family.
+        /// </summary>
+        internal static string DestAddressFamily {
+            get {
+                return ResourceManager.GetString("DestAddressFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Destination Address.
         /// </summary>
         internal static string DestinationAddress {
@@ -287,6 +305,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is the wrong kind of IP address for the selected address family..
+        /// </summary>
+        internal static string ErrorWrongAddress {
+            get {
+                return ResourceManager.GetString("ErrorWrongAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get Current Rules.
         /// </summary>
         internal static string GetCurrentRules {
@@ -314,6 +341,24 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IPv4.
+        /// </summary>
+        internal static string IPv4 {
+            get {
+                return ResourceManager.GetString("IPv4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IPv6.
+        /// </summary>
+        internal static string IPv6 {
+            get {
+                return ResourceManager.GetString("IPv6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap logo {
@@ -333,6 +378,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mode {0} To {1}.
+        /// </summary>
+        internal static string Mode_X_To_X {
+            get {
+                return ResourceManager.GetString("Mode_X_To_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string Name {
@@ -347,6 +401,15 @@ namespace WSLIPConf.Localization {
         internal static string NewRuleDefinition {
             get {
                 return ResourceManager.GetString("NewRuleDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -486,6 +549,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source Address Family.
+        /// </summary>
+        internal static string SourceAddressFamily {
+            get {
+                return ResourceManager.GetString("SourceAddressFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Source Port.
         /// </summary>
         internal static string SourcePort {
@@ -528,6 +600,15 @@ namespace WSLIPConf.Localization {
             get {
                 object obj = ResourceManager.GetObject("wslip", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

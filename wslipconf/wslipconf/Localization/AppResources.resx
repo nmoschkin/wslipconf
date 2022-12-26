@@ -112,16 +112,19 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
   <data name="AboutLong" xml:space="preserve">
     <value>About WSLIPConf</value>
+  </data>
+  <data name="AddressFamily" xml:space="preserve">
+    <value>Address Family</value>
   </data>
   <data name="AddRule" xml:space="preserve">
     <value>Add Rule</value>
@@ -163,6 +166,9 @@ Unsaved changes will be discarded.</value>
   <data name="DeleteRule" xml:space="preserve">
     <value>Delete Selected Rules</value>
   </data>
+  <data name="DestAddressFamily" xml:space="preserve">
+    <value>Destination Address Family</value>
+  </data>
   <data name="DestinationAddress" xml:space="preserve">
     <value>Destination Address</value>
   </data>
@@ -193,6 +199,9 @@ Unsaved changes will be discarded.</value>
   <data name="ErrorInvalidValue" xml:space="preserve">
     <value>The value for this field is invalid.</value>
   </data>
+  <data name="ErrorWrongAddress" xml:space="preserve">
+    <value>This is the wrong kind of IP address for the selected address family.</value>
+  </data>
   <data name="GetCurrentRules" xml:space="preserve">
     <value>Get Current Rules</value>
   </data>
@@ -202,18 +211,30 @@ Unsaved changes will be discarded.</value>
   <data name="IPAddressCopied" xml:space="preserve">
     <value>IP Address Copied!</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="IPv4" xml:space="preserve">
+    <value>IPv4</value>
+  </data>
+  <data name="IPv6" xml:space="preserve">
+    <value>IPv6</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MainTitle" xml:space="preserve">
     <value>WSL Port Binding Tool</value>
   </data>
+  <data name="Mode_X_To_X" xml:space="preserve">
+    <value>Mode {0} To {1}</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="NewRuleDefinition" xml:space="preserve">
     <value>New Rule Definition</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -260,6 +281,9 @@ Unsaved changes will be discarded.</value>
   <data name="SourceAddress" xml:space="preserve">
     <value>Source Address</value>
   </data>
+  <data name="SourceAddressFamily" xml:space="preserve">
+    <value>Source Address Family</value>
+  </data>
   <data name="SourcePort" xml:space="preserve">
     <value>Source Port</value>
   </data>
@@ -274,5 +298,8 @@ Unsaved changes will be discarded.</value>
   </data>
   <data name="wslip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wslip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

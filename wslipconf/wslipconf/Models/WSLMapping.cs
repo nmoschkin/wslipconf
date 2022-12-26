@@ -1,13 +1,12 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 using WSLIPConf.Converters;
 using WSLIPConf.Helpers;
@@ -33,13 +32,69 @@ namespace WSLIPConf.Models
         private ProxyProtocol protocol = ProxyProtocol.Tcp;
 
         private bool changed;
+        private ProxyType proxyType = ProxyType.V4ToV4;
 
-        [JsonIgnore]
-        public ProxyType Type
+        private void ClearAddresses(bool src, bool dest)
+        {
+            if (src)
+            {
+                if ((proxyType & ProxyType.SourceV4) == ProxyType.SourceV4)
+                {
+                    SourceAddress = IPAddress.Parse("0.0.0.0");
+                }
+                else
+                {
+                    SourceAddress = IPAddress.Parse("0000:0000:0000:0000:0000:0000:0000:0000");
+                }
+            }
+            if (dest)
+            {
+                if (AutoDestination)
+                {
+                    OnPropertyChanged(nameof(DestinationAddress));
+                }
+                else
+                {
+                    if ((proxyType & ProxyType.DestV4) == ProxyType.DestV4)
+                    {
+                        DestinationAddress = IPAddress.Parse("0.0.0.0");
+                    }
+                    else
+                    {
+                        DestinationAddress = IPAddress.Parse("0000:0000:0000:0000:0000:0000:0000:0000");
+                    }
+                }
+            }
+        }
+
+        [JsonProperty("proxyType")]
+        public ProxyType ProxyType
         {
             get
             {
-                return PortProxyTool.GetProxyType(this);
+                return proxyType;
+            }
+            set
+            {
+                if (value == 0) value = ProxyType.V4ToV4;
+
+                var oldproxy = proxyType;
+                if (SetProperty(ref proxyType, value))
+                {
+                    bool s = false,
+                         d = false;
+
+                    if (((int)oldproxy & 0x30) != ((int)proxyType & 0x30))
+                    {
+                        s = true;
+                    }
+                    if (((int)oldproxy & 0x3) != ((int)proxyType & 0x3))
+                    {
+                        d = true;
+                    }
+
+                    ClearAddresses(s, d);
+                }
             }
         }
 
@@ -86,7 +141,17 @@ namespace WSLIPConf.Models
             {
                 if (SetProperty(ref srcAddr, value))
                 {
-                    OnPropertyChanged(nameof(Type));
+                    if ((proxyType & ProxyType.SourceV4) == ProxyType.SourceV4
+                        && srcAddr.AddressFamily == AddressFamily.InterNetworkV6)
+                    {
+                        ProxyType = (ProxyType)((int)proxyType & 3) | ProxyType.SourceV6;
+                    }
+                    else if ((proxyType & ProxyType.SourceV6) == ProxyType.SourceV6
+                        && srcAddr.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        ProxyType = (ProxyType)((int)proxyType & 3) | ProxyType.SourceV4;
+                    }
+                    OnPropertyChanged(nameof(ProxyType));
                     Changed = true;
                 }
             }
@@ -109,13 +174,34 @@ namespace WSLIPConf.Models
             get
             {
                 if (!autoDest) return destAddr;
-                else return App.Current.WSLAddress;
+                else
+                {
+                    if ((proxyType & ProxyType.DestV4) == ProxyType.DestV4)
+                    {
+                        return App.Current.WSLAddress;
+                    }
+                    else
+                    {
+                        return App.Current.WSLV6Address;
+                    }
+                }
             }
             set
             {
                 if (SetProperty(ref destAddr, value))
                 {
-                    OnPropertyChanged(nameof(Type));
+                    if ((proxyType & ProxyType.DestV4) == ProxyType.DestV4
+                        && destAddr.AddressFamily == AddressFamily.InterNetworkV6)
+                    {
+                        ProxyType = (ProxyType)((int)proxyType & 30) | ProxyType.DestV6;
+                    }
+                    else if ((proxyType & ProxyType.DestV6) == ProxyType.DestV6
+                        && destAddr.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        ProxyType = (ProxyType)((int)proxyType & 30) | ProxyType.DestV4;
+                    }
+
+                    OnPropertyChanged(nameof(ProxyType));
                     Changed = true;
                 }
             }
@@ -151,7 +237,6 @@ namespace WSLIPConf.Models
             {
                 return false;
             }
-
         }
 
         public override int GetHashCode()
@@ -159,7 +244,7 @@ namespace WSLIPConf.Models
             int hc = 0;
 
             List<byte> bb = new List<byte>();
-            
+
             bb.AddRange(srcAddr.GetAddressBytes());
             bb.AddRange(destAddr.GetAddressBytes());
             bb.AddRange(BitConverter.GetBytes(srcPort));
@@ -198,7 +283,6 @@ namespace WSLIPConf.Models
                 if (SourcePort <= 0)
                 {
                     res.Add(new ValidationResult(AppResources.ErrorInvalidValue, new string[] { nameof(SourcePort) }));
-
                 }
             }
             else if (validationContext.MemberName == nameof(SourceAddress))
@@ -206,7 +290,6 @@ namespace WSLIPConf.Models
                 if (SourceAddress == null)
                 {
                     res.Add(new ValidationResult(AppResources.ErrorInvalidValue, new string[] { nameof(SourceAddress) }));
-
                 }
             }
             else if (validationContext.MemberName == nameof(DestinationPort))
@@ -224,9 +307,7 @@ namespace WSLIPConf.Models
                 }
             }
 
-
             return res;
         }
     }
-
 }

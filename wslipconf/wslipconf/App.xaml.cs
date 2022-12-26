@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows;
 
 using WSLIPConf.Helpers;
-using WSLIPConf.Localization;
 
 namespace WSLIPConf
 {
@@ -18,15 +12,16 @@ namespace WSLIPConf
     /// </summary>
     public partial class App : Application
     {
-        static public new App Current
+        public new static App Current
         {
             get => (App)Application.Current;
-
         }
 
         public Settings Settings { get; private set; } = new Settings();
 
         public IPAddress WSLAddress { get; set; } = WSLTool.GetWslIpAddress();
+
+        public IPAddress WSLV6Address { get; set; } = WSLTool.GetWslIpV6Address();
 
         public bool SilentMode { get; private set; }
 
@@ -37,7 +32,7 @@ namespace WSLIPConf
             // Just for testing
             //CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
             //AppResources.Culture = CultureInfo.CurrentCulture;
-             
+
             InitializeComponent();
         }
 
@@ -45,6 +40,5 @@ namespace WSLIPConf
         {
             SilentMode = silent;
         }
-        
     }
 }

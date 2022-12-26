@@ -4,29 +4,35 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.NetworkInformation;
-using System.Printing;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace WSLIPConf.Helpers
 {
     public static class WSLTool
     {
-
         public static IPAddress GetWslIpAddress()
         {
-            return WSLInterfaceInfo.GetFirstMulticastAddress().Address;
+            return WSLInterfaceInfo.Interfaces.Where(x =>
+            x.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+            && x.IsMulticast
+            )?.FirstOrDefault()?.Address;
         }
 
+        public static IPAddress GetWslIpV6Address()
+        {
+            return WSLInterfaceInfo.Interfaces.Where(x =>
+            x.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6
+            && x.IsMulticast
+            )?.FirstOrDefault()?.Address;
+        }
     }
 
     public class WSLInterfaceInfo
     {
         private static List<WSLInterfaceInfo> interfaces = new List<WSLInterfaceInfo>();
-        
-        public static IReadOnlyList<WSLInterfaceInfo> Interfaces 
+
+        public static IReadOnlyList<WSLInterfaceInfo> Interfaces
         {
             get
             {
@@ -65,14 +71,13 @@ namespace WSLIPConf.Helpers
             var p = new Process();
             var wsl = Environment.ExpandEnvironmentVariables("%SYSTEMROOT%\\system32\\wsl.exe");
 
-            p.StartInfo = new ProcessStartInfo(wsl, "ip -family inet address")
+            p.StartInfo = new ProcessStartInfo(wsl, "ip -family inet address && ip -family inet6 address")
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             };
-
 
             p.Start();
             p.WaitForExit();
@@ -82,7 +87,7 @@ namespace WSLIPConf.Helpers
         }
 
         private static WSLInterfaceInfo[] ParseText(string contents)
-        {            
+        {
             List<WSLInterfaceInfo> list = new List<WSLInterfaceInfo>();
 
             var l = new List<string>(contents.Replace("\r\n", "\n").Split("\n"));
@@ -95,7 +100,6 @@ namespace WSLIPConf.Helpers
                     l.RemoveAt(i);
                 }
             }
-
 
             if (l.Count % 3 != 0) throw new InvalidOperationException("Bad Data.");
 
@@ -121,8 +125,8 @@ namespace WSLIPConf.Helpers
 
                     newinst.MTU = int.Parse(regparts.Groups[4].Value);
 
-                    var l2 = l[i + 1].Trim().Split(" "); 
-                    if (l2[0] == "inet")
+                    var l2 = l[i + 1].Trim().Split(" ");
+                    if (l2[0] == "inet" || l2[0] == "inet6")
                     {
                         var ip = l2[1].Split("/")[0];
                         newinst.Address = IPAddress.Parse(ip);
@@ -133,9 +137,7 @@ namespace WSLIPConf.Helpers
             }
 
             return list.ToArray();
-
         }
-
 
         public IPAddress Address { get; private set; }
 
@@ -153,9 +155,6 @@ namespace WSLIPConf.Helpers
         public int MTU { get; private set; }
 
         public string Name { get; private set; }
-        
-        
-
 
         /* 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
             inet 127.0.0.1/8 scope host lo
@@ -163,11 +162,7 @@ namespace WSLIPConf.Helpers
            6: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
             inet 172.20.182.177/20 brd 172.20.191.255 scope global eth0
                valid_lft forever preferred_lft forever
-        
+
          */
-
-
-
     }
-
 }
