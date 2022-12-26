@@ -558,7 +558,7 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Refresh IP (Only).
+        ///   Looks up a localized string similar to Refresh IP.
         /// </summary>
         internal static string RefreshIP {
             get {

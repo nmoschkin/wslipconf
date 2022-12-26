@@ -8,17 +8,26 @@
     <Application.Resources>
 
 
-        <ext:SystemColor x:Key="sysColor" />
+        <ext:SystemColor
+            x:Key="sysColor" />
 
-        <SolidColorBrush x:Key="MainBackground" Color="LightGray" />
-        <SolidColorBrush x:Key="ButtonBackground" Color="{ext:SystemColor}" />
-        <SolidColorBrush x:Key="ButtonForeground" Color="{ext:SystemColor UseTextColor=True}" />
+        <SolidColorBrush
+            x:Key="MainBackground"
+            Color="LightGray" />
+        <SolidColorBrush
+            x:Key="ButtonBackground"
+            Color="{ext:SystemColor}" />
+        <SolidColorBrush
+            x:Key="ButtonForeground"
+            Color="{ext:SystemColor UseTextColor=True}" />
 
-        <Style TargetType="TextBlock">
+        <Style
+            TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Calibri" />
         </Style>
 
-        <Style TargetType="Button">
+        <Style
+            TargetType="Button">
             <Setter Property="Background" Value="{StaticResource ButtonBackground}" />
             <Setter Property="Foreground" Value="{StaticResource ButtonForeground}" />
             <Setter Property="FontSize" Value="12" />
@@ -28,12 +37,14 @@
             <Setter Property="FontFamily" Value="Calibri" />
         </Style>
 
-        <Style TargetType="CheckBox">
+        <Style
+            TargetType="CheckBox">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="FontFamily" Value="Calibri" />
         </Style>
 
-        <Style TargetType="ListView">
+        <Style
+            TargetType="ListView">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="FontFamily" Value="Calibri" />
         </Style>

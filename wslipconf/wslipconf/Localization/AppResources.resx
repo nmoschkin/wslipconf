@@ -285,7 +285,7 @@ Unsaved changes will be discarded.</value>
     <value>Refresh and Apply Rules</value>
   </data>
   <data name="RefreshIP" xml:space="preserve">
-    <value>Refresh IP (Only)</value>
+    <value>Refresh IP</value>
   </data>
   <data name="RefreshWSLIP" xml:space="preserve">
     <value>Refresh WSL IP Address(es)</value>
