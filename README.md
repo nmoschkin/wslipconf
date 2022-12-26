@@ -14,8 +14,12 @@ This program automatically detects the WSL IP address using the Linux _ip_ comma
 
 This is useful for running test projects in VS Code under WSL that serve and listen.  This will allow you to use your Windows-based browser or other front-end projects while running the back-end project in WSL.
 
-Currently only V4ToV4 bindings are supported.
-
+Version 1.2 adds support for all proxy bindings:
+ - IPv4 to IPv4
+ - IPv4 to IPv6
+ - IPv6 to IPv4
+ - IPv6 to IPv6
+ 
 Just download the code, compile it, and start the project.  It should be relatively self-explanatory. 
 
 __Alternatively: Binaries for x64 can be found in the [_binaries_](https://github.com/nmoschkin/wslipconf/tree/main/binaries) folder.__
