@@ -10,7 +10,7 @@ _December 26, 2022_
 
 ## Summary
 
-This program automatically detects the WSL IP address using the Linux _ip_ command, and sets up _netsh portproxies_ for the IPv4 address/port combinations using native interop.  
+This program automatically detects the WSL IP address using the Linux _ip_ command, and sets up _netsh portproxies_ for the IPv4/IPv6 address/port combinations using native interop.  
 
 This is useful for running test projects in VS Code under WSL that serve and listen.  This will allow you to use your Windows-based browser or other front-end projects while running the back-end project in WSL.
 
