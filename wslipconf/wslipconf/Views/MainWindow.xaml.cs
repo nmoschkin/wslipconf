@@ -94,6 +94,7 @@ namespace WSLIPConf.Views
             if (e.PropertyName == nameof(MainWindowViewModel.AllRulesSuspended) && suspendMenu != null)
             {
                 suspendMenu.CheckState = vm.AllRulesSuspended ? CheckState.Checked : CheckState.Unchecked;
+                vm.Changed = true;
             }
         }
 
@@ -132,6 +133,7 @@ namespace WSLIPConf.Views
 
                 item.Checked = mapping.IsOnSystem;
                 vm.OnPropertyChanged(nameof(MainWindowViewModel.AllRulesSuspended));
+                vm.Changed = true;
             }
         }
 
@@ -253,6 +255,7 @@ namespace WSLIPConf.Views
                 {
                     vm.AllRulesSuspended = !vm.AllRulesSuspended;
                     item.Checked = vm.AllRulesSuspended;
+                    vm.Changed = true;
                 }
                 else if (item.Text == AppResources.Quit)
                 {
@@ -420,6 +423,7 @@ namespace WSLIPConf.Views
             {
                 vm.SelectedItem.IsSuspended = !vm.SelectedItem.IsSuspended;
                 PortProxyTool.SetPortProxy(vm.SelectedItem);
+                vm.Changed = true;
             }
         }
 
