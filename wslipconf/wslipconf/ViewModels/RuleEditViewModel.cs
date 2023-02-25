@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 
@@ -24,6 +25,8 @@ namespace WSLIPConf.ViewModels
     {
         public event EventHandler AlertClose;
 
+        private bool changed = false;
+
         private static readonly IReadOnlyList<ProxySelector> selectors;
         private bool autoDest;
         private string destAddr;
@@ -39,7 +42,6 @@ namespace WSLIPConf.ViewModels
         private string nameErrStr;
         private WSLMapping oldItem;
         private ProxyProtocol prot;
-        private ProxyType prox = ProxyType.V4ToV4;
         private bool result;
         private WSLMapping selItem;
         private ProxySelector selproxy;
@@ -89,7 +91,7 @@ namespace WSLIPConf.ViewModels
             oldItem = currentItem;
             selItem = oldItem.Clone();
 
-            AnswersToScreen();
+            ObjectToScreen();
             selItem.PropertyChanged += SelItem_PropertyChanged;
         }
 
@@ -125,7 +127,7 @@ namespace WSLIPConf.ViewModels
                     return;
                 }
 
-                ApplyChanges();
+                ScreenToObject();
 
                 Result = true;
                 AlertClose?.Invoke(this, new EventArgs());
@@ -136,6 +138,15 @@ namespace WSLIPConf.ViewModels
                 Result = false;
                 AlertClose?.Invoke(this, new EventArgs());
             });
+        }
+
+        public bool Changed
+        {
+            get => changed;
+            set
+            {
+                SetProperty(ref changed, value);
+            }
         }
 
         public bool AutoDestination
@@ -286,7 +297,7 @@ namespace WSLIPConf.ViewModels
             get
             {
                 if (string.IsNullOrEmpty(selItem.Name)) return AppResources.EditRule;
-                return AppResources.EditRule + " - " + (selItem.Changed ? "*" : "") + selItem.Name;
+                return AppResources.EditRule + " - " + (Changed ? "*" : "") + selItem.Name;
             }
         }
 
@@ -578,7 +589,10 @@ namespace WSLIPConf.ViewModels
             return !NameError && !SrcPortError && !DestPortError && !SrcAddrError && !DestAddrError;
         }
 
-        public void AnswersToScreen()
+        /// <summary>
+        /// Take the contents of the object being held for editing and send them to the screen.
+        /// </summary>
+        public void ObjectToScreen()
         {
             suppressValidate = true;
 
@@ -597,9 +611,13 @@ namespace WSLIPConf.ViewModels
             suppressValidate = false;
 
             Validate();
+            Changed = false;
         }
 
-        public void ApplyChanges()
+        /// <summary>
+        /// Apply what's on the screen to the object being held for editing.
+        /// </summary>
+        public void ScreenToObject()
         {
             oldItem.Name = selItem.Name;
             oldItem.SourceAddress = selItem.SourceAddress;
@@ -611,6 +629,7 @@ namespace WSLIPConf.ViewModels
             oldItem.ProxyType = selItem.ProxyType;
             oldItem.Changed = selItem.Changed = false;
             oldItem.Distribution = selItem.Distribution;
+            Changed = false;
         }
 
         private AddressFamily DestFam(ProxyType t)
@@ -630,12 +649,18 @@ namespace WSLIPConf.ViewModels
             if ((t & ProxyType.SourceV6) == ProxyType.SourceV6) return AddressFamily.InterNetworkV6;
             else return AddressFamily.InterNetwork;
         }
-    }
 
-    public class WSLItem
-    {
-        public WSLDistribution Distribution { get; set; }
+        protected override bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = null)
+        {
+            var res = base.SetProperty(ref backingStore, value, propertyName);
 
-        public string Name { get; set; }
+            if (res && propertyName != nameof(Changed) && !changed)
+            {
+                changed = true;
+                OnPropertyChanged(nameof(Changed));
+            }
+
+            return res;
+        }
     }
 }

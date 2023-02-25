@@ -79,6 +79,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        internal static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address Family.
         /// </summary>
         internal static string AddressFamily {
@@ -160,6 +169,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear Recent Profiles.
+        /// </summary>
+        internal static string ClearRecentProfiles {
+            get {
+                return ResourceManager.GetString("ClearRecentProfiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear Rules.
         /// </summary>
         internal static string ClearRules {
@@ -224,6 +242,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Profile.
+        /// </summary>
+        internal static string CreateProfile {
+            get {
+                return ResourceManager.GetString("CreateProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default.
         /// </summary>
         internal static string Default {
@@ -278,6 +305,24 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable.
+        /// </summary>
+        internal static string Disable {
+            get {
+                return ResourceManager.GetString("Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        internal static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distribution.
         /// </summary>
         internal static string Distribution {
@@ -296,6 +341,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dormant.
+        /// </summary>
+        internal static string Dormant {
+            get {
+                return ResourceManager.GetString("Dormant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Rule.
         /// </summary>
         internal static string EditRule {
@@ -310,6 +364,33 @@ namespace WSLIPConf.Localization {
         internal static string EditRules {
             get {
                 return ResourceManager.GetString("EditRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable.
+        /// </summary>
+        internal static string Enable {
+            get {
+                return ResourceManager.GetString("Enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable All Rules.
+        /// </summary>
+        internal static string EnableAllRules {
+            get {
+                return ResourceManager.GetString("EnableAllRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        internal static string Enabled {
+            get {
+                return ResourceManager.GetString("Enabled", resourceCulture);
             }
         }
         
@@ -440,6 +521,15 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load Profile.
+        /// </summary>
+        internal static string LoadProfile {
+            get {
+                return ResourceManager.GetString("LoadProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap logo {
@@ -540,11 +630,38 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to dump the current rules before importing?.
+        /// </summary>
+        internal static string QueryDumpCurrent {
+            get {
+                return ResourceManager.GetString("QueryDumpCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you wish to clear the specified rules from the local machine, as well?.
+        /// </summary>
+        internal static string QueryRemoveFromSystem {
+            get {
+                return ResourceManager.GetString("QueryRemoveFromSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quit.
         /// </summary>
         internal static string Quit {
             get {
                 return ResourceManager.GetString("Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Profiles.
+        /// </summary>
+        internal static string RecentProfiles {
+            get {
+                return ResourceManager.GetString("RecentProfiles", resourceCulture);
             }
         }
         
@@ -630,11 +747,47 @@ namespace WSLIPConf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Profile.
+        /// </summary>
+        internal static string SaveProfile {
+            get {
+                return ResourceManager.GetString("SaveProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Profile As ....
+        /// </summary>
+        internal static string SaveProfileAs {
+            get {
+                return ResourceManager.GetString("SaveProfileAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Distribution.
         /// </summary>
         internal static string Select_Distribution {
             get {
                 return ResourceManager.GetString("Select_Distribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Profile.
+        /// </summary>
+        internal static string SelectedProfile {
+            get {
+                return ResourceManager.GetString("SelectedProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Profile.
+        /// </summary>
+        internal static string SelectProfile {
+            get {
+                return ResourceManager.GetString("SelectProfile", resourceCulture);
             }
         }
         
@@ -680,6 +833,33 @@ namespace WSLIPConf.Localization {
         internal static string SourcePort {
             get {
                 return ResourceManager.GetString("SourcePort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspend All Rules.
+        /// </summary>
+        internal static string SuspendAllRules {
+            get {
+                return ResourceManager.GetString("SuspendAllRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspend/Enable Rule.
+        /// </summary>
+        internal static string SuspendEnableRule {
+            get {
+                return ResourceManager.GetString("SuspendEnableRule", resourceCulture);
             }
         }
         

@@ -123,6 +123,12 @@
   <data name="AboutLong" xml:space="preserve">
     <value>Informazioni sulla WSLIPConf</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Attivo</value>
+  </data>
+  <data name="AddressFamily" xml:space="preserve">
+    <value>Indirizzo Famiglia</value>
+  </data>
   <data name="AddRule" xml:space="preserve">
     <value>Aggiungi regola</value>
   </data>
@@ -135,6 +141,9 @@
   <data name="AutoDest" xml:space="preserve">
     <value>Destinazione WSL automatica</value>
   </data>
+  <data name="AutoIP" xml:space="preserve">
+    <value>IP automatico</value>
+  </data>
   <data name="AutoIPX" xml:space="preserve">
     <value>IP automatico: {0}</value>
   </data>
@@ -144,8 +153,14 @@
   <data name="Clear" xml:space="preserve">
     <value>chiaro</value>
   </data>
+  <data name="ClearRecentProfiles" xml:space="preserve">
+    <value>Cancella i profili recenti</value>
+  </data>
   <data name="ClearRules" xml:space="preserve">
     <value>Regole chiare</value>
+  </data>
+  <data name="Click_To_Copy" xml:space="preserve">
+    <value>Fare clic per copiare negli appunti</value>
   </data>
   <data name="ConfirmClearRules" xml:space="preserve">
     <value>Cancellare tutte le regole?</value>
@@ -160,8 +175,23 @@ Le modifiche non salvate verranno eliminate.</value>
   <data name="CopyIPAddress" xml:space="preserve">
     <value>Copia indirizzo IP</value>
   </data>
+  <data name="CopyIPV6Address" xml:space="preserve">
+    <value>Copia indirizzo IPv6</value>
+  </data>
+  <data name="CreateProfile" xml:space="preserve">
+    <value>Crea profilo</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Default_Distribution" xml:space="preserve">
+    <value>Distribuzione predefinita</value>
+  </data>
   <data name="DeleteRule" xml:space="preserve">
     <value>Elimina regole selezionate</value>
+  </data>
+  <data name="DestAddressFamily" xml:space="preserve">
+    <value>Famiglia di indirizzi di destinazione</value>
   </data>
   <data name="DestinationAddress" xml:space="preserve">
     <value>Indirizzo di destinazione</value>
@@ -169,11 +199,35 @@ Le modifiche non salvate verranno eliminate.</value>
   <data name="DestinationPort" xml:space="preserve">
     <value>Porta di destinazione</value>
   </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disabilitare</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabile</value>
+  </data>
+  <data name="Distribution" xml:space="preserve">
+    <value>Distribuzione</value>
+  </data>
+  <data name="Distributions" xml:space="preserve">
+    <value>Distribuzioni</value>
+  </data>
+  <data name="Dormant" xml:space="preserve">
+    <value>Quiescente</value>
+  </data>
   <data name="EditRule" xml:space="preserve">
     <value>Modifica regola</value>
   </data>
   <data name="EditRules" xml:space="preserve">
     <value>Modifica regole</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Abilitare</value>
+  </data>
+  <data name="EnableAllRules" xml:space="preserve">
+    <value>Abilita tutte le regole</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Abilitato</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>errore</value>
@@ -193,6 +247,12 @@ Le modifiche non salvate verranno eliminate.</value>
   <data name="ErrorInvalidValue" xml:space="preserve">
     <value>Il valore di questo campo non è valido.</value>
   </data>
+  <data name="ErrorWrongAddress" xml:space="preserve">
+    <value>Questo è il tipo errato di indirizzo IP per la famiglia di indirizzi selezionata.</value>
+  </data>
+  <data name="Failed_Wsl" xml:space="preserve">
+    <value>Impossibile avviare WSL. Impossibile continuare il programma.</value>
+  </data>
   <data name="GetCurrentRules" xml:space="preserve">
     <value>Ottenere le regole correnti</value>
   </data>
@@ -202,8 +262,23 @@ Le modifiche non salvate verranno eliminate.</value>
   <data name="IPAddressCopied" xml:space="preserve">
     <value>Indirizzo IP copiato!</value>
   </data>
+  <data name="IPv4" xml:space="preserve">
+    <value>IPv4</value>
+  </data>
+  <data name="IPv6" xml:space="preserve">
+    <value>IPv6</value>
+  </data>
+  <data name="IPV6AddressCopied" xml:space="preserve">
+    <value>L'indirizzo IPv6 WSL è stato copiato negli appunti.</value>
+  </data>
+  <data name="LoadProfile" xml:space="preserve">
+    <value>Profilo di carico</value>
+  </data>
   <data name="MainTitle" xml:space="preserve">
     <value>Strumento di associazione porta WSL</value>
+  </data>
+  <data name="Mode_X_To_X" xml:space="preserve">
+    <value>Modalità {0} a {1}</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>nome</value>
@@ -211,11 +286,35 @@ Le modifiche non salvate verranno eliminate.</value>
   <data name="NewRuleDefinition" xml:space="preserve">
     <value>Nuova definizione di regola</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="No_V6_Detected" xml:space="preserve">
+    <value>Nessun indirizzo IPv6 rilevato</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="Print_IP" xml:space="preserve">
+    <value>IP di stampa</value>
+  </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protocollo</value>
+  </data>
+  <data name="ProxyType" xml:space="preserve">
+    <value>Tipo di proxy</value>
+  </data>
+  <data name="QueryDumpCurrent" xml:space="preserve">
+    <value>Vuoi scaricare le regole attuali prima di importarle?</value>
+  </data>
+  <data name="QueryRemoveFromSystem" xml:space="preserve">
+    <value>Si desidera cancellare le regole specificate anche dal computer locale?</value>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>dimettersi</value>
+  </data>
+  <data name="RecentProfiles" xml:space="preserve">
+    <value>Profili recenti</value>
   </data>
   <data name="RefreshAndApply" xml:space="preserve">
     <value>Aggiornare e applicare</value>
@@ -244,16 +343,61 @@ Le modifiche non salvate verranno eliminate.</value>
   <data name="Save" xml:space="preserve">
     <value>salvare</value>
   </data>
+  <data name="SaveProfile" xml:space="preserve">
+    <value>Salva profilo</value>
+  </data>
+  <data name="SaveProfileAs" xml:space="preserve">
+    <value>Salva profilo come ...</value>
+  </data>
+  <data name="SelectedProfile" xml:space="preserve">
+    <value>Profilo selezionato</value>
+  </data>
+  <data name="SelectProfile" xml:space="preserve">
+    <value>Seleziona profilo</value>
+  </data>
+  <data name="Select_Distribution" xml:space="preserve">
+    <value>Seleziona distribuzione</value>
+  </data>
   <data name="ShowWindow" xml:space="preserve">
     <value>Mostra finestra</value>
+  </data>
+  <data name="Silent_Mode" xml:space="preserve">
+    <value>Modalità silenziosa</value>
   </data>
   <data name="SourceAddress" xml:space="preserve">
     <value>Indirizzo di origine</value>
   </data>
+  <data name="SourceAddressFamily" xml:space="preserve">
+    <value>Famiglia di indirizzi di origine</value>
+  </data>
   <data name="SourcePort" xml:space="preserve">
     <value>Porta di origine</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Stato</value>
+  </data>
+  <data name="SuspendAllRules" xml:space="preserve">
+    <value>Sospendi tutte le regole</value>
+  </data>
+  <data name="SuspendEnableRule" xml:space="preserve">
+    <value>Sospendi/Abilita regola</value>
+  </data>
+  <data name="Tcp" xml:space="preserve">
+    <value>Tcp</value>
+  </data>
+  <data name="Udp" xml:space="preserve">
+    <value>Udp</value>
+  </data>
   <data name="WSLAddress" xml:space="preserve">
     <value>Indirizzo IP WSL rilevato</value>
+  </data>
+  <data name="WSLV6Address" xml:space="preserve">
+    <value>Indirizzo IPv6 WSL</value>
+  </data>
+  <data name="X_To_X" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sì</value>
   </data>
 </root>

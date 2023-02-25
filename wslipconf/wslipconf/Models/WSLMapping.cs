@@ -35,6 +35,7 @@ namespace WSLIPConf.Models
         private ProxyType proxyType = ProxyType.V4ToV4;
         private string distroName = null;
         private WSLDistribution distro;
+        private bool isSuspended;
 
         public WSLMapping()
         {
@@ -71,6 +72,19 @@ namespace WSLIPConf.Models
                         DestinationAddress = IPAddress.Parse("0000:0000:0000:0000:0000:0000:0000:0000");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating that this configuration is suspended and should not be registered with the local machine.
+        /// </summary>
+        [JsonProperty("isSuspended")]
+        public bool IsSuspended
+        {
+            get => isSuspended;
+            set
+            {
+                SetProperty(ref isSuspended, value);
             }
         }
 
@@ -166,6 +180,15 @@ namespace WSLIPConf.Models
             {
                 OnPropertyChanged(nameof(DestinationAddress));
             }
+        }
+
+        /// <summary>
+        /// Return true if the current profile is active on the local machine.
+        /// </summary>
+        [JsonIgnore]
+        public bool IsOnSystem
+        {
+            get => PortProxyTool.GetSystemHasProxyMapping(this);
         }
 
         [JsonIgnore]

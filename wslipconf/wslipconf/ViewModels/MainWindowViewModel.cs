@@ -124,8 +124,16 @@ namespace WSLIPConf.ViewModels
             addr6 = App.Current.WSLV6Address;
 
             Distro = WSLDistribution.RefreshDistributions();
+
             GetRulesCommand = new SimpleCommand((o) =>
             {
+                var res = MessageBoxEx.Show(AppResources.QueryDumpCurrent, AppResources.ClearRules, MessageBoxExType.YesNo, MessageBoxExIcons.Question);
+
+                if (res == MessageBoxExResult.Yes)
+                {
+                    config.Mappings.Clear();
+                }
+
                 var items = PortProxyTool.GetPortProxies();
 
                 foreach (var i in items)
@@ -156,6 +164,8 @@ namespace WSLIPConf.ViewModels
                 if (rule != null)
                 {
                     Config.Mappings.Add(rule);
+                    PortProxyTool.SetPortProxy(rule);
+
                     Changed = true;
                 }
             });
@@ -177,6 +187,12 @@ namespace WSLIPConf.ViewModels
                 {
                     config.Mappings.Clear();
                     Changed = true;
+
+                    res = MessageBoxEx.Show(AppResources.QueryRemoveFromSystem, AppResources.ClearRules, MessageBoxExType.YesNo, MessageBoxExIcons.Question);
+                    if (res == MessageBoxExResult.Yes)
+                    {
+                        PortProxyTool.ClearPortProxies();
+                    }
                 }
             });
 
@@ -209,6 +225,13 @@ namespace WSLIPConf.ViewModels
                     }
 
                     Changed = true;
+
+                    res = MessageBoxEx.Show(AppResources.QueryRemoveFromSystem, AppResources.DeleteRule, MessageBoxExType.YesNo, MessageBoxExIcons.Question);
+
+                    if (res == MessageBoxExResult.Yes)
+                    {
+                        PortProxyTool.RemovePortProxies(l);
+                    }
                 }
             });
 
@@ -265,13 +288,24 @@ namespace WSLIPConf.ViewModels
             });
         }
 
+        public bool AllRulesSuspended
+        {
+            get => Config.Mappings.Count(x => x.IsOnSystem) == 0;
+            set
+            {
+                foreach (var mapping in Config.Mappings)
+                {
+                    mapping.IsSuspended = value;
+                }
+
+                PortProxyTool.SetPortProxies(Config.Mappings);
+                OnPropertyChanged();
+            }
+        }
+
         public WSLConfig Config
         {
             get => config;
-            set
-            {
-                SetProperty(ref config, value);
-            }
         }
 
         public bool RunOnStartup

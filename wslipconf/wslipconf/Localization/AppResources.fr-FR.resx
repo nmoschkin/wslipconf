@@ -123,6 +123,12 @@
   <data name="AboutLong" xml:space="preserve">
     <value>À propos WSLIPConf</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Actif</value>
+  </data>
+  <data name="AddressFamily" xml:space="preserve">
+    <value>Famille d’adresses</value>
+  </data>
   <data name="AddRule" xml:space="preserve">
     <value>Ajouter une règle</value>
   </data>
@@ -135,6 +141,9 @@
   <data name="AutoDest" xml:space="preserve">
     <value>Destination WSL automatique</value>
   </data>
+  <data name="AutoIP" xml:space="preserve">
+    <value>IP automatique</value>
+  </data>
   <data name="AutoIPX" xml:space="preserve">
     <value>IP automatique : {0}</value>
   </data>
@@ -144,8 +153,14 @@
   <data name="Clear" xml:space="preserve">
     <value>clair</value>
   </data>
+  <data name="ClearRecentProfiles" xml:space="preserve">
+    <value>Effacer les profils récents</value>
+  </data>
   <data name="ClearRules" xml:space="preserve">
     <value>Des règles claires</value>
+  </data>
+  <data name="Click_To_Copy" xml:space="preserve">
+    <value>Cliquez pour copier dans le presse-papiers</value>
   </data>
   <data name="ConfirmClearRules" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir effacer toutes les règles?</value>
@@ -160,8 +175,23 @@ Les modifications non enregistrées seront ignorées.</value>
   <data name="CopyIPAddress" xml:space="preserve">
     <value>Copier l’adresse IP</value>
   </data>
+  <data name="CopyIPV6Address" xml:space="preserve">
+    <value>Copier l’adresse IPv6</value>
+  </data>
+  <data name="CreateProfile" xml:space="preserve">
+    <value>Créer un profil</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Faire défaut</value>
+  </data>
+  <data name="Default_Distribution" xml:space="preserve">
+    <value>Distribution par défaut</value>
+  </data>
   <data name="DeleteRule" xml:space="preserve">
     <value>Supprimer les règles sélectionnées</value>
+  </data>
+  <data name="DestAddressFamily" xml:space="preserve">
+    <value>Famille d’adresses de destination</value>
   </data>
   <data name="DestinationAddress" xml:space="preserve">
     <value>Adresse de destination</value>
@@ -169,11 +199,35 @@ Les modifications non enregistrées seront ignorées.</value>
   <data name="DestinationPort" xml:space="preserve">
     <value>Destination Port</value>
   </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Désactiver</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Handicapé</value>
+  </data>
+  <data name="Distribution" xml:space="preserve">
+    <value>Distribution</value>
+  </data>
+  <data name="Distributions" xml:space="preserve">
+    <value>Distributions</value>
+  </data>
+  <data name="Dormant" xml:space="preserve">
+    <value>Dormant</value>
+  </data>
   <data name="EditRule" xml:space="preserve">
     <value>Modifier la règle</value>
   </data>
   <data name="EditRules" xml:space="preserve">
     <value>Modifier les règles</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Activer</value>
+  </data>
+  <data name="EnableAllRules" xml:space="preserve">
+    <value>Activer toutes les règles</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Activé</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>erreur</value>
@@ -193,6 +247,12 @@ Les modifications non enregistrées seront ignorées.</value>
   <data name="ErrorInvalidValue" xml:space="preserve">
     <value>La valeur de ce champ n’est pas valide.</value>
   </data>
+  <data name="ErrorWrongAddress" xml:space="preserve">
+    <value>Il s’agit du mauvais type d’adresse IP pour la famille d’adresses sélectionnée.</value>
+  </data>
+  <data name="Failed_Wsl" xml:space="preserve">
+    <value>Impossible de démarrer WSL. Le programme ne peut pas continuer.</value>
+  </data>
   <data name="GetCurrentRules" xml:space="preserve">
     <value>Obtenir les règles actuelles</value>
   </data>
@@ -202,8 +262,23 @@ Les modifications non enregistrées seront ignorées.</value>
   <data name="IPAddressCopied" xml:space="preserve">
     <value>Adresse IP copiée!</value>
   </data>
+  <data name="IPv4" xml:space="preserve">
+    <value>IPv4</value>
+  </data>
+  <data name="IPv6" xml:space="preserve">
+    <value>IPv6</value>
+  </data>
+  <data name="IPV6AddressCopied" xml:space="preserve">
+    <value>L’adresse IPv6 WSL a été copiée dans le presse-papiers !</value>
+  </data>
+  <data name="LoadProfile" xml:space="preserve">
+    <value>Profil de charge</value>
+  </data>
   <data name="MainTitle" xml:space="preserve">
     <value>Outil de liaison de port WSL</value>
+  </data>
+  <data name="Mode_X_To_X" xml:space="preserve">
+    <value>Mode {0} à {1}</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>nom</value>
@@ -211,11 +286,35 @@ Les modifications non enregistrées seront ignorées.</value>
   <data name="NewRuleDefinition" xml:space="preserve">
     <value>Nouvelle définition de règle</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="No_V6_Detected" xml:space="preserve">
+    <value>Aucune adresse IPv6 détectée</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>D'accord</value>
   </data>
+  <data name="Print_IP" xml:space="preserve">
+    <value>Imprimer IP</value>
+  </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protocole</value>
+  </data>
+  <data name="ProxyType" xml:space="preserve">
+    <value>Proxy Type</value>
+  </data>
+  <data name="QueryDumpCurrent" xml:space="preserve">
+    <value>Voulez-vous vider les règles actuelles avant d’importer ?</value>
+  </data>
+  <data name="QueryRemoveFromSystem" xml:space="preserve">
+    <value>Souhaitez-vous également effacer les règles spécifiées de l’ordinateur local ?</value>
+  </data>
   <data name="Quit" xml:space="preserve">
     <value>démissionner</value>
+  </data>
+  <data name="RecentProfiles" xml:space="preserve">
+    <value>Profils récents</value>
   </data>
   <data name="RefreshAndApply" xml:space="preserve">
     <value>Actualiser et appliquer</value>
@@ -244,16 +343,61 @@ Les modifications non enregistrées seront ignorées.</value>
   <data name="Save" xml:space="preserve">
     <value>sauvegarder</value>
   </data>
+  <data name="SaveProfile" xml:space="preserve">
+    <value>Enregistrer le profil</value>
+  </data>
+  <data name="SaveProfileAs" xml:space="preserve">
+    <value>Enregistrer le profil sous ...</value>
+  </data>
+  <data name="SelectedProfile" xml:space="preserve">
+    <value>Profil sélectionné</value>
+  </data>
+  <data name="SelectProfile" xml:space="preserve">
+    <value>Sélectionnez un profil</value>
+  </data>
+  <data name="Select_Distribution" xml:space="preserve">
+    <value>Sélectionner une distribution</value>
+  </data>
   <data name="ShowWindow" xml:space="preserve">
     <value>Afficher la fenêtre</value>
+  </data>
+  <data name="Silent_Mode" xml:space="preserve">
+    <value>Mode silencieux</value>
   </data>
   <data name="SourceAddress" xml:space="preserve">
     <value>Adresse source</value>
   </data>
+  <data name="SourceAddressFamily" xml:space="preserve">
+    <value>Famille d’adresses source</value>
+  </data>
   <data name="SourcePort" xml:space="preserve">
     <value>Source Port</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="SuspendAllRules" xml:space="preserve">
+    <value>Suspendre toutes les règles</value>
+  </data>
+  <data name="SuspendEnableRule" xml:space="preserve">
+    <value>Suspendre / Activer la règle</value>
+  </data>
+  <data name="Tcp" xml:space="preserve">
+    <value>Tcp</value>
+  </data>
+  <data name="Udp" xml:space="preserve">
+    <value>Udp</value>
+  </data>
   <data name="WSLAddress" xml:space="preserve">
     <value>Adresse IP WSL détectée</value>
+  </data>
+  <data name="WSLV6Address" xml:space="preserve">
+    <value>Adresse IPv6 WSL</value>
+  </data>
+  <data name="X_To_X" xml:space="preserve">
+    <value>{0} à {1}</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
   </data>
 </root>

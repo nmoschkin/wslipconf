@@ -15,17 +15,20 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <conv:ProxyTypeFormatConverter
-                x:Key="proxyConv" />
-            <conv:V6ColorConverter
-                x:Key="v6conv" />
-            <conv:AutoDestConverter
-                x:Key="destConv" />
+
+            <conv:BoolConverter
+                x:Key="sysConv"
+                FalseObject="{i18n:Translate ResourceKey=Disabled}"
+                Mode="Object"
+                TrueObject="{i18n:Translate ResourceKey=Active}" />
+
+            <conv:ProxyTypeFormatConverter x:Key="proxyConv" />
+            <conv:V6ColorConverter x:Key="v6conv" />
+            <conv:AutoDestConverter x:Key="destConv" />
             <conv:BoolConverter
                 x:Key="boolConv"
                 Mode="InverseBool" />
-            <conv:EnabledConverter
-                x:Key="editConv" />
+            <conv:EnabledConverter x:Key="editConv" />
             <conv:EnabledConverter
                 x:Key="delConv"
                 Multiple="True" />
@@ -49,15 +52,11 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -81,8 +80,7 @@
             <Hyperlink
                 Background="Transparent"
                 Command="{Binding ShowAboutCommand}">
-                <Run
-                    Text="{i18n:Translate ResourceKey=AboutLong}" />
+                <Run Text="{i18n:Translate ResourceKey=AboutLong}" />
             </Hyperlink>
         </TextBlock>
 
@@ -92,8 +90,7 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition
-                    Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <ListView
@@ -104,9 +101,18 @@
                 ItemsSource="{Binding Config.Mappings}"
                 MouseDoubleClick="BindList_MouseDoubleClick"
                 SelectedItem="{Binding SelectedItem}">
+                <ListView.Resources>
+                    <conv:ItemEnabledConverter x:Key="ableConv" />
+                </ListView.Resources>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            Click="MenuItem_Click"
+                            Header="{Binding SelectedItem.IsSuspended, Converter={StaticResource ableConv}}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.ItemContainerStyle>
-                    <Style
-                        TargetType="ListViewItem">
+                    <Style TargetType="ListViewItem">
                         <Setter Property="Height" Value="64" />
                         <Setter Property="FontFamily" Value="Segoe UI" />
                         <Setter Property="FontSize" Value="14" />
@@ -114,6 +120,10 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn
+                            Width="60"
+                            DisplayMemberBinding="{Binding IsOnSystem, Converter={StaticResource sysConv}, UpdateSourceTrigger=PropertyChanged}"
+                            Header="{i18n:Translate ResourceKey=Status}" />
                         <GridViewColumn
                             Width="150"
                             DisplayMemberBinding="{Binding Name}"
@@ -134,13 +144,12 @@
                             Header="{i18n:Translate ResourceKey=DestinationAddress}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel
-                                        Orientation="Vertical">
+                                    <StackPanel Orientation="Vertical">
                                         <Label
                                             Content="{i18n:Translate ResourceKey=AutoIP,
                                                                      AddColon=True}"
                                             FontWeight="Bold"
-                                            Visibility="{Binding AutoDestionation, Converter={StaticResource visConv}}" />
+                                            Visibility="{Binding AutoDestination, Converter={StaticResource visConv}}" />
                                         <Label
                                             Content="{Binding DestinationAddress}"
                                             FontWeight="{Binding AutoDestination, Converter={StaticResource weightConv}}"
@@ -186,10 +195,8 @@
                     Command="{Binding EditRuleCommand}"
                     Content="{i18n:Translate ResourceKey=EditRule}">
                     <Button.IsEnabled>
-                        <MultiBinding
-                            Converter="{StaticResource editConv}">
-                            <Binding
-                                Path="SelectedItems.Count" />
+                        <MultiBinding Converter="{StaticResource editConv}">
+                            <Binding Path="SelectedItems.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -200,10 +207,8 @@
                     Command="{Binding RemoveSelectedRulesCommand}"
                     Content="{i18n:Translate ResourceKey=DeleteRule}">
                     <Button.IsEnabled>
-                        <MultiBinding
-                            Converter="{StaticResource delConv}">
-                            <Binding
-                                Path="SelectedItems.Count" />
+                        <MultiBinding Converter="{StaticResource delConv}">
+                            <Binding Path="SelectedItems.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -212,10 +217,8 @@
                     Command="{Binding ClearRulesCommand}"
                     Content="{i18n:Translate ResourceKey=ClearRules}">
                     <Button.IsEnabled>
-                        <MultiBinding
-                            Converter="{StaticResource delConv}">
-                            <Binding
-                                Path="Config.Mappings.Count" />
+                        <MultiBinding Converter="{StaticResource delConv}">
+                            <Binding Path="Config.Mappings.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -225,10 +228,8 @@
                     CommandParameter="True"
                     Content="{i18n:Translate ResourceKey=ApplyRules}">
                     <Button.IsEnabled>
-                        <MultiBinding
-                            Converter="{StaticResource delConv}">
-                            <Binding
-                                Path="Config.Mappings.Count" />
+                        <MultiBinding Converter="{StaticResource delConv}">
+                            <Binding Path="Config.Mappings.Count" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -240,14 +241,10 @@
             Margin="8,8,8,16">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="19.468" />
-                <ColumnDefinition
-                    Width="100.167" />
-                <ColumnDefinition
-                    Width="89*" />
-                <ColumnDefinition
-                    Width="576*" />
+                <ColumnDefinition Width="19.468" />
+                <ColumnDefinition Width="100.167" />
+                <ColumnDefinition Width="89*" />
+                <ColumnDefinition Width="576*" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -271,12 +268,9 @@
                         Margin="0,0,8,0"
                         FontFamily="Bold"
                         FontSize="14">
-                        <Run
-                            Text="{i18n:Translate ResourceKey=WSLAddress,
-                                                  AddColon=False}" />
+                        <Run Text="{i18n:Translate ResourceKey=WSLAddress, AddColon=False}" />
 
-                        <Run
-                            Text="{Binding DistroName, Mode=OneWay}" />
+                        <Run Text="{Binding DistroName, Mode=OneWay}" />
                     </TextBlock>
 
                     <TextBlock
@@ -309,12 +303,9 @@
                         Margin="0,0,8,0"
                         FontFamily="Bold"
                         FontSize="14">
-                        <Run
-                            Text="{i18n:Translate ResourceKey=WSLV6Address,
-                                                  AddColon=False}" />
+                        <Run Text="{i18n:Translate ResourceKey=WSLV6Address, AddColon=False}" />
 
-                        <Run
-                            Text="{Binding DistroName, Mode=OneWay}" />
+                        <Run Text="{Binding DistroName, Mode=OneWay}" />
                     </TextBlock>
                     <TextBlock
                         x:Name="IPV6Address"
@@ -345,8 +336,7 @@
                     <Hyperlink
                         Background="Transparent"
                         Command="{Binding SelectDistroCommand}">
-                        <Run
-                            Text="{i18n:Translate ResourceKey=Select_Distribution}" />
+                        <Run Text="{i18n:Translate ResourceKey=Select_Distribution}" />
                     </Hyperlink>
                 </TextBlock>
             </StackPanel>
@@ -364,47 +354,62 @@
                 Grid.RowSpan="3"
                 Grid.Column="3"
                 Margin="0"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
+                VerticalAlignment="Stretch">
 
-                <Button
-                    x:Name="QuitBtn"
-                    Width="90"
-                    Height="32"
-                    Margin="8,4"
-                    Padding="8,4"
+                <CheckBox
+                    Margin="12,8"
                     HorizontalAlignment="Right"
-                    Click="QuitBtn_Click"
-                    Content="{i18n:Translate ResourceKey=Quit}" />
+                    Content="{i18n:Translate ResourceKey=SuspendAllRules}"
+                    FontSize="12"
+                    IsChecked="{Binding AllRulesSuspended, Mode=TwoWay}" />
 
-                <Button
-                    x:Name="RefreshBtn"
-                    Width="90"
-                    Height="32"
-                    Margin="8,4"
-                    Padding="8,4"
+                <StackPanel
+                    Grid.RowSpan="3"
+                    Grid.Column="3"
+                    Margin="0"
                     HorizontalAlignment="Right"
-                    Click="RefreshBtn_Click"
-                    Content="{i18n:Translate ResourceKey=RefreshIP}" />
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
 
-                <Button
-                    Width="90"
-                    Height="32"
-                    Margin="8,4"
-                    Padding="8,4"
-                    HorizontalAlignment="Right"
-                    Command="{Binding ReloadRulesCommand}"
-                    Content="{i18n:Translate ResourceKey=Reload}"
-                    IsEnabled="{Binding Changed}" />
-                <Button
-                    Width="90"
-                    Height="32"
-                    Margin="8,4"
-                    Padding="8,4"
-                    HorizontalAlignment="Right"
-                    Command="{Binding SaveRulesCommand}"
-                    Content="{i18n:Translate ResourceKey=Save}"
-                    IsEnabled="{Binding Changed}" />
+                    <Button
+                        x:Name="QuitBtn"
+                        Width="90"
+                        Height="32"
+                        Margin="8,4"
+                        Padding="8,4"
+                        HorizontalAlignment="Right"
+                        Click="QuitBtn_Click"
+                        Content="{i18n:Translate ResourceKey=Quit}" />
+
+                    <Button
+                        x:Name="RefreshBtn"
+                        Width="90"
+                        Height="32"
+                        Margin="8,4"
+                        Padding="8,4"
+                        HorizontalAlignment="Right"
+                        Click="RefreshBtn_Click"
+                        Content="{i18n:Translate ResourceKey=RefreshIP}" />
+
+                    <Button
+                        Width="90"
+                        Height="32"
+                        Margin="8,4"
+                        Padding="8,4"
+                        HorizontalAlignment="Right"
+                        Command="{Binding ReloadRulesCommand}"
+                        Content="{i18n:Translate ResourceKey=Reload}"
+                        IsEnabled="{Binding Changed}" />
+                    <Button
+                        Width="90"
+                        Height="32"
+                        Margin="8,4"
+                        Padding="8,4"
+                        HorizontalAlignment="Right"
+                        Command="{Binding SaveRulesCommand}"
+                        Content="{i18n:Translate ResourceKey=Save}"
+                        IsEnabled="{Binding Changed}" />
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

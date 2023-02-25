@@ -18,8 +18,8 @@
 		<Copyright>Copyright (C) 2022-2023 Nathaniel Moschkin</Copyright>		
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Platforms>AnyCPU;x64</Platforms>
-		<AssemblyVersion>1.2.0.0</AssemblyVersion>
-		<FileVersion>1.2.0.0</FileVersion>
+		<AssemblyVersion>1.2.1.0</AssemblyVersion>
+		<FileVersion>1.2.1.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -37,12 +37,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="TaskScheduler" Version="2.9.3" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\MessageBoxEx\MessageBoxEx5\MessageBoxEx5.csproj" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="TaskScheduler" Version="2.10.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -64,7 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ViewModels\MoreStuff\" />
+	  <ProjectReference Include="..\MessageBoxEx\MessageBoxEx\MessageBoxEx.csproj" />
 	</ItemGroup>
 
 </Project>

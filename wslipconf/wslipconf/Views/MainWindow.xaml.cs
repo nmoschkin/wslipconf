@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,9 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 
+using WSLIPConf.Helpers;
 using WSLIPConf.Localization;
+using WSLIPConf.Models;
 using WSLIPConf.ViewModels;
 
 namespace WSLIPConf.Views
@@ -23,12 +26,22 @@ namespace WSLIPConf.Views
         private double x, y;
 
         public NotifyIcon IconArea { get; private set; }
+
         private ToolStripMenuItem appMenu;
+        private ToolStripMenuItem suspendMenu;
+        private ToolStripMenuItem proxiesMenu;
+
         private WindowInteropHelper wh;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            PortProxyTool.SystemMappingChanged += PortProxyTool_SystemMappingChanged;
+
+            DataContext = vm = new MainWindowViewModel();
+            vm.PropertyChanged += Vm_PropertyChanged;
+
             wh = new WindowInteropHelper(this);
             wh.EnsureHandle();
 
@@ -48,13 +61,13 @@ namespace WSLIPConf.Views
             IconArea.BalloonTipClicked += IconArea_BalloonTipClicked;
 
             BuildIconMenu();
+            BuildProxiesMenu(vm.Config.Mappings);
 
             this.StateChanged += MainWindow_StateChanged;
             this.Closing += MainWindow_Closing;
             this.SizeChanged += MainWindow_SizeChanged;
             this.LocationChanged += MainWindow_LocationChanged;
 
-            DataContext = vm = new MainWindowViewModel();
             BindList.SelectionChanged += vm.SelChange;
 
             if (!App.Current.SilentMode)
@@ -69,6 +82,57 @@ namespace WSLIPConf.Views
             }
 
             init = !App.Current.SilentMode;
+        }
+
+        private void PortProxyTool_SystemMappingChanged(object sender, MappingChangedEventArgs e)
+        {
+            BuildProxiesMenu(vm.Config.Mappings);
+        }
+
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MainWindowViewModel.AllRulesSuspended) && suspendMenu != null)
+            {
+                suspendMenu.CheckState = vm.AllRulesSuspended ? CheckState.Checked : CheckState.Unchecked;
+            }
+        }
+
+        private void BuildProxiesMenu(IEnumerable<WSLMapping> newmappings)
+        {
+            if (proxiesMenu == null) { return; }
+
+            proxiesMenu.DropDownItems.Clear();
+
+            var items = new List<WSLMapping>(newmappings);
+            items.Sort((a, b) => string.Compare(a.Name, b.Name));
+
+            foreach (var mapping in items)
+            {
+                var proxyMenu = new ToolStripMenuItem()
+                {
+                    Text = mapping.Name,
+                    CheckOnClick = false,
+                    Checked = mapping.IsOnSystem,
+                    Tag = mapping
+                };
+
+                proxyMenu.Click += ProxyMenu_Click;
+                proxiesMenu.DropDownItems.Add(proxyMenu);
+            }
+
+            proxiesMenu.Enabled = proxiesMenu.HasDropDownItems;
+        }
+
+        private void ProxyMenu_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem item && item.Tag is WSLMapping mapping)
+            {
+                mapping.IsSuspended = item.Checked;
+                PortProxyTool.SetPortProxy(mapping);
+
+                item.Checked = mapping.IsOnSystem;
+                vm.OnPropertyChanged(nameof(MainWindowViewModel.AllRulesSuspended));
+            }
         }
 
         private void BuildIconMenu()
@@ -137,6 +201,34 @@ namespace WSLIPConf.Views
 
             cm.Items.Add(mnu);
 
+            cm.Items.Add(new ToolStripSeparator());
+
+            mnu = new ToolStripMenuItem()
+            {
+                Text = AppResources.SuspendAllRules,
+                CheckOnClick = false,
+                Checked = vm.AllRulesSuspended
+            };
+
+            mnu.Click += Mnu_Click;
+
+            suspendMenu = mnu;
+
+            cm.Items.Add(mnu);
+
+            mnu = new ToolStripMenuItem()
+            {
+                Text = AppResources.SuspendEnableRule,
+                CheckOnClick = false,
+                Enabled = false
+            };
+
+            proxiesMenu = mnu;
+
+            cm.Items.Add(mnu);
+
+            cm.Items.Add(new ToolStripSeparator());
+
             mnu = new ToolStripMenuItem()
             {
                 Text = AppResources.Quit
@@ -144,7 +236,6 @@ namespace WSLIPConf.Views
 
             mnu.Click += Mnu_Click;
 
-            cm.Items.Add(new ToolStripSeparator());
             cm.Items.Add(mnu);
 
             IconArea.ContextMenuStrip = cm;
@@ -157,6 +248,11 @@ namespace WSLIPConf.Views
                 if (item.Text == AppResources.ShowWindow)
                 {
                     RestoreWindow();
+                }
+                else if (item.Text == AppResources.SuspendAllRules)
+                {
+                    vm.AllRulesSuspended = !vm.AllRulesSuspended;
+                    item.Checked = vm.AllRulesSuspended;
                 }
                 else if (item.Text == AppResources.Quit)
                 {
@@ -315,6 +411,15 @@ namespace WSLIPConf.Views
                 {
                     CopyIP(v6: true);
                 }
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (vm.SelectedItem != null)
+            {
+                vm.SelectedItem.IsSuspended = !vm.SelectedItem.IsSuspended;
+                PortProxyTool.SetPortProxy(vm.SelectedItem);
             }
         }
 

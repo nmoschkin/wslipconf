@@ -18,7 +18,7 @@ namespace WSLIPConf.Models
         private bool runAtStartup = true;
         private string prefdist = null;
 
-        private ObservableCollection<WSLMapping> mappings = new ObservableCollection<WSLMapping>();
+        private readonly ObservableCollection<WSLMapping> mappings = new ObservableCollection<WSLMapping>();
 
         [JsonIgnore]
         public string Filename
@@ -44,10 +44,10 @@ namespace WSLIPConf.Models
         public ObservableCollection<WSLMapping> Mappings
         {
             get => mappings;
-            set
-            {
-                SetProperty(ref mappings, value);
-            }
+            //set
+            //{
+            //    SetProperty(ref mappings, value);
+            //}
         }
 
         [JsonProperty("lastUpdated")]

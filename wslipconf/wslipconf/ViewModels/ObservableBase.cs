@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace WSLIPConf.ViewModels
 {
@@ -14,7 +13,6 @@ namespace WSLIPConf.ViewModels
     public abstract class ObservableBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         /// <summary>
         /// Set a property value if the current value is not equal to the new value and raise the <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
@@ -64,10 +62,12 @@ namespace WSLIPConf.ViewModels
         /// Raise <see cref="INotifyPropertyChanged.PropertyChanged"/>.
         /// </summary>
         /// <param name="propertyName"></param>
-        internal void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        internal virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Dispatcher.CurrentDispatcher.Invoke(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            });
         }
-
     }
 }

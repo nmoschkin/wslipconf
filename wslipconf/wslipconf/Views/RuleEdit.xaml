@@ -24,10 +24,8 @@
                 x:Key="visConv"
                 HiddenVisibility="Hidden"
                 Mode="Visibility" />
-            <conv:ProtocolConverter
-                x:Key="protConv" />
-            <Style
-                TargetType="TextBlock">
+            <conv:ProtocolConverter x:Key="protConv" />
+            <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="12" />
             </Style>
@@ -39,8 +37,7 @@
                 <Setter Property="Foreground" Value="Red" />
             </Style>
 
-            <Style
-                TargetType="TextBox">
+            <Style TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="Padding" Value="8,4" />
                 <Setter Property="FontSize" Value="12" />
@@ -48,24 +45,19 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid
-        Margin="16">
+    <Grid Margin="16">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="3*" />
+            <ColumnDefinition Width="3*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -277,8 +269,7 @@
                 Command="{Binding CancelCommand}"
                 Content="{i18n:Translate ResourceKey=Cancel}"
                 IsCancel="True"
-                IsDefault="False"
-                IsEnabled="{Binding Changed, Converter={StaticResource boolConv}}" />
+                IsDefault="False" />
 
             <Button
                 Grid.Row="5"
@@ -291,7 +282,8 @@
                 Command="{Binding OKCommand}"
                 Content="{i18n:Translate ResourceKey=OK}"
                 IsCancel="False"
-                IsDefault="True" />
+                IsDefault="True"
+                IsEnabled="{Binding Changed}" />
         </StackPanel>
     </Grid>
 </Window>
