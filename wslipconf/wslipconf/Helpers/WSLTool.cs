@@ -246,11 +246,11 @@ namespace WSLIPConf.Helpers
                 }
             }
 
-            if (l.Count % 3 != 0) throw new InvalidOperationException("Bad Data.");
+            // if (l.Count % 3 != 0) throw new InvalidOperationException("Bad Data.");
 
             c = l.Count;
 
-            for (i = 0; i < c; i += 3)
+            for (i = 0; i < c; i++)
             {
                 var newinst = new WSLInterfaceInfo();
 
@@ -276,9 +276,10 @@ namespace WSLIPConf.Helpers
                         var ip = l2[1].Split("/")[0];
                         newinst.Address = IPAddress.Parse(ip);
                     }
+                    list.Add(newinst);
                 }
 
-                list.Add(newinst);
+                
             }
 
             return list.ToArray();
