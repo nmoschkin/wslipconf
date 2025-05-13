@@ -280,7 +280,7 @@ namespace WSLIPConf.Models
                 if (SetProperty(ref destAddr, value))
                 {
                     if ((proxyType & ProxyType.DestV4) == ProxyType.DestV4
-                        && destAddr.AddressFamily == AddressFamily.InterNetworkV6)
+                        && destAddr?.AddressFamily == AddressFamily.InterNetworkV6)
                     {
                         ProxyType = (ProxyType)((int)proxyType & 30) | ProxyType.DestV6;
                     }

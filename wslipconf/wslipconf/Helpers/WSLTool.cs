@@ -164,7 +164,7 @@ namespace WSLIPConf.Helpers
         public IPAddress GetWslIpAddress()
         {
             return Interfaces.Where(x =>
-                x.Address.AddressFamily == AddressFamily.InterNetwork
+                x.Address?.AddressFamily == AddressFamily.InterNetwork
                 && x.IsMulticast
             )?.FirstOrDefault()?.Address;
         }
@@ -172,7 +172,7 @@ namespace WSLIPConf.Helpers
         public IPAddress GetWslIpV6Address()
         {
             return Interfaces.Where(x =>
-                x.Address.AddressFamily == AddressFamily.InterNetworkV6
+                x.Address?.AddressFamily == AddressFamily.InterNetworkV6
                 && x.IsMulticast
             )?.FirstOrDefault()?.Address;
         }
@@ -246,11 +246,11 @@ namespace WSLIPConf.Helpers
                 }
             }
 
-            if (l.Count % 3 != 0) throw new InvalidOperationException("Bad Data.");
+            //if (l.Count % 3 != 0) throw new InvalidOperationException("Bad Data.");
 
             c = l.Count;
 
-            for (i = 0; i < c; i += 3)
+            for (i = 0; i < c; i++)
             {
                 var newinst = new WSLInterfaceInfo();
 
@@ -276,9 +276,10 @@ namespace WSLIPConf.Helpers
                         var ip = l2[1].Split("/")[0];
                         newinst.Address = IPAddress.Parse(ip);
                     }
+                    i += 2;
                 }
 
-                list.Add(newinst);
+                if (newinst.Address != null) list.Add(newinst);
             }
 
             return list.ToArray();

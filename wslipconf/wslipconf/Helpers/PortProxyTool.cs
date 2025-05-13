@@ -50,17 +50,17 @@ namespace WSLIPConf.Helpers
         /// <returns></returns>
         public static ProxyType GetProxyType(WSLMapping mapping)
         {
-            if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetwork
-                && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetwork)
+            if (mapping.SourceAddress?.AddressFamily == AddressFamily.InterNetwork
+                && mapping.DestinationAddress?.AddressFamily == AddressFamily.InterNetwork)
                 return ProxyType.V4ToV4;
-            else if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetworkV6
-                && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetworkV6)
+            else if (mapping.SourceAddress?.AddressFamily == AddressFamily.InterNetworkV6
+                && mapping.DestinationAddress?.AddressFamily == AddressFamily.InterNetworkV6)
                 return ProxyType.V6ToV6;
-            else if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetworkV6
-                && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetwork)
+            else if (mapping.SourceAddress?.AddressFamily == AddressFamily.InterNetworkV6
+                && mapping.DestinationAddress?.AddressFamily == AddressFamily.InterNetwork)
                 return ProxyType.V6ToV4;
-            else if (mapping.SourceAddress.AddressFamily == AddressFamily.InterNetwork
-                && mapping.DestinationAddress.AddressFamily == AddressFamily.InterNetworkV6)
+            else if (mapping.SourceAddress?.AddressFamily == AddressFamily.InterNetwork
+                && mapping.DestinationAddress?.AddressFamily == AddressFamily.InterNetworkV6)
                 return ProxyType.V4ToV6;
             else
                 return ProxyType.V4ToV4;
