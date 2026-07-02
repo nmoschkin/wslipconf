@@ -31,15 +31,14 @@ namespace WSLIPConf.ViewModels
             }
             else
             {
-                if (!(backingStore is object) && !(value is object))
+                var bso = backingStore is object;
+                var vo = value is object;
+
+                if (!bso && !vo)
                 {
                     pass = false;
                 }
-                else if (backingStore is object && !(value is object))
-                {
-                    pass = true;
-                }
-                else if (!(backingStore is object) && value is object)
+                else if (!bso || !vo)
                 {
                     pass = true;
                 }
@@ -48,13 +47,11 @@ namespace WSLIPConf.ViewModels
                     pass = !backingStore.Equals(value);
                 }
             }
-
             if (pass)
             {
                 backingStore = value;
                 OnPropertyChanged(propertyName);
             }
-
             return pass;
         }
 
